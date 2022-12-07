@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<head>
+    {# START SEARCH #}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+    $(document).ready(function()
+        {
+            $('#selectEstado').select2()
+            $('#selectArea').select2()
+        });
+    </script>
+    {# END SEARCH #}
+</head>
+
+<main class="container">
+    <div class="row">
+        <div class="d-flex justify-content-start mt-3">
+            <h1 class="display-4">Ticket #{{ticket.id}}</h1>
+            {% if user.is_staff %}
+            <form action="{% url 'completed_ticket' ticket.id %}">
+                {% csrf_token %}
+                <button class="btn btn-success">
+                    Atendido
+                </button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        {# BLOKE 1 TOP#}
+        {% if user.is_staff %}
+        <div class="col-md-4 ">
+            <div class="card card-body">
+                <h1 class="display-6"> Info ticket</h1>
+                <form method="post">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <div class="d-flex justify-content-center">
+                        <button class="btn btn-danger">
+                            Modificar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {# BLOKE 1 TOP END#}
+        <div class="col-md-4">
+            <div class="col-md card card-body">
+                <form method="post" action="{% url 'add_registro_ticket' ticket.id %}">
+                    <h1 class="display-6"> Actualizar estado </h1>
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <select   name='estado' class="form-select" aria-label="Default select example">
+                            <option selected disabled>----------</option>
+                            {% for opcion in estados%}
+                            <option value={{opcion.estado}} id={{opcion.estado}}>{{opcion.desc}}</option>
+                            {% endfor %}
+                          </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="comentario">Comentario</label>
+                        <input type="text" name="comentario" class="form-control" placeholder="Ingresa un comentario" id="comentario">
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button class="btn btn-primary ">
+                            Registrar
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-md card card-body mt-3">
+                <form method="post" action="{% url 'add_ticket_to_area' ticket.id %}">
+                    <h1 class="display-6">Areas</h1>
+                    <div class="mb-3">
+                        <select id="selectArea" name='area' class="form-select" aria-label="Default select example">
+                            <option selected disabled="true">----------</option>
+                            {% for area in areas %}
+                            <option value={{area.cod_area}} id='{{area.cod_area}}'>{{area.descripcion}}</option>
+                            {% endfor %}
+                          </select>
+                    </div>
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-center">
+                        <button class="btn btn-success">
+                            Asignar
+                        </button>
+                    </div>
+                </form>
+                    <div>
+                        <table class="table table-striped">
+                            <thead>
+                              <tr>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                {% for area in area_actual%}
+                              <tr>
+                            <form action="{% url 'delete_ticket_to_area' ticket.id area.cod_area %}" method="post">
+                                {% csrf_token %}
+                                <th scope="row" >{{area}}</th>
+                                <td>
+                                    <button class="btn btn-danger" >Eliminar</button>
+                                </td>
+                              </tr>
+                            </form>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                    </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card card-body">
+                <h1 class="display-4"> Reporte </h1>
+            </div>
+        </div>
+        {% endif %}
+        <div class="col-md mb-3">
+            <h1 class="display-3"> Historial </h1>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        {% if user.is_staff %}
+                        <th scope="col">ID HISTORIAL</th>
+                        {% endif %}
+                        <th scope="col">ESTADO</th>
+                        <th scope="col">FECHA</th>
+                        <th scope="col">HORA</th>
+                        <th scope="col">RESPONSABLE</th>
+                        {% if user.is_staff %}
+                        <th scope="col">COMENTARIO</th>
+                        <th scope="col"></th>
+                        {% endif %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for registro in registros %}
+                    <tr>
+                        {% if user.is_staff %}
+                        <th scope="row"># {{registro.id}}</th>
+                        {% endif %}
+                        <td>{{registro.estado.desc}}</td>
+                        <td>{{registro.fecha_estado}}</td>
+                        <td>{{registro.hora_estado}}</td>
+                        <td>{{registro.responsable}}</td>
+                        {% if user.is_staff %}
+                        <td>{{registro.comment_estado}}</td>
+                        <td><a class="btn btn-danger" href="">Eliminar</a></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor%}
+                    </tbody>
+                </table>
+            </div>
+    </div>
+</main>
+
+{% endblock %}

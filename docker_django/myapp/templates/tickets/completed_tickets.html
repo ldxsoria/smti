@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="container">
+    <div class="row">
+        <h1 class="display-3 m-4 text-center">{{title}}</h1>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th scope="col"># Ticket</th>
+                    <th scope="col">Asunto</th>
+                    <th scope="col">Fecha y hora del registro</th>
+                    <th scope="col">Fecha y hora del cierre</th>
+                    <th scope="col">Solicitante</th>
+                    <th scope="col"></th>
+                    {% if request.user.is_staff %}
+                    <th scope="col"></th>
+                    {% endif %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for ticket in tickets %}
+                <tr>
+                    <th scope="row">{{ticket.id}}</th>
+                    <td>{{ticket.asunto}}</td>
+                    <td>{{ticket.fecha_solicitud}} - {{ticket.hora_solicitud}}</td>
+                    <td>{{ticket.fecha_cierre}} - {{ticket.hora_cierre}}</td>
+                    <td>{{ticket.solicitante}}</td>
+                    <td><a class="btn btn-primary" href="{% url 'progress_ticket' ticket.id %}">Ver m&aacute;s</a></td>
+                    {% if request.user.is_staff %}
+                    <td><a class="btn btn-success" href="">Reactivar</a></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+{% endblock %}

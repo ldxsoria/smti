@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="container">
+    <div class="row">
+        {% if type%}
+        <div class="alert alert-{{type}} alert-dismissible fade show text-center" role="alert">
+            <strong>Aviso: </strong>{{alert}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endif %}
+        <h1 class="display-3 mt-5 mb-5 text-center">Subir archivos desde CSV</h1>
+            </div>
+            <div class="col-md-6 offset-md-3 text-center mb-5">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input class="form-control form-control-lg" type="file" name="file" id="file">
+                    <button class="btn btn-primary mt-3 btn-lg">Cargar</button>
+                </form>
+            </div>
+        </div>
+</main>
+
+{% endblock %}
