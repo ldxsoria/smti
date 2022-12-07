@@ -5,7 +5,39 @@ from django.dispatch import receiver #COLABORADOR
 from django.contrib.auth.models import User #COLABORADOR
 
 # Create your models here.
+"""
+class Reporte
+id
+asunto
+fecha
+emisor
+destinatario
+contexto
+contexto-visible
+diagnostico
+diagnostico-visible
+recomendacion
+recomendacion-visible
 
+
+class EncuestaAtencion
+id
+ask1
+ask2
+ask3
+
+
+class Asunto
+
+
+class CategoriaAtencion
+>Hardware
+>Software
+
+class SubCategoriaAtencion
+FK id Categoria
+
+"""
 class EstadosTicket(models.Model):
     estado = models.SmallIntegerField(primary_key=True)
     desc = models.CharField(max_length=35)
