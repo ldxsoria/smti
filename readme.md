@@ -1,5 +1,10 @@
 # SIGMA MIT
-Es una aplicación desarrollada en Django
+Es una aplicación desarrollada en Django, que utiliza las siguientes tecnologías:
+* Docker y Docker-compose
+* Git
+* Python ,gunicorn y el framework Django
+* Nginx
+* Postgresql
 
 # Primero clonamos el projecto
 ```bash
