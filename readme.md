@@ -8,6 +8,7 @@ git clone https://github.com/ldxsoria/sigma-mti.git
 
 # Creamos los contenedores y los inicializamos
 ```bash
+cd sigma-mti
 docker-compose up -d
 ```
 
@@ -25,6 +26,6 @@ docker-compose run django_app python docker_django/manage.py createsuperuser
 # Una vez echo todo lo anterior, realizamos lo siguiente:
 1) Ingresamos al {{dominio}}/admin con la cuenta de superusuario
 2) Ingresamos a {{dominio}}/ y importamos lo siguiente desde un .csv:
-* Estados de los tickets de atención (int:estado, str:desc)
-* Usuarios (username,first_name,last_name,email,password)
-* Areas (str:cod_area, str: descrpition, str:siglas)
+* Estados de los tickets de atención => (int:estado, str:desc)
+* Usuarios => (username,first_name,last_name,email,password)
+* Areas =>  (str:cod_area, str: descrpition, str:siglas)
