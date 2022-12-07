@@ -1,12 +1,30 @@
-docker-compose up --build
+# SIGMA MIT
+Es una aplicación desarrollada en Django
+
+# Primero clonamos el projecto
+```bash
+git clone https://github.com/ldxsoria/sigma-mti.git
+```
+
+# Creamos los contenedores y los inicializamos
+```bash
 docker-compose up -d
+```
 
+# Configuramos django
+```bash
+docker-compose run django_app python docker_django/manage.py makemigrations
 docker-compose run django_app python docker_django/manage.py migrate
-docker-compose run django_app python docker_django/manage.py createsuperuser
 docker-compose run django_app python docker_django/manage.py collectstatic
+```
+# Configuramos el superusuario de django
+```bash
+docker-compose run django_app python docker_django/manage.py createsuperuser
+```
 
-docker-compose stop django_app
-docker-compose start django_app
-docker-compose restart django_app
-
-docker-compose exec -it db_postgres /bin/sh
+# Una vez echo todo lo anterior, realizamos lo siguiente:
+1) Ingresamos al {{dominio}}/admin con la cuenta de superusuario
+2) Ingresamos a {{dominio}}/ y importamos lo siguiente desde un .csv:
+* Estados de los tickets de atención (int:estado, str:desc)
+* Usuarios (username,first_name,last_name,email,password)
+* Areas (str:cod_area, str: descrpition, str:siglas)
