@@ -66,6 +66,10 @@
                   {% if user.is_staff %}
                   <li><hr class="dropdown-divider"></li>
                   <li class="d-flex flex-row align-items-center">
+                    <i class="material-icons">admin_panel_settings</i>
+                    <a href="{% url 'admin:index' %}" class="nav-link link-dark">Admin panel</a>
+                  </li>
+                  <li class="d-flex flex-row align-items-center">
                     <i class="material-icons">settings</i>                    
                     <a class="nav-link link-dark" href="#">Configuraciones </a>
                   </li>

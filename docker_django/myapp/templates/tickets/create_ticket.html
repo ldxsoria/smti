@@ -9,8 +9,13 @@
     <script>
     $(document).ready(function()
         {
-            $('#selectEstado').select2()
-            $('#selectArea').select2()
+            $('#selectJS').select2()
+        });
+    </script>
+    <script>
+    $(document).ready(function()
+        {
+            $('#selectJS2').select2()
         });
     </script>
     {# END SEARCH #}
@@ -23,6 +28,44 @@
                 <strong>{{error}}</strong>    
                 {% csrf_token %}
                 {{form}}
+                <button class="btn btn-primary mt-3">
+                    Enviar
+                </button>
+            </form>
+        </div>
+    </div>
+    <!--New form -->
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <form method="POST">
+                <h1 class="display-4 text-center">Abrir un ticket nuevo</h1>
+                <div class="alert alert-danger" role="alert"></div>
+                <div class="mb-3">
+                    <label for="asunto">*Asunto:</label>
+                    <input type="text" name="asunto" class="form-control" placeholder="Cuentanos que pas&oacute;?">
+                </div>
+                <div class="mb-3">
+                    <select type="search" id="selectJS2"  name='estado' class="form-select" aria-label="Default select example">
+                        <option selected disabled>----------</option>
+                        {# for opcion in estados #}
+                        <option value={{opcion.estado}} id={{opcion.estado}}>xd</option>
+                        {# endfor #}
+                      </select>
+                </div>
+                <div class="mb-3">
+                    <label for="asunto">Descripci&oacute;n:</label>
+                    <textarea rows="4" type="text" name="asunto" class="form-control" placeholder="Nos das m&aacute;s detalles?"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="asunto">*Lugar:</label>
+                    <!--input type="text" name="asunto" class="form-control" placeholder="En donde?"-->
+                    <select id="selectJS"  name='estado' class="form-select" aria-label="Default select example">
+                        <option selected disabled>----------</option>
+                        {% for area in areas %}
+                        <option value={{area.id}} id={{area.id}}>{{area.descripcion}}</option>
+                        {% endfor %}
+                      </select>
+                </div>
                 <button class="btn btn-primary mt-3">
                     Enviar
                 </button>

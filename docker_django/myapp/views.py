@@ -122,8 +122,10 @@ def completed_tickets(request):
 @login_required
 def create_ticket(request):
     if request.method == 'GET':
+        areas = Area.objects.all()
         return render(request, "tickets/create_ticket.html", {
-            'form': TicketForm
+            'form': TicketForm,
+            'areas': areas,
         })
     else:
         try:
