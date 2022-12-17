@@ -145,5 +145,5 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS')
 
 #Crontab
 CRONJOBS = [
-    ('*/1 * * * *', 'myapp.crontab.auto_mail')
+    ('*/1 * * * *', 'myapp.crontab.script.start')
 ]

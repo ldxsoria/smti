@@ -12,7 +12,7 @@ import smtplib
 from email.message import EmailMessage 
 
 #VARIABLES GLOBALES
-DOTENV_FILE = '/home/ldx/Development/sigma-mti/docker_django/docker_django/.env'
+DOTENV_FILE = '/code/docker_django/docker_django/.env'
 env_config = Config(RepositoryEnv(DOTENV_FILE))
 
 smtp = env_config.get('EMAIL_HOST')
@@ -65,37 +65,34 @@ class Auto_mail:
 
 # START ####################################################
 
+
 try:
-    connection = psycopg2.connect(user = "postgres",
-                                  password = "postgres",
-                                  host = "0.0.0.0",
-                                  port = "5432",
-                                  database = "postgres")
-
+    connection = psycopg2.connect(user = "postgres", password = "postgres", host = "db_postgres", port = "5432", database = "postgres")
     cursor = connection.cursor()
-
-    print("Conectado....")
     
     cursor.execute("SELECT id, fecha_solicitud, hora_solicitud FROM myapp_ticket WHERE completado=False")
     records = cursor.fetchall()
+    print (records)
     for record in records:
         temp_list.append(record)
 
+    print (f"Conectado....")
+
 except (Exception, psycopg2.Error) as error :
-    print ("Error while connecting to PostgreSQL", error)
+    print (f"Error while connecting to PostgreSQL{error}")
 
 finally:
     #closing database connection.
         if(connection):
             cursor.close()
             connection.close()
-            print("PostgreSQL connection is closed")
+            print ("PostgreSQL connection is closed")
 
 
-def auto_mail():
+def start():
     for r in temp_list:
-    #Obtengo ID
-    id = r[0]
+        #Obtengo ID
+        id = r[0]
 
     #Obtegno fecha y hora para unirlos
     r1_r2 = f'{str(r[1])} {str(r[2])}'
@@ -118,32 +115,39 @@ def auto_mail():
     print(mas24)
     print(now_time > mas24)
     if now_time > mas24:
-        print ('True')
+        #print ('True')
         ticket_info = f'El Ticket #{id}, paso {mas24 - now_time} sin atenderse'
         content_info.append(ticket_info)
+
 
     else :
         print ('False')
 
-li_html = ''
-for ticket in content_info:
-    li_html += f'<li>{ticket}</li>'
 
-fecha = datetime.now()
-subject = f"Tienen tickets sin completar al {fecha}" 
-receiver = ["ldxsoria@gmail.com", "ldxnotes@gmail.com"]
-content = f"<h1>Tienen tickets sin completar en m&aacute;s de 24 horas </h1> \
-            <br> \
-            <p>Los codigos son:</p>\
-            <ul>\
-            {li_html}\
-            </ul>\
-            "
 
-Auto_mail(
-        subject=subject,
-        sender=sender,
-        sender_password=sender_password,
-        receiver=receiver,
-        content=content
-        )
+    li_html = ''
+    for ticket in content_info:
+        li_html += f'<li>{ticket}</li>'
+
+    fecha = datetime.now()
+    subject = f"Tienen tickets sin completar al {fecha}" 
+    receiver = ["ldxsoria@gmail.com", "ldxnotes@gmail.com"]
+    content = f"<h1>Tienen tickets sin completar en m&aacute;s de 24 horas </h1> \
+                <br> \
+                <p>Los codigos son:</p>\
+                <ul>\
+                {li_html}\
+                </ul>\
+                "
+    if len(content_info) != 0 :
+        Auto_mail(
+                subject=subject,
+                sender=sender,
+                sender_password=sender_password,
+                receiver=receiver,
+                content=content
+                )
+        return 'Correo enviado..'
+
+if __name__ = '__main__':
+    start()
