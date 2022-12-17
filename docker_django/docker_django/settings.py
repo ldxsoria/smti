@@ -32,7 +32,8 @@ ALLOWED_HOSTS = ['*']
 APPS = [
     'import_export',
     'naomi',
-    'myapp'
+    'myapp',
+    'django_crontab',
 ]
 
 # Application definition
@@ -140,3 +141,9 @@ EMAIL_PORT = config('EMAIL_PORT')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('USER_MAIL_PASSWORD')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS')
+
+
+#Crontab
+CRONJOBS = [
+    ('*/1 * * * *', 'myapp.crontab.auto_mail')
+]
