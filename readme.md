@@ -24,6 +24,7 @@ cd sigma-mti
 docker-compose up -d
 ```
 ## Creamos el archivo con las variables de entorno
+Es importante editar .env con los datos del correo que usaremos para enviar los notificaciones, en caso sea uno de google, recuerden activar el uso de aplicaciones de terceros.
 ```bash
 docker-compose exec django_app cp docker_django/.env.editme docker_django/.env
 docker-compose exec django_app vim docker_django/.env
