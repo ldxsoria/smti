@@ -143,7 +143,10 @@ EMAIL_HOST_PASSWORD = config('USER_MAIL_PASSWORD')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS')
 
 
-#Crontab
+#CRON ###############################################################################################
+# myapp.crontab.alert_five_days.stop, significa que esta inactivo
+# myapp.crontab.alert_five_days.start, activa el cron, pero debes ejecutar
+# docker-compose exec django_app service cron restart
 CRONJOBS = [
-    ('*/1 * * * *','myapp.crontab.alert_five_days.start'),
+    ('*/1 * * * *','myapp.crontab.alert_five_days.stop'),
 ]

@@ -36,6 +36,9 @@ docker-compose exec django_app python docker_django/manage.py createsuperuser
 * Areas =>  (str:cod_area, str: descrpition, str:siglas)
 
 # Iniciamos CRONJOBS
+Por defecto los cronjobs estan desactivados y para activalos tienes que:
+1) Ingresar a settings.py y cambiar en CRONJOBS '.stop' a '.start'
+2) Reiniciar el servicio de cron con el siguiente comando
 ```bash
 docker-compose exec django_app service cron restart
 ```

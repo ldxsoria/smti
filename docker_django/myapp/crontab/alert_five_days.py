@@ -23,7 +23,7 @@ def start():
     temp_list = []
     content_info = []
 
-    # GET DATA ##############################################
+    #GET DATA ##############################################
     try:
         connection = psycopg2.connect(user = "postgres", password = "postgres", host = "db_postgres", port = "5432", database = "postgres")
         cursor = connection.cursor()
@@ -87,7 +87,7 @@ def start():
 
     fecha = datetime.now()
     subject = f"Hola, tienen tickets sin completar al {fecha}" 
-    receiver = ["ldxnotes@gmail.com", ]
+    receiver = ["ldxnotes@gmail.com", ]#CORREOS QUE RECIBIRAN LA ALERTA
     content = f"<h1>Los tickets sin completar tienen m&aacute;s de 5 d&iacute;as </h1> \
                 <br> \
                 <p>Detalle:</p>\
@@ -104,7 +104,7 @@ def start():
     message['From'] = sender
     message['To'] = receiver
 
-    # Set email body text 
+    # Set email body text HTML
     message.set_content(content, subtype="html") 
 
     # Set smtp server and port 
