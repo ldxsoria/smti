@@ -8,6 +8,7 @@ Es una aplicación desarrollada en Django, que utiliza las siguientes tecnologí
 * Python ,gunicorn y el framework Django
 * Nginx
 * Postgresql
+
 Cuya única finalidad es ayudar a los departamentos de TI a dejar de usar excel o muchos programas para registrar sus tickets, inventario, topología de red y configuraciones, etc. Y tener todo en un solo lugar.
 
 # 1) CONFIGURACIONES INICIALES
