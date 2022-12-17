@@ -1,23 +1,34 @@
 # SIGMA MIT
+
+# INTRODUCCIÓN
+Sigma MIT (Módulo de tecnologías de la información)
 Es una aplicación desarrollada en Django, que utiliza las siguientes tecnologías:
 * Docker y Docker-compose
 * Git
 * Python ,gunicorn y el framework Django
 * Nginx
 * Postgresql
+Cuya única finalidad es ayudar a los departamentos de TI a dejar de usar excel o muchos programas para registrar sus tickets, inventario, topología de red y configuraciones, etc. Y tener todo en un solo lugar.
 
-# Primero clonamos el projecto
+# 1) CONFIGURACIONES INICIALES
+
+## Primero clonamos el projecto
 ```bash
 git clone https://github.com/ldxsoria/sigma-mti.git
 ```
 
-# Creamos los contenedores y los inicializamos
+## Creamos los contenedores y los inicializamos
 ```bash
 cd sigma-mti
 docker-compose up -d
 ```
+## Creamos el archivo con las variables de entorno
+```bash
+docker-compose exec django_app cp docker_django/.env.editme docker_django/.env
+docker-compose exec django_app vim docker_django/.env
+```
 
-# Configuramos django
+## Configuramos django
 ```bash
 docker-compose exec django_app python docker_django/manage.py makemigrations
 docker-compose exec django_app python docker_django/manage.py migrate
@@ -35,7 +46,8 @@ docker-compose exec django_app python docker_django/manage.py createsuperuser
 * Usuarios => (username,first_name,last_name,email,password)
 * Areas =>  (str:cod_area, str: descrpition, str:siglas)
 
-# Iniciamos CRONJOBS
+# 2) HABILITAR/CONFIGURAR COMPLEMENTOS ADICIONALES
+## Iniciamos CRONJOBS
 Por defecto los cronjobs estan desactivados y para activalos tienes que:
 1) Ingresar a settings.py y cambiar en CRONJOBS '.stop' a '.start'
 2) Reiniciar el servicio de cron con el siguiente comando

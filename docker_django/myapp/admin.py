@@ -3,7 +3,7 @@ from .models import Zona, Area, Ticket, Registro, EstadosTicket
 
 class TicketAdmin(admin.ModelAdmin):
     #Mostrar los caompos de solo lectura
-    readonly_fields = ("fecha_solicitud", )
+    readonly_fields = ["fecha_solicitud", ]
 
 # Register your models here.
 admin.site.register(Zona)
