@@ -25,9 +25,15 @@ docker-compose up -d
 ```
 ## Creamos el archivo con las variables de entorno
 Es importante editar .env con los datos del correo que usaremos para enviar los notificaciones, en caso sea uno de google, recuerden activar el uso de aplicaciones de terceros.
+LA APLICACION NO INICIARA SI NO EXITE EL .env
 ```bash
 docker-compose exec django_app cp docker_django/.env.editme docker_django/.env
 docker-compose exec django_app vim docker_django/.env
+```
+
+## Iniciamos la aplicación
+```bash
+docker-compose restart django_app
 ```
 
 ## Configuramos django
@@ -46,7 +52,7 @@ docker-compose exec django_app python docker_django/manage.py createsuperuser
 2) Ingresamos a {{dominio}}/ y importamos lo siguiente desde un .csv:
 * Estados de los tickets de atención => (int:estado, str:desc)
 * Usuarios => (username,first_name,last_name,email,password)
-* Areas =>  (str:cod_area, str: descrpition, str:siglas)
+* Areas =>  (str:cod_area, str: descr   pition, str:siglas)
 
 # 2) HABILITAR/CONFIGURAR COMPLEMENTOS ADICIONALES
 ## Iniciar CRONJOBS
