@@ -19,13 +19,13 @@ docker-compose up -d
 
 # Configuramos django
 ```bash
-docker-compose run django_app python docker_django/manage.py makemigrations
-docker-compose run django_app python docker_django/manage.py migrate
-docker-compose run django_app python docker_django/manage.py collectstatic
+docker-compose exec django_app python docker_django/manage.py makemigrations
+docker-compose exec django_app python docker_django/manage.py migrate
+docker-compose exec django_app python docker_django/manage.py collectstatic
 ```
 # Configuramos el superusuario de django
 ```bash
-docker-compose run django_app python docker_django/manage.py createsuperuser
+docker-compose exec django_app python docker_django/manage.py createsuperuser
 ```
 
 # Una vez echo todo lo anterior, realizamos lo siguiente:
@@ -34,3 +34,8 @@ docker-compose run django_app python docker_django/manage.py createsuperuser
 * Estados de los tickets de atención => (int:estado, str:desc)
 * Usuarios => (username,first_name,last_name,email,password)
 * Areas =>  (str:cod_area, str: descrpition, str:siglas)
+
+# Iniciamos CRONJOBS
+```bash
+docker-compose exec django_app service cron restart
+```

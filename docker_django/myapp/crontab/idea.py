@@ -130,7 +130,7 @@ def start():
         li_html += f'<li>{ticket}</li>'
 
     fecha = datetime.now()
-    subject = f"Tienen tickets sin completar al {fecha}" 
+    subject = f"Script, Tienen tickets sin completar al {fecha}" 
     receiver = ["ldxsoria@gmail.com", "ldxnotes@gmail.com"]
     content = f"<h1>Tienen tickets sin completar en m&aacute;s de 24 horas </h1> \
                 <br> \
