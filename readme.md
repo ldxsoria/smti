@@ -49,10 +49,15 @@ docker-compose exec django_app python docker_django/manage.py createsuperuser
 * Areas =>  (str:cod_area, str: descrpition, str:siglas)
 
 # 2) HABILITAR/CONFIGURAR COMPLEMENTOS ADICIONALES
-## Iniciamos CRONJOBS
+## Iniciar CRONJOBS
 Por defecto los cronjobs estan desactivados y para activalos tienes que:
 1) Ingresar a settings.py y cambiar en CRONJOBS '.stop' a '.start'
 2) Reiniciar el servicio de cron con el siguiente comando
 ```bash
 docker-compose exec django_app service cron restart
 ```
+
+## CRONs actualmente configurados
+* alert_five_days => Éste cron permite enviar una notificación cuando 1 o más tickets tengan más de 5 días sin ser marcados y completados.
+Es necesario ingresar a myapp/crontab/alert_five_days y agregar los correos que recibirán la notificación.
+
