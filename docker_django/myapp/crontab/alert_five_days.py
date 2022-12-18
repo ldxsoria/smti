@@ -94,7 +94,7 @@ def start():
                 <ul>\
                 {li_html}\
                 </ul>\
-                <p>Para ver m&aacute; informaci&oacute;n ve a SIGMA MIT</p>
+                <p>Para ver m&aacute; informaci&oacute;n ve a SIGMA MIT</p>\
                 "
     # CORREO ################################################
     message = EmailMessage() 
