@@ -1,6 +1,7 @@
 #service cron restart
-def start():
 
+
+def start():
     #LIBRERIAS GENERALES
     import psycopg2
     from datetime import date
@@ -12,6 +13,8 @@ def start():
     from email.message import EmailMessage 
 
     #VARIABLES GLOBALES
+
+    #DOTENV_FILE = '/home/ldx/Development/sigma-mti/docker_django/docker_django/.env'
     DOTENV_FILE = '/code/docker_django/docker_django/.env'
     env_config = Config(RepositoryEnv(DOTENV_FILE))
 
@@ -23,9 +26,9 @@ def start():
     temp_list = []
     content_info = []
 
-    #GET DATA ##############################################
+    # GET DATA ##############################################
     try:
-        connection = psycopg2.connect(user = "postgres", password = "postgres", host = "db_postgres", port = "5432", database = "postgres")
+        connection = psycopg2.connect(user = "postgres", password = "postgres", host = "db_postgres", database = "postgres")
         cursor = connection.cursor()
         
         cursor.execute("SELECT id, fecha_solicitud, hora_solicitud FROM myapp_ticket WHERE completado=False")
@@ -87,14 +90,13 @@ def start():
 
     fecha = datetime.now()
     subject = f"Hola, tienen tickets sin completar al {fecha}" 
-    receiver = ["ldxnotes@gmail.com", ]#CORREOS QUE RECIBIRAN LA ALERTA
-    content = f"<h1>Los tickets sin completar tienen m&aacute;s de 5 d&iacute;as </h1> \
+    receiver = ["ldxsoria@gmail.com", "ldxnotes@gmail.com"]
+    content = f"<h1>Tienen tickets sin completar en m&aacute;s de 5 d&iacute;as </h1> \
                 <br> \
-                <p>Detalle:</p>\
+                <p>Los codigos son:</p>\
                 <ul>\
                 {li_html}\
                 </ul>\
-                <p>Para ver m&aacute; informaci&oacute;n ve a SIGMA MIT</p>\
                 "
     # CORREO ################################################
     message = EmailMessage() 
@@ -104,7 +106,7 @@ def start():
     message['From'] = sender
     message['To'] = receiver
 
-    # Set email body text HTML
+    # Set email body text 
     message.set_content(content, subtype="html") 
 
     # Set smtp server and port 
