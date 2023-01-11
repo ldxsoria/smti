@@ -12,7 +12,7 @@ COPY . /code/
 
 RUN pip install -r requirements.txt
 
-CMD ["gunicorn", "-c", "config/gunicorn/config.py", "--bind", ":8000", "--chdir", "docker_django", "docker_django.wsgi:application"]
+#CMD ["gunicorn", "-c", "config/gunicorn/config.py", "--bind", ":8000", "--chdir", "docker_django", "docker_django.wsgi:application"]
 
 #RUN python docker_django/manage.py makemigrations
 #RUN python docker_django/manage.py migrate
