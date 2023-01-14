@@ -1,12 +1,16 @@
 from django.contrib import admin
-from .models import Proveedor, Banco, Tipo_moneda, Banco_Proveedor, Contacto_Proveedor, Factura
-
+from .models import Proveedor, Banco, TipoMoneda, BancoProveedor, ContactoProveedor, Factura, TipoActivo, CategoriaActivo, Activo, HistorialActivo
 # Register your models here.
 
 # Register your models here.
 admin.site.register(Proveedor)
-admin.site.register(Tipo_moneda)
+admin.site.register(TipoMoneda)
 admin.site.register(Banco)
-admin.site.register(Banco_Proveedor)
-admin.site.register(Contacto_Proveedor)
+admin.site.register(BancoProveedor)
+admin.site.register(ContactoProveedor)
 admin.site.register(Factura)
+admin.site.register(TipoActivo)
+admin.site.register(CategoriaActivo)
+admin.site.register(Activo)
+admin.site.register(HistorialActivo)
+#admin.site.register(HistorialActivo.TipoHistorial)
