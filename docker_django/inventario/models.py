@@ -55,14 +55,16 @@ class Contacto_Proveedor(models.Model):
         return f'{self.nombre_contacto} - {self.proveedor.apodo}'
     
 
-"""  
 #Factura
-ruc
-num_factura
-fecha_factura
-tipo_factura
-importe_total
+class Factura(models.Model):
+    proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
+    num_factura = models.CharField(max_length=35)
+    fecha_factura = models.DateField(auto_now=False, auto_now_add=False)
+    #tipo_factura
+    moneda = models.OneToOneField(Tipo_moneda, on_delete=models.CASCADE) 
+    importe_total = models.FloatField()
 
+"""  
 #Detalle factura
 ruc
 num_factura
