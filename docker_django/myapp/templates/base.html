@@ -36,8 +36,19 @@
                   {% endif %}
                 </ul>
               </li>   
-              <li class="nav-item">
-                <a class="nav-link" href="">Inventario</a>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Inventario</a>
+                <ul class="dropdown-menu">
+                  {% if user.is_staff %}
+                  <li><a class="dropdown-item" href="{% url 'new_activo' %}">Agregar un activo</a></li>
+                  {% else %}
+                  <li><a class="dropdown-item" href="{% url 'tickets' %}">Ver activos asignados</a></li>
+                  {% endif %}
+                  <li><a class="dropdown-item" href="{% url 'completed_tickets' %}">Ver inventario</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="{% url 'create_ticket' %}">Facturas</a></li>
+                  <li><a class="dropdown-item" href="{% url 'create_ticket' %}">Proveedores</a></li>
+                </ul>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="">Redes</a>
@@ -103,7 +114,7 @@
   
   <footer class="text-white text-center text-lg-start bg-dark mt-auto">
     <div class="text-center p-3" style="background-color: black">
-      © 2022 Copyright - Version Beta 0.0.2
+      © 2023 Copyright - Version Beta 0.0.2
       <a class="text-white" href="#"></a>
     </div>
     <!-- Copyright -->
