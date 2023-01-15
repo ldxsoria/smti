@@ -42,9 +42,9 @@
                   {% if user.is_staff %}
                   <li><a class="dropdown-item" href="{% url 'new_activo' %}">Agregar un activo</a></li>
                   {% else %}
-                  <li><a class="dropdown-item" href="{% url 'tickets' %}">Ver activos asignados</a></li>
+                  <li><a class="dropdown-item" href="{% url 'inventario' %}">Ver activos asignados</a></li>
                   {% endif %}
-                  <li><a class="dropdown-item" href="{% url 'completed_tickets' %}">Ver inventario</a></li>
+                  <li><a class="dropdown-item" href="{% url 'inventario' %}">Ver inventario</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="{% url 'create_ticket' %}">Facturas</a></li>
                   <li><a class="dropdown-item" href="{% url 'create_ticket' %}">Proveedores</a></li>

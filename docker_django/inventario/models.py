@@ -1,5 +1,6 @@
 from django.db import models #DJANGO DEFAULT
 from django.contrib.auth.models import User #COLABORADOR
+from myapp.models import Area
 
 # Create your models here.
 
@@ -89,6 +90,8 @@ class Activo(models.Model):
     modelo = models.CharField(max_length=60)
     desc = models.CharField(max_length=60)
     tipo_activo = models.ForeignKey(TipoActivo, on_delete=models.CASCADE)
+    area_asignada = models.ForeignKey(Area, on_delete=models.CASCADE, blank=True, null=True)
+    #responsable =  
 
     def __str__(self):
         return f'{self.cod} - {self.tipo_activo.desc}'
