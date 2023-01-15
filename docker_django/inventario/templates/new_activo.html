@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="container pt-3">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <h1 class="display-4 text-center">Registrar un nuevo activo</h1>
+            <form action="/inventario/add" method="POST" class="card card-body">
+                <strong>{{error}}</strong>    
+                {% csrf_token %}
+                {{form}}
+                <button class="btn btn-primary mt-3">
+                    Agregar
+                </button>
+            </form>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

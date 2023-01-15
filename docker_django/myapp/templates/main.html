@@ -19,8 +19,19 @@
                         </div>
                       </div>
                 </div>
+                <div class="col-md-4">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="{% static 'images/inventario_bg.png' %}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title"><strong>Registra un nuevo activo</strong></h5>
+                            <p class="card-text">Registrar un activo es primordial para automatizar reportes y tener un registro total del patrimonio de la instituci&oacute;n.</p>
+                            <a href="{% url 'new_activo' %}" class="btn btn-primary">Agregar +</a>
+                        </div>
+                      </div>
+                </div>
             </div>
         </div>
+
     </section>    
 </main>
 {% endblock %}

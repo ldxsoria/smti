@@ -83,7 +83,7 @@ class CategoriaActivo(models.Model):
 
 #Activo
 class Activo(models.Model):
-    cod = models.CharField(max_length=50)
+    cod = models.CharField(max_length=50, primary_key=True)
     serial = models.CharField(max_length=60)
     marca = models.CharField(max_length=60)
     modelo = models.CharField(max_length=60)
