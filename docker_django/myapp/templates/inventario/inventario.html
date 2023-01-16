@@ -2,8 +2,41 @@
 
 {% block content %}
 <main class="container">
+    <h1 class="display-3 m-4 text-center">{{title}}</h1>
+    <div class="row justify-content-center border">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class='page-link' href="?page=1">
+                  <span aria-hidden="true">&laquo;&laquo;</span>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              {% endif %}
+                <span class="current">
+                    <a class='page-link disabled'>P&aacute;g. {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</a>
+                </span> 
+              {% if page_obj.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class='page-link' href="?page={{ page_obj.paginator.num_pages }}">
+                    <span aria-hidden="true">&raquo;&raquo;</span>
+                </a>
+              </li>
+              {% endif %}
+            </ul>
+          </nav>
+    </div>
     <div class="row">
-        <h1 class="display-3 m-4 text-center">{{title}}</h1>
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
@@ -31,24 +64,6 @@
                 {% endfor %}
                 </tbody>
             </table>
-
-            <div class="pagination">
-                <span class="step-links pagination">
-                    {% if page_obj.has_previous %}
-                        <a class='page-link' href="?page=1">&laquo; first</a>
-                        <a class='page-link' href="?page={{ page_obj.previous_page_number }}">previous</a>
-                    {% endif %}
-            
-                    {% comment %} <span class="current">
-                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                    </span> {% endcomment %}
-            
-                    {% if page_obj.has_next %}
-                        <a class='page-link' href="?page={{ page_obj.next_page_number }}">next</a>
-                        <a class='page-link' href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                    {% endif %}
-                </span>
-            </div>
         </div>
     </div>
 </main>
