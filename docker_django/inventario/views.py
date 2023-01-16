@@ -4,11 +4,17 @@ from django.contrib.auth.models import User
 from django.views.generic import ListView
 
 #MODELOS
-from .models import Activo
+from .models import Activo, TipoActivo, Area
 
 #MY REQUIREMENTS
 from .forms import ActivoForm
 
+#IMPORT CSV REQUIREMENTS
+import csv, io
+from import_export import resources
+
+#LISTVIEW REQUIREMENTS
+from django.core.paginator import Paginator #PAGINATION
 
 # Create your views here.
 def new_activo(request):
@@ -38,15 +44,63 @@ def inventario(request):
         })
 """
 class InventarioListView(ListView):
+    paginate_by = 25
     model = Activo
     template_name = 'inventario/inventario.html'
     
     #def get_queryset(self):
     #    return Activo.objetcs.all()
     
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Activos registrados' 
         #print(context)
         return context
+
+#EXPORT VIEWS##########################################################################################
+
+def export_activos(request):
+    activos_resource = resources.modelresource_factory(model=Activo)()
+    dataset = activos_resource.export()
+    response = HttpResponse(dataset.csv, content_type='text/csv')
+    response['Content-Disposition'] = 'atachment; filename="activos_export.csv"'
+    return response
+
+#IMPORT VIEWS##########################################################################################
+
+def import_activos(request):
+    template = 'general/import.html'
+    context = {}
+    if request.method == 'GET':
+        return render(request, template, context)
+    try:
+        csv_file = request.FILES['file']
+        data_set = csv_file.read().decode('UTF-8')
+        io_string = io.StringIO(data_set)
+        next(io_string)
+
+        for column in csv.reader(io_string, delimiter=',', quotechar='|'):
+            created = Activo.objects.update_or_create(
+                cod = column[0],
+                serial = column[1],
+                marca = column[2],
+                modelo = column[3],
+                desc = column[4],
+                tipo_activo = TipoActivo.objects.get(id=column[5]),
+                area_asignada = Area.objects.get(cod_area=column[6]),
+                #responsable = column[7],
+            )
+
+        context = {
+            'type' : 'success',
+            'alert' : '¡El CSV fue cargardo con exito!'
+        }
+        return render(request, template, context)
+    except ValueError as e:
+        context = {
+        'type' : 'danger',
+        'alert' : f'Selecciona un .CSV {e}'
+        }
+        return render(request, template, context)
+    else:
+        return redirect('main')

@@ -15,4 +15,4 @@ class TicketForm(forms.ModelForm):
 class ActivoForm(forms.ModelForm):
     class Meta:
         model = Activo
-        fields = ['cod','serial', 'marca', 'modelo', 'desc', 'tipo_activo']
+        fields = ['cod','serial', 'marca', 'modelo', 'desc', 'tipo_activo', 'area_asignada']

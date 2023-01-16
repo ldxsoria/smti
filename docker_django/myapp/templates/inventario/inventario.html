@@ -13,28 +13,42 @@
                     <th scope="col">N/S</th>
                     <th scope="col">Marca</th>
                     <th scope="col">Modelo</th>
-                    <th scope="col"></th>
-                    {# if request.user.is_staff #}
-                    <th scope="col"></th>
-                    {# endif #}
+                    <th scope="col">Ubucacion</th>
+                    {% comment %} <th scope="col"></th> {% endcomment %}
                 </tr>
                 </thead>
                 <tbody>
-                {% for activo in object_list %}
+                {% for activo in page_obj %}
                 <tr>
                     <th scope="row">{{activo.cod}}</th>
                     <td>{{activo.tipo_activo}}</td>
                     <td>{{activo.serial}}</td>
                     <td>{{activo.marca}}</td>
                     <td>{{activo.modelo}}</td>
-                    <td><a class="btn btn-primary" href="{# url 'progress_ticket' ticket.id #}">Ver m&aacute;s</a></td>
-                    {# if request.user.is_staff #}
-                    <td><a class="btn btn-success" href="">Reactivar</a></td>
-                    {# endif #}
+                    <td>{{activo.area_asignada}}</td>
+                    {% comment %} <td><a class="btn btn-primary" href="{# url 'progress_ticket' ticket.id #}">Ver m&aacute;s</a></td> {% endcomment %}
                 </tr>
                 {% endfor %}
                 </tbody>
             </table>
+
+            <div class="pagination">
+                <span class="step-links pagination">
+                    {% if page_obj.has_previous %}
+                        <a class='page-link' href="?page=1">&laquo; first</a>
+                        <a class='page-link' href="?page={{ page_obj.previous_page_number }}">previous</a>
+                    {% endif %}
+            
+                    {% comment %} <span class="current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </span> {% endcomment %}
+            
+                    {% if page_obj.has_next %}
+                        <a class='page-link' href="?page={{ page_obj.next_page_number }}">next</a>
+                        <a class='page-link' href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
         </div>
     </div>
 </main>
