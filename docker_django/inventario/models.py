@@ -91,7 +91,7 @@ class Activo(models.Model):
     desc = models.CharField(max_length=60)
     tipo_activo = models.ForeignKey(TipoActivo, on_delete=models.CASCADE)
     area_asignada = models.ForeignKey(Area, on_delete=models.CASCADE, blank=True, null=True)
-    #responsable =  
+    responsable =  models.OneToOneField(User, on_delete=models.SET_NULL, related_name='user_as_original', null=True)
 
     def __str__(self):
         return f'{self.cod} - {self.tipo_activo.desc}'
