@@ -8,8 +8,8 @@ from myapp.models import Area
 #Proveedor
 class Proveedor(models.Model):
     ruc = models.BigIntegerField(primary_key=True)
-    razon = models.TextField(max_length=120, blank=True, null=True)
-    apodo = models.TextField(max_length=120, blank=True, null=True)
+    razon = models.CharField(max_length=70, blank=True, null=True)
+    apodo = models.CharField(max_length=70, blank=True, null=True)
     correo = models.EmailField(max_length=254, blank=True, null=True)
     telefono = models.BigIntegerField(max_length=9, blank=True, null=True)
 

@@ -7,7 +7,7 @@ from django.views.generic import ListView
 from .models import Activo, TipoActivo, Area
 
 #MY REQUIREMENTS
-from .forms import ActivoForm
+from .forms import ActivoForm, ProveedorForm
 
 #IMPORT CSV REQUIREMENTS
 import csv, io
@@ -34,6 +34,31 @@ def new_activo(request):
                     'form': ActivoForm,
                     'error': 'Error'
                 })
+
+def new_proveedor(request):
+    if request.user.is_authenticated:
+        if request.method == 'GET':
+            return render(request, 'inventario/proveedor.html', {
+                'form': ProveedorForm,
+            })
+        else:
+            try:
+                form = ProveedorForm(request.POST)
+                new_proveedor = form.save(commit=False)
+                new_proveedor.save()
+                context = {
+                    'type' : 'success',
+                    'alert' : '¡El proveedor fue registrado con exito!'
+                }
+
+                #return redirect('main')
+                return render(request, 'main.html',context)
+            except ValueError as e:
+                return render(request, 'inventario/proveedor.html', {
+                    'form': ProveedorForm,
+                    'error': 'Error'
+                })
+
 """
 def inventario(request):
     if request.method == 'GET':

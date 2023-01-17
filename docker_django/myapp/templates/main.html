@@ -7,7 +7,13 @@
 
         <!--p class="text-center mb-5">El objetivo de la plataforma es apoyar el registro y atender oportunamente los requerimientos <br>del &aacute;rea de Sistemas.</p-->
         <div class="row">
-            <h1 class="display-1 text-center mb-5 ">Mis aplicaciones</h1>
+            {% if type%}
+            <div class="alert alert-{{type}} alert-dismissible fade show text-center" role="alert">
+                <strong>Aviso: </strong>{{alert}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endif %}
+            <h1 class="display-1 text-center mb-5 ">Mis accesos directos</h1>
             <div class="d-flex d-flex justify-content-around">
                 <div class="col-md-4">
                     <div class="card" style="width: 18rem;">
