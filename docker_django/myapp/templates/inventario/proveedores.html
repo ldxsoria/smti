@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="container">
+    <h1 class="display-3 m-4 text-center">{{title}}</h1>
+    <div class="row">
+        <div class="col-md-12 mb-5">
+            <div class="input-group">
+                <input type="search" class="form-control rounded" placeholder="Buscar" aria-label="Search" aria-describedby="search-addon" />
+                <button type="button" class="btn btn-outline-primary">Buscar</button>
+              </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">RUC</th>
+                    <th scope="col">Razon Social</th>
+                    <th scope="col">Apodo</th>
+                    <th scope="col">Correo</th>
+                    <th scope="col">Telefono</th>
+                    {% comment %} <th scope="col"></th> {% endcomment %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for proveedor in page_obj %}
+                <tr>
+                    <th scope="row">{{proveedor.ruc}}</th>
+                    <td>{{proveedor.razon}}</td>
+                    <td>{{proveedor.apodo}}</td>
+                    <td>{{proveedor.correo}}</td>
+                    <td>{{proveedor.telefono}}</td>
+                    {% comment %} <td><a class="btn btn-primary" href="{# url 'progress_ticket' ticket.id #}">Ver m&aacute;s</a></td> {% endcomment %}
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 d-flex justify-content-center">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+          {% if page_obj.has_previous %}
+          <li class="page-item">
+              <a class='page-link' href="?page=1">
+                <span aria-hidden="true">&laquo;&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            {% endif %}
+              <span class="current">
+                  <a class='page-link disabled'>P&aacute;g. {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</a>
+              </span> 
+            {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class='page-link' href="?page={{ page_obj.paginator.num_pages }}">
+                  <span aria-hidden="true">&raquo;&raquo;</span>
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+    </div>
+</main>
+{% endblock %}

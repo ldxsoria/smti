@@ -300,7 +300,7 @@ def auto_import(request, model):
     if request.user.is_staff:
         template = 'general/import.html'
         context = {
-
+            'title': model
         }
         if model == 'areas' or model == 'users' or model == 'estados-ticket':
             if request.method == 'GET':
@@ -340,13 +340,15 @@ def auto_import(request, model):
 
                 context = {
                     'type' : 'success',
-                    'alert' : '¡El CSV fue cargardo con exito!'
+                    'alert' : '¡El CSV fue cargardo con exito!',
+                    'title': model
                 }
                 return render(request, template, context)
             except:
                 context = {
                 'type' : 'danger',
-                'alert' : 'Selecciona un .CSV'
+                'alert' : 'Selecciona un .CSV',
+                'title': model
                 }
                 return render(request, template, context)
         else:

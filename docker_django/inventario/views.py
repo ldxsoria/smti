@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.views.generic import ListView
 
 #MODELOS
-from .models import Activo, TipoActivo, Area
+from .models import Activo, TipoActivo, Area, Proveedor
 
 #MY REQUIREMENTS
 from .forms import ActivoForm, ProveedorForm
@@ -38,7 +38,7 @@ def new_activo(request):
 def new_proveedor(request):
     if request.user.is_authenticated:
         if request.method == 'GET':
-            return render(request, 'inventario/proveedor.html', {
+            return render(request, 'inventario/new_proveedor.html', {
                 'form': ProveedorForm,
             })
         else:
@@ -54,7 +54,7 @@ def new_proveedor(request):
                 #return redirect('main')
                 return render(request, 'main.html',context)
             except ValueError as e:
-                return render(request, 'inventario/proveedor.html', {
+                return render(request, 'inventario/new_proveedor.html', {
                     'form': ProveedorForm,
                     'error': 'Error'
                 })
@@ -68,6 +68,8 @@ def inventario(request):
             'activos': activos,
         })
 """
+
+#LIST VIEWS##########################################################################################
 class InventarioListView(ListView):
     paginate_by = 25
     model = Activo
@@ -80,6 +82,18 @@ class InventarioListView(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Activos registrados' 
         #print(context)
+        return context
+
+class ProveedorListView(ListView):
+    paginate_by = 25
+    model = Proveedor
+    template_name = 'inventario/proveedores.html'
+
+    #query = request.GET.get('q')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Proveedores registrados'
         return context
 
 #EXPORT VIEWS##########################################################################################
