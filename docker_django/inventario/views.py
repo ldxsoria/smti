@@ -16,6 +16,9 @@ from import_export import resources
 #LISTVIEW REQUIREMENTS
 from django.core.paginator import Paginator #PAGINATION
 
+#SEARCH REQUIEREMENTS
+from django.db.models import Q
+
 # Create your views here.
 def new_activo(request):
     if request.user.is_authenticated:
@@ -89,7 +92,24 @@ class ProveedorListView(ListView):
     model = Proveedor
     template_name = 'inventario/proveedores.html'
 
-    #query = request.GET.get('q')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Proveedores registrados'
+        return context
+
+class SearchProveedorListView(ListView):
+    model = Proveedor
+    template_name = 'inventario/result_search_proveedores.html'
+
+    def get_queryset(self):  # new
+        query = self.request.GET.get("q")
+        print(query)
+        object_list = Proveedor.objects.filter(
+            #Q(razon__startswith=query) | Q(razon__icontains=query)
+            Q(razon__icontains=query) | Q(ruc__icontains=query)
+        )
+        print(object_list)
+        return object_list
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import InventarioListView, ProveedorListView
+from .views import InventarioListView, ProveedorListView, SearchProveedorListView
 
 urlpatterns = [
     #path("inventario/add", new_activo.as_view(), name="new_activo")
@@ -9,6 +9,8 @@ urlpatterns = [
     #path('inventario/all', views.inventario, name='inventario'),
     path('inventario/all', InventarioListView.as_view(), name='inventario'),
     path('proveedores/all', ProveedorListView.as_view(), name='proveedores'),
+    #SEARCH
+    path('proveedores/search/', SearchProveedorListView.as_view(), name='search_proveedores'),
     #EXPORT URLS
     path('inventario/export', views.export_activos, name='export_activos_csv'),
     #IMPORT URLS
