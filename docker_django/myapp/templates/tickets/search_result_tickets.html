@@ -23,7 +23,7 @@
                     <th scope="col">Descripci&oacute;n</th>
                     <th scope="col">Lugar</th>
                     <th scope="col">Fecha solicitud</th>
-                    {% comment %} <th scope="col"></th> {% endcomment %}
+                    <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -37,7 +37,7 @@
                     <td>{{ticket.descripcion}}</td>
                     <td>{{ticket.lugar}}</td>
                     <td>{{ticket.fecha_solicitud}}</td>
-                    {% comment %} <td><a class="btn btn-primary" href="{# url 'progress_ticket' ticket.id #}">Ver m&aacute;s</a></td> {% endcomment %}
+                    <td><a class="" href="{% url 'progress_ticket' ticket.id %}"><i class="material-icons">edit_square</i></a></td>
                 </tr>
                 {% endfor %}
                 </tbody>
