@@ -6,6 +6,13 @@ from django.contrib.auth.forms import  AuthenticationForm #SIGNIN
 #MODELOS
 from .models import Ticket, EstadosTicket, Registro, Area
 
+#LISTVIEW REQUIREMENTS
+from django.views.generic import ListView
+from django.core.paginator import Paginator #PAGINATION
+
+#SEARCH REQUIEREMENTS
+from django.db.models import Q
+
 #PROJECTS ROUTES
 from django.contrib.auth import login, logout, authenticate #para crear cookie de inicio de sesion
 from django.contrib.auth.decorators import login_required #MAIN
@@ -24,7 +31,6 @@ from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site #para obtener el dominio actual
 import threading
-
 
 #FUNCIONES_GENERALES##################################################################################
 def create_mail(user, cc_mails, subject, template_path, context):
@@ -118,6 +124,28 @@ def completed_tickets(request):
             'title': 'Mis tickets completados'
         })
 
+class SearchCreatedTickets(ListView):
+    paginate_by = 25
+    model = Ticket
+    template_name = 'tickets/search_result_tickets.html'
+
+    def get_queryset(self):  # new
+        query = self.request.GET.get("q")
+        if query is None:
+            return Ticket.objects.all()
+        else:
+            print(query)
+            object_list = Ticket.objects.filter(
+                #Q(razon__startswith=query) | Q(razon__icontains=query)
+                Q(id__icontains=query) | Q(lugar__icontains=query)
+            )
+            print(object_list)
+            return object_list
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Tickets creados'
+        return context
 
 @login_required
 def create_ticket(request):

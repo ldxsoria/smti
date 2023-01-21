@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import SearchCreatedTickets
 
 #
 urlpatterns = [
@@ -18,6 +19,7 @@ urlpatterns = [
     path('tickets/completed', views.completed_tickets, name = 'completed_tickets'),
     #URL TESTING
     #path('tickets/export', views.export_csv, name = 'export_tickets_csv'),
+    path('tickets/created', SearchCreatedTickets.as_view(), name='search_tickets'),
     #UPLOAD URLS
     path('import/<str:model>', views.auto_import, name='import_model'),
     #path('users/import', views.users_import, name='import_users')

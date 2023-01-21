@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from django.views.generic import ListView
 
 #MODELOS
 from .models import Activo, TipoActivo, Area, Proveedor
@@ -14,6 +13,7 @@ import csv, io
 from import_export import resources
 
 #LISTVIEW REQUIREMENTS
+from django.views.generic import ListView
 from django.core.paginator import Paginator #PAGINATION
 
 #SEARCH REQUIEREMENTS

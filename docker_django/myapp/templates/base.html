@@ -59,6 +59,7 @@
                 <ul class="dropdown-menu">
                   {% if user.is_staff %}
                   <li><a class="dropdown-item" href="{% url 'tickets' %}">Pendientes</a></li>
+                  <li><a class="dropdown-item" href="{% url 'search_tickets' %}">Creados</a></li>
                   {% else %}
                   <li><a class="dropdown-item" href="{% url 'tickets' %}">Mis tickets pendientes</a></li>
                   {% endif %}
