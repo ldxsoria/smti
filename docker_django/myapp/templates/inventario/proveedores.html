@@ -23,7 +23,7 @@
                     <th scope="col">Apodo</th>
                     <th scope="col">Correo</th>
                     <th scope="col">Telefono</th>
-                    {% comment %} <th scope="col"></th> {% endcomment %}
+                    <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -34,7 +34,7 @@
                     <td>{{proveedor.apodo}}</td>
                     <td>{{proveedor.correo}}</td>
                     <td>{{proveedor.telefono}}</td>
-                    {% comment %} <td><a class="btn btn-primary" href="{# url 'progress_ticket' ticket.id #}">Ver m&aacute;s</a></td> {% endcomment %}
+                    <td><a class="" href="{% url 'progress_ticket' proveedor.ruc %}"><i class="material-icons">edit_square</i></a></td>
                 </tr>
                 {% endfor %}
                 </tbody>

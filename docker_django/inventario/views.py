@@ -74,7 +74,7 @@ def inventario(request):
 
 #LIST VIEWS##########################################################################################
 class InventarioListView(ListView):
-    paginate_by = 25
+    paginate_by = 20
     model = Activo
     template_name = 'inventario/inventario.html'
     

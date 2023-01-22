@@ -4,6 +4,16 @@
 <main class="container">
     <h1 class="display-3 m-4 text-center">{{title}}</h1>
     <div class="row">
+      <form action="{% url 'search_proveedores' %}" method="get">      
+          <div class="col-md-12 mb-5">
+              <div class="input-group">
+                  <input type="search" name="q" class="form-control rounded" placeholder="Ingresa el RUC o la Raz&oacute;n social" aria-label="Search" aria-describedby="search-addon" />
+                  <button type="submit" class="btn btn-outline-primary">Buscar</button>
+              </div>
+          </div>
+      </form>
+  </div>
+    <div class="row">
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
