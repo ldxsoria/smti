@@ -145,6 +145,8 @@ class SearchCreatedTickets(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Tickets creados'
+        #context['lugar'] = Area.objects.all().prefetch_related('ticket')
+        context['lugar'] = Area.objects.all()
         return context
 
 @login_required

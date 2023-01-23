@@ -35,7 +35,19 @@
                     <th scope="row">{{ticket.id}}</th>
                     <td>{{ticket.asunto}}</td>
                     <td>{{ticket.descripcion}}</td>
-                    <td>{{ticket.lugar}}</td>
+                    <!-- {% for area in lugar %}
+                    <td>{{area.cod_area}}</td>
+                    <td>{{area.ticket.all}}</td>
+                    {% endfor %} -->
+                    <td>
+                    {% for data in lugar %}
+                    {% for x in data.ticket.all%}
+                    {% if x.id == ticket.id %}
+                      <p>{{data}}</p>
+                    {% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                  </td>
                     <td>{{ticket.fecha_solicitud}}</td>
                     <td><a class="" href="{% url 'progress_ticket' ticket.id %}"><i class="material-icons">edit_square</i></a></td>
                 </tr>
