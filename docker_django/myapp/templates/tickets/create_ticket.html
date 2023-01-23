@@ -21,7 +21,7 @@
     {# END SEARCH #}
 </head>
 <main class="container pt-3">
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-md-4 offset-md-4">
             <form action="/ticket/create" method="POST" class="card card-body">
                 <h1 class="display-4 text-center">Abrir un Ticket Nuevo</h1>
@@ -33,36 +33,40 @@
                 </button>
             </form>
         </div>
-    </div>
+    </div> -->
     <!--New form -->
-    {% comment %} <div class="row">
-        <div class="col-md-4 offset-md-4">
-            <form method="POST">
+    <div class="row">
+        <div class="col-md-6 offset-md-4">
+            <form method="POST" class="card card-body">
+                {% csrf_token %}
                 <h1 class="display-4 text-center">Abrir un ticket nuevo</h1>
-                <div class="alert alert-danger" role="alert"></div>
+                {% if error %}
+                <div class="alert alert-danger" role="alert">{{error}}</div>
+                {% endif %}
                 <div class="mb-3">
                     <label for="asunto">*Asunto:</label>
-                    <input type="text" name="asunto" class="form-control" placeholder="Cuentanos que pas&oacute;?">
-                </div>
-                <div class="mb-3">
-                    <select type="search" id="selectJS2"  name='estado' class="form-select" aria-label="Default select example">
+                    <select type="search" id="selectJS2"  name='asunto' class="form-select" aria-label="Default select example">
                         <option selected disabled>----------</option>
-                        {# for opcion in estados #}
-                        <option value={{opcion.estado}} id={{opcion.estado}}>xd</option>
-                        {# endfor #}
+                        {% for opcion in asuntos %}
+                        <option value={{opcion.id}} id={{opcion.id}}>{{opcion.desc}}</option>
+                        {% endfor %}
                       </select>
                 </div>
+                <!-- <div class="mb-3">
+                    <label for="asunto_nuevo">Si no encuentras el asunto en la lista, ingresa uno</label>
+                    <input type="text" name="asunto" class="form-control" placeholder="Cuentanos que pas&oacute;?">
+                </div> -->
                 <div class="mb-3">
-                    <label for="asunto">Descripci&oacute;n:</label>
-                    <textarea rows="4" type="text" name="asunto" class="form-control" placeholder="Nos das m&aacute;s detalles?"></textarea>
+                    <label for="descripcion">Descripci&oacute;n:</label>
+                    <textarea rows="4" type="text" name="descripcion" class="form-control" placeholder="Nos das m&aacute;s detalles?"></textarea>
                 </div>
                 <div class="mb-3">
-                    <label for="asunto">*Lugar:</label>
-                    <!--input type="text" name="asunto" class="form-control" placeholder="En donde?"-->
-                    <select id="selectJS"  name='estado' class="form-select" aria-label="Default select example">
+                    <label for="lugar">*Lugar:</label>
+                    <!-- <input type="text" name="asunto" class="form-control" placeholder="En donde?"> -->
+                    <select id="selectJS"  name='lugar' class="form-select" aria-label="Default select example">
                         <option selected disabled>----------</option>
                         {% for area in areas %}
-                        <option value={{area.id}} id={{area.id}}>{{area.descripcion}}</option>
+                        <option value={{area.cod_area}} id={{area.cod_area}}>{{area.descripcion}}</option>
                         {% endfor %}
                       </select>
                 </div>
@@ -71,6 +75,6 @@
                 </button>
             </form>
         </div>
-    </div> {% endcomment %}
+    </div>
 </main>
 {% endblock %}

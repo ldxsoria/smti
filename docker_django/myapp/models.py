@@ -26,18 +26,25 @@ ask1
 ask2
 ask3
 
-
-class Asunto
-
-
-class CategoriaAtencion
->Hardware
->Software
-
-class SubCategoriaAtencion
-FK id Categoria
-
 """
+class Asunto(models.Model):
+    desc = models.CharField(max_length=60)
+
+    def __str__(self):
+        return self.desc
+
+
+class CategoriaAsunto(models.Model):
+    #Hardware
+    #Software
+    #Moviliario
+    categoria = models.CharField(max_length=60)
+    #UNA CATEGORIA TIENE MUCHOS ASUNTOS
+    Asunto = models.ManyToManyField(Asunto, blank=True)
+
+    def __str__(self):
+        return self.categoria
+
 class EstadosTicket(models.Model):
     estado = models.SmallIntegerField(primary_key=True)
     desc = models.CharField(max_length=35)
@@ -56,9 +63,10 @@ class Registro(models.Model):
 
 
 class Ticket(models.Model):
-    asunto = models.CharField(max_length=50,blank=False)
+    asunto = models.ForeignKey(Asunto, on_delete=models.CASCADE, null=True, blank=True)
+    #asunto_nuevo = models.CharField(max_length=50,null=True, blank=False)
     descripcion = models.TextField(max_length=120,blank=True)
-    lugar = models.CharField(max_length=50, blank=False)
+    #lugar = models.CharField(max_length=50, blank=False)
     fecha_solicitud = models.DateField(auto_now_add=True)
     hora_solicitud = models.TimeField(auto_now_add=True)
     completado = models.BooleanField(default=False)

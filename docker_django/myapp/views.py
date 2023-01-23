@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import  AuthenticationForm #SIGNIN
 
 #MODELOS
-from .models import Ticket, EstadosTicket, Registro, Area
+from .models import Ticket, EstadosTicket, Registro, Area, Asunto
 
 #LISTVIEW REQUIREMENTS
 from django.views.generic import ListView
@@ -151,18 +151,38 @@ class SearchCreatedTickets(ListView):
 def create_ticket(request):
     if request.method == 'GET':
         areas = Area.objects.all()
+        asuntos = Asunto.objects.all()
         return render(request, "tickets/create_ticket.html", {
             'form': TicketForm,
             'areas': areas,
+            'asuntos': asuntos
         })
     else:
         try:
-            form = TicketForm(request.POST)
+            #form = TicketForm(request.POST)
             #CREO EL TICKET
-            new_ticket = form.save(commit=False)
-            new_ticket.solicitante = request.user
-            new_ticket.save()
+            #new_registro = Registro(responsable=request.user, estado=EstadosTicket(estado=request.POST['estado']), comment_estado=request.POST['comentario'])
+            #new_ticket = form.save(commit=False)
+            #new_ticket.solicitante = request.user
+            #new_ticket.save()
             #AGREGO EL REGISTRO=Registrado AL TICKET
+            asunto = Asunto.objects.filter(id=request.POST['asunto'])
+            #print(asunto.desc)
+            #print(request.POST['asunto'])
+            #print(f"Asunto es: {Asunto.objects.filter(id=request.POST['asunto'])}")
+            new_ticket = Ticket(
+                asunto=Asunto.objects.get(id=request.POST['asunto']),
+                descripcion=request.POST['descripcion'],
+                solicitante=request.user,
+                )
+            new_ticket.save()
+            #ASIGNAR TICKET AL LUGAR SELECCIONADO
+            area_selected = Area.objects.get(cod_area=request.POST['lugar'])
+            #area_selected.add(ticket=new_ticket)
+            area_selected.ticket.add(new_ticket)
+            area_selected.save()
+            #
+            new_ticket.save()
             new_registro = Registro(responsable=request.user, estado=EstadosTicket(estado=1), comment_estado='REGISTRO AUTOMATICO')
             new_registro.save()
             new_ticket.registro.add(new_registro)
