@@ -211,7 +211,11 @@ def create_ticket(request):
             )
             thread.start()
             #------------
-            return redirect('main')
+            context = {
+                    'type' : 'success',
+                    'alert' : '¡El ticket fue registrado con exito!'
+                }
+            return render(request, 'main.html',context)
             #return redirect(f'{new_ticket.id}/progress')
         except ValueError as e:
             return render(request, 'tickets/create_ticket.html', {
@@ -289,6 +293,18 @@ def add_ticket_to_area(request, ticket_id):
             area.save()
     
             return redirect('progress_ticket', ticket_id)
+
+@login_required
+def deactivate_ticket(request, ticket_id):
+    if request.method == 'POST':
+        ticket = Ticket.objects.get(id=ticket_id)
+        ticket.completado = True
+        new_registro = Registro(responsable=request.user, estado=EstadosTicket(estado=5))#5 CANCELADO POR EL USUARIO
+        new_registro.save()
+        ticket.registro.add(new_registro)
+        ticket.save()
+
+        return redirect('progress_ticket', ticket_id)
 
 @login_required
 def delete_ticket_to_area(request, ticket_id, cod_area):

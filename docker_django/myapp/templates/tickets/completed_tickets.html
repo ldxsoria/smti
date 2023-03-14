@@ -24,9 +24,9 @@
                     <th scope="col">Fecha y hora del cierre</th>
                     <th scope="col">Solicitante</th>
                     <th scope="col"></th>
-                    {% if request.user.is_staff %}
-                    <th scope="col"></th>
-                    {% endif %}
+                    {# if request.user.is_staff #}
+                    <!-- <th scope="col"></th> -->
+                    {# endif #}
                 </tr>
                 </thead>
                 <tbody>
@@ -38,9 +38,9 @@
                     <td>{{ticket.fecha_cierre}} - {{ticket.hora_cierre}}</td>
                     <td>{{ticket.solicitante}}</td>
                     <td><a class="btn btn-primary" href="{% url 'progress_ticket' ticket.id %}">Ver m&aacute;s</a></td>
-                    {% if request.user.is_staff %}
-                    <td><a class="btn btn-success" href="">Reactivar</a></td>
-                    {% endif %}
+                    {# if request.user.is_staff #}
+                    <!-- <td><a class="btn btn-success" href="">Reactivar</a></td> -->
+                    {# endif #}
                 </tr>
                 {% endfor %}
                 </tbody>
