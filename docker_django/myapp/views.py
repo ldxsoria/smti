@@ -137,7 +137,8 @@ class SearchCreatedTickets(ListView):
             print(query)
             object_list = Ticket.objects.filter(
                 #Q(razon__startswith=query) | Q(razon__icontains=query)
-                Q(id__icontains=query) | Q(lugar__icontains=query)
+                #Q(id__icontains=query) | Q(asunto__icontains=query)
+                Q(id__icontains=query)
             )
             print(object_list)
             return object_list
