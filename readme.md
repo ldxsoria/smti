@@ -76,3 +76,9 @@ docker-compose exec django_app service cron restart
 * alert_five_days => Éste cron permite enviar una notificación cuando 1 o más tickets tengan más de 5 días sin ser marcados y completados.
 Es necesario ingresar a myapp/crontab/alert_five_days y agregar los correos que recibirán la notificación.
 
+# 3) MONITOREO
+Comando para ver logs de Django
+
+```bash
+docker-compose logs --follow django_app
+```

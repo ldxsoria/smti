@@ -352,7 +352,7 @@ def auto_import(request, model):
         context = {
             'title': model
         }
-        if model == 'areas' or model == 'users' or model == 'estados-ticket':
+        if model == 'areas' or model == 'users' or model == 'estados-ticket' or model == 'asunto':
             if request.method == 'GET':
                 return render(request, template, context)
             try:
@@ -384,12 +384,12 @@ def auto_import(request, model):
                             estado=column[0],
                             desc=column[1],
                         )
-                # elif model == 'estados-ticket':
-                #     for column in csv.reader(io_string, delimiter=',', quotechar='|'):
-                #         created = EstadosTicket.objects.update_or_create(
-                #             estado=column[0],
-                #             desc=column[1],
-                #         )                 
+                elif model == 'asunto':
+                    for column in csv.reader(io_string, delimiter=',', quotechar='|'):
+                        created = Asunto.objects.update_or_create(
+                            desc=column[0],
+                            tipo=column[1],
+                        )                 
 
                 else:
                     return redirect('main')
