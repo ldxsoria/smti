@@ -28,22 +28,25 @@ ask3
 
 """
 class Asunto(models.Model):
+    class TipoAsunto(models.TextChoices):
+        HW = "1" , "HARDWARE"
+        SF = "2", "SOFTWARE"
+        MV = "3", "MOVILIARIO"
+        SC = "0", "SIN CLASIFICACION"
+
     desc = models.CharField(max_length=60)
+    tipo = models.CharField(
+        max_length=2,
+        choices=TipoAsunto.choices,
+        default=TipoAsunto.SC
+    )
+
+    #Default > Here you can enter timezone.now()
+    created_at = models.TimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.desc
-
-
-class CategoriaAsunto(models.Model):
-    #Hardware
-    #Software
-    #Moviliario
-    categoria = models.CharField(max_length=60)
-    #UNA CATEGORIA TIENE MUCHOS ASUNTOS
-    Asunto = models.ManyToManyField(Asunto, blank=True)
-
-    def __str__(self):
-        return self.categoria
 
 class EstadosTicket(models.Model):
     estado = models.SmallIntegerField(primary_key=True)

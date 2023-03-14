@@ -383,7 +383,13 @@ def auto_import(request, model):
                         created = EstadosTicket.objects.update_or_create(
                             estado=column[0],
                             desc=column[1],
-                        )                    
+                        )
+                # elif model == 'estados-ticket':
+                #     for column in csv.reader(io_string, delimiter=',', quotechar='|'):
+                #         created = EstadosTicket.objects.update_or_create(
+                #             estado=column[0],
+                #             desc=column[1],
+                #         )                 
 
                 else:
                     return redirect('main')
