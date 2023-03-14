@@ -12,6 +12,9 @@ from .forms import ActivoForm, ProveedorForm
 import csv, io
 from import_export import resources
 
+#PROJECTS ROUTES
+from django.contrib.auth.decorators import login_required #MAIN
+
 #LISTVIEW REQUIREMENTS
 from django.views.generic import ListView
 from django.core.paginator import Paginator #PAGINATION
@@ -20,8 +23,9 @@ from django.core.paginator import Paginator #PAGINATION
 from django.db.models import Q
 
 # Create your views here.
+@login_required
 def new_activo(request):
-    if request.user.is_authenticated:
+    if request.user.is_staff:
         if request.method == 'GET':
             return render(request, 'inventario/new_activo.html', {
                 'form': ActivoForm,
@@ -38,8 +42,9 @@ def new_activo(request):
                     'error': 'Error'
                 })
 
+@login_required
 def new_proveedor(request):
-    if request.user.is_authenticated:
+    if request.user.is_staff:
         if request.method == 'GET':
             return render(request, 'inventario/new_proveedor.html', {
                 'form': ProveedorForm,

@@ -25,6 +25,7 @@
                         </div>
                       </div>
                 </div>
+                {%if user.is_staff %}
                 <div class="col-md-4">
                     <div class="card" style="width: 18rem;">
                         <img class="card-img-top" src="{% static 'images/inventario_bg.png' %}" alt="Card image cap">
@@ -35,6 +36,7 @@
                         </div>
                       </div>
                 </div>
+                {% endif %}
             </div>
         </div>
 
