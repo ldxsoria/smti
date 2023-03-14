@@ -11,6 +11,15 @@ Es una aplicación desarrollada en Django, que utiliza las siguientes tecnologí
 
 Cuya única finalidad es ayudar a los departamentos de TI a dejar de usar excel o muchos programas para registrar sus tickets, inventario, topología de red y configuraciones, etc. Y tener todo en un solo lugar.
 
+# 0) CONFIGURAR ENTORNO
+Todo el proyecto se configuro sobre Ubuntu Server 22.04 y se recomienda instalar lo siguiente:
+* sudo apt install docker
+* sudo apt install docker-compose
+* sudo apt install python3-pip
+* sudo apt install libpq-dev
+
+Además, si el entorno es de producción, debemos cambiar el estado de settings.py > DEBUG = True a "False" para que se conecte a postgresql.
+
 # 1) CONFIGURACIONES INICIALES
 
 ## Primero clonamos el projecto
