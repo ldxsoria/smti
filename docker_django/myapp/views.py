@@ -31,6 +31,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site #para obtener el dominio actual
 import threading
+from decouple import config #CORREOS DE CC COMO VARIABLES DE ENTORNO
 
 #FUNCIONES_GENERALES##################################################################################
 def create_mail(user, cc_mails, subject, template_path, context):
@@ -162,17 +163,7 @@ def create_ticket(request):
         })
     else:
         try:
-            #form = TicketForm(request.POST)
-            #CREO EL TICKET
-            #new_registro = Registro(responsable=request.user, estado=EstadosTicket(estado=request.POST['estado']), comment_estado=request.POST['comentario'])
-            #new_ticket = form.save(commit=False)
-            #new_ticket.solicitante = request.user
-            #new_ticket.save()
-            #AGREGO EL REGISTRO=Registrado AL TICKET
             asunto = Asunto.objects.filter(id=request.POST['asunto'])
-            #print(asunto.desc)
-            #print(request.POST['asunto'])
-            #print(f"Asunto es: {Asunto.objects.filter(id=request.POST['asunto'])}")
             new_ticket = Ticket(
                 asunto=Asunto.objects.get(id=request.POST['asunto']),
                 descripcion=request.POST['descripcion'],
@@ -192,7 +183,8 @@ def create_ticket(request):
             new_ticket.save()
             #------------
             #ENVIAR CORREO
-            cc_mails = ['ldxsoria@gmail.com', 'ldxnotes@gmail.com']
+            cc_admins = config('CC_TICKETS') #LOS OBTENGO DEL .env
+            cc_mails = cc_admins.split(",")# COMO SIEMPRE SERA STR, LO TRANSFORMO EN UNA LISTA
             subject= f'Ticket #{new_ticket.id}'
             template_path = 'tickets/correo_new_ticket.html'
             dominio = get_current_site(request).domain
