@@ -14,7 +14,15 @@
                         <h5 class="card-title display-3 text-center">Ticket #{{ticket.id}}</h5>
                         <div class="card-text">
                             <p><strong>Asunto: </strong>{{ticket.asunto}}</p>
-                            <p><strong>Lugar: </strong>{{ticket.lugar.id}}</p>
+                            <p><strong>Lugar: </strong>
+                                {% for data in areas %}
+                                {% for x in data.ticket.all%}
+                                {% if x.id == ticket.id %}
+                                {{data}}
+                                {% endif %}
+                                {% endfor %}
+                                {% endfor %}
+                            </p>
                             <p></p>
                         </div>
                         <div class="d-flex justify-content-between">

@@ -94,14 +94,18 @@ def tickets(request):
     if request.user.is_staff:
         #https://stackoverflow.com/questions/7590692/django-get-unique-object-list-from-queryset
         tickets = Ticket.objects.all().exclude(completado=True).order_by('-id')
+        areas = Area.objects.all()
         return render(request, 'tickets/tickets.html', {
             'tickets': tickets,
+            'areas':areas,
             'title': 'Tickets nuevos'
         })
     else:
         tickets = Ticket.objects.filter(solicitante_id=request.user.id).exclude(completado=True)
+        areas = Area.objects.all()
         return render(request, 'tickets/tickets.html', {
             'tickets': tickets,
+            'areas':areas,
             'title': 'Mis tickets pendientes'
         })
 
