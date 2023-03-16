@@ -167,52 +167,66 @@ def create_ticket(request):
         })
     else:
         try:
-            asunto = Asunto.objects.filter(id=request.POST['asunto'])
-            new_ticket = Ticket(
-                asunto=Asunto.objects.get(id=request.POST['asunto']),
-                descripcion=request.POST['descripcion'],
-                solicitante=request.user,
-                )
-            new_ticket.save()
-            #ASIGNAR TICKET AL LUGAR SELECCIONADO
-            area_selected = Area.objects.get(cod_area=request.POST['lugar'])
-            #area_selected.add(ticket=new_ticket)
-            area_selected.ticket.add(new_ticket)
-            area_selected.save()
-            #
-            new_ticket.save()
-            new_registro = Registro(responsable=request.user, estado=EstadosTicket(estado=1), comment_estado='REGISTRO AUTOMATICO')
-            new_registro.save()
-            new_ticket.registro.add(new_registro)
-            new_ticket.save()
-            #------------
-            #ENVIAR CORREO
-            cc_admins = config('CC_TICKETS') #LOS OBTENGO DEL .env
-            cc_mails = cc_admins.split(",")# COMO SIEMPRE SERA STR, LO TRANSFORMO EN UNA LISTA
-            subject= f'Ticket #{new_ticket.id}'
-            template_path = 'tickets/correo_new_ticket.html'
-            dominio = get_current_site(request).domain
-            context = {
-                'user' : request.user,
-                'ticket' : new_ticket,
-                'dominio' : dominio
-            }
-            #ENVIO NORMAL
-            #new_ticket_mail = create_mail(request.user, cc_mails, subject, template_path, context)
-            #new_ticket_mail.send(fail_silently=False)
-            
-            thread = threading.Thread(
-                target= create_mail,
-                args=(request.user, cc_mails, subject, template_path, context)
-            )
-            thread.start()
-            #------------
-            context = {
-                    'type' : 'success',
-                    'alert' : '¡El ticket fue registrado con exito!'
+            #VERIFICAR SI LUGAR & ASUNTO SE SELECCIONARON ANTES DE HACER POST
+            if  ('lugar' not in request.POST)  or  ('asunto' not in request.POST):
+                areas = Area.objects.all()
+                asuntos = Asunto.objects.all()              
+                context = {
+                    'areas': areas,
+                    'asuntos': asuntos,
+                    'type' : 'danger',
+                    'msg' : '¡Seleccione un asunto y el lugar del incidente!'
                 }
-            return render(request, 'main.html',context)
-            #return redirect(f'{new_ticket.id}/progress')
+
+                return render(request, "tickets/create_ticket.html",context)
+            
+            else:
+                asunto = Asunto.objects.filter(id=request.POST['asunto'])
+                new_ticket = Ticket(
+                    asunto=Asunto.objects.get(id=request.POST['asunto']),
+                    descripcion=request.POST['descripcion'],
+                    solicitante=request.user,
+                    )
+                new_ticket.save()
+                #ASIGNAR TICKET AL LUGAR SELECCIONADO
+                area_selected = Area.objects.get(cod_area=request.POST['lugar'])
+                #area_selected.add(ticket=new_ticket)
+                area_selected.ticket.add(new_ticket)
+                area_selected.save()
+                #
+                new_ticket.save()
+                new_registro = Registro(responsable=request.user, estado=EstadosTicket(estado=1), comment_estado='REGISTRO AUTOMATICO')
+                new_registro.save()
+                new_ticket.registro.add(new_registro)
+                new_ticket.save()
+                #------------
+                #ENVIAR CORREO
+                cc_admins = config('CC_TICKETS') #LOS OBTENGO DEL .env
+                cc_mails = cc_admins.split(",")# COMO SIEMPRE SERA STR, LO TRANSFORMO EN UNA LISTA
+                subject= f'Ticket #{new_ticket.id}'
+                template_path = 'tickets/correo_new_ticket.html'
+                dominio = get_current_site(request).domain
+                context = {
+                    'user' : request.user,
+                    'ticket' : new_ticket,
+                    'dominio' : dominio
+                }
+                #ENVIO NORMAL
+                #new_ticket_mail = create_mail(request.user, cc_mails, subject, template_path, context)
+                #new_ticket_mail.send(fail_silently=False)
+                
+                thread = threading.Thread(
+                    target= create_mail,
+                    args=(request.user, cc_mails, subject, template_path, context)
+                )
+                thread.start()
+                #------------
+                context = {
+                        'type' : 'success',
+                        'alert' : '¡El ticket fue registrado con exito!'
+                    }
+                return render(request, 'main.html',context)
+                #return redirect(f'{new_ticket.id}/progress')
         except ValueError as e:
             return render(request, 'tickets/create_ticket.html', {
                 'form': TicketForm,
