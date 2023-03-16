@@ -274,10 +274,14 @@ def add_registro_ticket(request, ticket_id):
         return HttpResponse('ERROR add_registro_ticket')
     else:
         try:
-            #print(request.POST['estado'])
+            print('*'*50)
+            print(request.POST['estado'])
             #print(request.POST['comentario'])
             #------------
             ticket = Ticket.objects.get(id=ticket_id)
+            #MODIFICAR A COMPLETADO SI EL ESTADO ES
+            if request.POST['estado'] == '6':
+                ticket.completado = True
             new_registro = Registro(responsable=request.user, estado=EstadosTicket(estado=request.POST['estado']), comment_estado=request.POST['comentario'])
             new_registro.save()
             ticket.registro.add(new_registro)
