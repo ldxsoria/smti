@@ -26,4 +26,6 @@ urlpatterns = [
     #UPLOAD URLS
     path('import/<str:model>', views.auto_import, name='import_model'),
     #path('users/import', views.users_import, name='import_users')
+    #REPORT
+    path('test', views.report_ticket_area, name = 'test')
     ]

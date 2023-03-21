@@ -481,3 +481,15 @@ def auto_import(request, model):
         else:
             return redirect('main')
             
+#-----------------------------------
+#REPORTES
+@login_required
+def report_ticket_area(request):
+    #EJEMPLO
+    #lista_tallas = Product.objects.all().select_related('talla').values_list('id', 'talla__name_size')
+    tickets_x_area = Ticket.objects.all().select_related('area', 'asunto' ).values_list('area__siglas','id','asunto__desc', 'asunto__tipo', 'solicitante_id')
+
+
+    return render(request, 'testing/blank.html', {
+        'datos': tickets_x_area,
+    })

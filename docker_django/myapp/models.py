@@ -29,10 +29,10 @@ ask3
 """
 class Asunto(models.Model):
     class TipoAsunto(models.TextChoices):
-        HW = "1" , "HARDWARE"
-        SF = "2", "SOFTWARE"
-        MV = "3", "MOVILIARIO"
-        SC = "0", "SIN CLASIFICACION"
+        HW = "HW" , "HARDWARE"
+        SF = "SF", "SOFTWARE"
+        MV = "MV", "MOVILIARIO"
+        SC = "SC", "SIN CLASIFICACION"
 
     desc = models.CharField(max_length=60)
     tipo = models.CharField(
