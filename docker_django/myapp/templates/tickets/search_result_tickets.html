@@ -49,7 +49,12 @@
                     {% endfor %}
                   </td>
                     <td>{{ticket.fecha_solicitud}}</td>
+                    {% if request.user.is_staff %}
                     <td><a class="" href="{% url 'progress_ticket' ticket.id %}"><i class="material-icons">edit_square</i></a></td>
+                    {% else %}                    
+                    <td><a class="btn btn-primary" href="{% url 'historial_ticket' ticket.id %}">Ver m&aacute;s</a></td>
+                    <!-- <td><a class="btn btn-success" href="">Reactivar</a></td> -->
+                    {% endif %}
                 </tr>
                 {% endfor %}
                 </tbody>

@@ -154,6 +154,32 @@ class SearchCreatedTickets(ListView):
         #context['lugar'] = Area.objects.all().prefetch_related('ticket')
         context['lugar'] = Area.objects.all()
         return context
+    
+class SearchCompletedTickets(ListView):
+    paginate_by = 25
+    model = Ticket
+    template_name = 'tickets/search_result_tickets.html'
+
+    def get_queryset(self):  # new
+        query = self.request.GET.get("q")
+        if query is None:
+            if self.request.user.is_staff:
+                return Ticket.objects.filter(completado=True)
+            else:
+                return Ticket.objects.filter(completado=True, solicitante_id=self.request.user)
+        else:
+            print(query)
+            object_list = Ticket.objects.filter(
+                Q(id__icontains=query)
+            )
+            print(object_list)
+            return object_list
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Tickets completados'
+        context['lugar'] = Area.objects.all()
+        return context
 
 @login_required
 def create_ticket(request):
@@ -234,39 +260,53 @@ def create_ticket(request):
             })
 
 @login_required
-def progress_ticket(request, ticket_id):
+def historial_ticket(request, ticket_id):
     if request.method == 'GET':
         registros = Registro.objects.filter(ticket__id=ticket_id).order_by('-hora_estado', 'fecha_estado')
         ticket = get_object_or_404(Ticket, pk=ticket_id)
-        form = TicketForm(instance=ticket)
-        formAddRegistro = RegistroForm(instance=ticket)
-        estados = EstadosTicket.objects.all()
-        areas = Area.objects.all()
 
-        area_actual = Area.objects.filter(ticket=ticket_id)
-        print(area_actual)
-
-        return render(request, 'tickets/progress_ticket.html',{
+        return render(request, 'tickets/historial_ticket.html',{
             'registros':registros,
             'ticket': ticket,
-            'form': form,
-            'formAddRegistro' : formAddRegistro,
-            'estados': estados,
-            'areas': areas,
-            'area_actual':area_actual
         })
-    else:
-        try:
+
+@login_required
+def progress_ticket(request, ticket_id):
+    if request.user.is_staff:
+        if request.method == 'GET':
             registros = Registro.objects.filter(ticket__id=ticket_id).order_by('-hora_estado', 'fecha_estado')
             ticket = get_object_or_404(Ticket, pk=ticket_id)
-            form = TicketForm(request.POST or None, instance=ticket)
-            if form.is_valid():
-                form.save()
-                return redirect('progress_ticket', ticket_id)
-            else:
-                print('ERROR'*100)
-        except ValueError:
-            return HttpResponse('No funciono ERROR')
+            form = TicketForm(instance=ticket)
+            formAddRegistro = RegistroForm(instance=ticket)
+            estados = EstadosTicket.objects.all()
+            areas = Area.objects.all()
+
+            area_actual = Area.objects.filter(ticket=ticket_id)
+            print(area_actual)
+
+            return render(request, 'tickets/progress_ticket.html',{
+                'registros':registros,
+                'ticket': ticket,
+                'form': form,
+                'formAddRegistro' : formAddRegistro,
+                'estados': estados,
+                'areas': areas,
+                'area_actual':area_actual
+            })
+        else:
+            try:
+                registros = Registro.objects.filter(ticket__id=ticket_id).order_by('-hora_estado', 'fecha_estado')
+                ticket = get_object_or_404(Ticket, pk=ticket_id)
+                form = TicketForm(request.POST or None, instance=ticket)
+                if form.is_valid():
+                    form.save()
+                    return redirect('progress_ticket', ticket_id)
+                else:
+                    print('ERROR'*100)
+            except ValueError:
+                return HttpResponse('No funciono ERROR')
+    else:
+        return HttpResponse('Error #0001 de permiso, comuniquese con el Administrador del sistema')
 
 @login_required
 def add_registro_ticket(request, ticket_id): 

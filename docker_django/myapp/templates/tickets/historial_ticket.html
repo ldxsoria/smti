@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="container">
+    <div class="row">
+        <div class="row">
+            <div class="d-flex justify-content-start mt-3">
+                <h1 class="display-4">Ticket #{{ticket.id}}</h1>
+            </div>
+        </div>
+        <div class="col-md mb-3">
+            <h1 class="display-3"> Historial </h1>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        {% if user.is_staff %}
+                        <th scope="col">ID HISTORIAL</th>
+                        {% endif %}
+                        <th scope="col">ESTADO</th>
+                        <th scope="col">FECHA</th>
+                        <th scope="col">HORA</th>
+                        <th scope="col">RESPONSABLE</th>
+                        {% if user.is_staff %}
+                        <th scope="col">COMENTARIO</th>
+                        <th scope="col"></th>
+                        {% endif %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for registro in registros %}
+                    <tr>
+                        {% if user.is_staff %}
+                        <th scope="row"># {{registro.id}}</th>
+                        {% endif %}
+                        <td>{{registro.estado.desc}}</td>
+                        <td>{{registro.fecha_estado}}</td>
+                        <td>{{registro.hora_estado}}</td>
+                        <td>{{registro.responsable}}</td>
+                        {% if user.is_staff %}
+                        <td>{{registro.comment_estado}}</td>
+                        <td><a class="btn btn-danger" href="">Eliminar</a></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor%}
+                    </tbody>
+                </table>
+            </div>
+    </div>
+</main>
+
+{% endblock %}
