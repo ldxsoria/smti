@@ -488,7 +488,7 @@ def report_ticket_area(request):
     if request.user.is_staff:
         #EJEMPLO
         #lista_tallas = Product.objects.all().select_related('talla').values_list('id', 'talla__name_size')
-        tickets_x_area = Ticket.objects.all().select_related('area', 'asunto' ).values_list('area__siglas','id','asunto__desc', 'asunto__tipo', 'solicitante_id')
+        tickets_x_area = Ticket.objects.all().select_related('area', 'asunto' ).values_list('area__siglas','id','asunto__desc', 'asunto__tipo', 'solicitante_id', 'completado')
 
 
         return render(request, 'testing/blank.html', {
