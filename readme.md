@@ -87,7 +87,7 @@ Comando para ver logs de Django
 docker-compose logs --follow django_app
 ```
 
-4) COMANDOS DE APOYO
+# 4) COMANDOS DE APOYO
 * Para borrar toda la información de la base de datos (incluyendo superusuarios), usamos el siguiente comando
 ```bash
 docker-compose exec django_app python docker_django/manage.py flush
