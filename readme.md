@@ -55,12 +55,12 @@ docker-compose exec django_app python docker_django/manage.py migrate
 ```bash
 docker-compose exec django_app python docker_django/manage.py collectstatic
 ```
-# Configuramos el superusuario de django
+## Configuramos el superusuario de django
 ```bash
 docker-compose exec django_app python docker_django/manage.py createsuperuser
 ```
 
-# Una vez echo todo lo anterior, realizamos lo siguiente:
+## Una vez echo todo lo anterior, realizamos lo siguiente:
 1) Ingresamos al {{dominio}}/admin con la cuenta de superusuario
 2) Ingresamos a {{dominio}}/ y importamos lo siguiente desde un .csv:
 * Estados de los tickets de atención => (int:estado, str:desc)
