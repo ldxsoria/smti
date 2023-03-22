@@ -46,7 +46,7 @@ class Asunto(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return self.desc
+        return f'{self.desc}'
 
 class EstadosTicket(models.Model):
     estado = models.SmallIntegerField(primary_key=True)

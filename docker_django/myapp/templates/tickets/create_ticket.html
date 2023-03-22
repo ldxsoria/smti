@@ -9,13 +9,9 @@
     <script>
     $(document).ready(function()
         {
-            $('#selectJS').select2()
-        });
-    </script>
-    <script>
-    $(document).ready(function()
-        {
-            $('#selectJS2').select2()
+            $('#areaS2').select2()
+            // $('#asuntoS2').select2()
+
         });
     </script>
     {# END SEARCH #}
@@ -48,29 +44,21 @@
                 {% endif %}
                 <div class="mb-3">
                     <label for="asunto">*Asunto:</label>
-                    <select type="search" id="selectJS2"  name='asunto' class="form-select" aria-label="Default select example">
+                    <select id="asuntoS2"  name='asunto' class="form-select" aria-label="Default select example">
                         <option selected disabled>----------</option>
                         {% for opcion in asuntos %}
                         <option value={{opcion.id}} id={{opcion.id}}>{{opcion.desc}}</option>
                         {% endfor %}
                       </select>
                       <p class="text-secondary">Si no encuentras el asunto en la lista, seleciona <strong>Otro</strong>.</p>
-                      {# ESTE ES EL MODAL PARA AGREGAR ASUNTOS #}
-
-                      {# END MODAL #}
                 </div>
-                <!-- <div class="mb-3">
-                    <label for="asunto_nuevo">Si no encuentras el asunto en la lista, ingresa uno</label>
-                    <input type="text" name="asunto" class="form-control" placeholder="Cuentanos que pas&oacute;?">
-                </div> -->
                 <div class="mb-3">
                     <label for="descripcion">Descripci&oacute;n:</label>
                     <textarea rows="4" type="text" name="descripcion" class="form-control" placeholder="Nos das m&aacute;s detalles?"></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="lugar">*Lugar:</label>
-                    <!-- <input type="text" name="asunto" class="form-control" placeholder="En donde?"> -->
-                    <select id="selectJS"  name='lugar' class="form-select" aria-label="Default select example">
+                    <select id="areaS2"  name='lugar' class="form-select" aria-label="Default select example">
                         <option selected disabled>----------</option>
                         {% for area in areas %}
                         <option value={{area.cod_area}} id={{area.cod_area}}>{{area.descripcion}}</option>
