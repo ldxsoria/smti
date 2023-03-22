@@ -48,7 +48,11 @@ docker-compose restart django_app
 ## Configuramos django
 ```bash
 docker-compose exec django_app python docker_django/manage.py makemigrations
+```
+```bash
 docker-compose exec django_app python docker_django/manage.py migrate
+```
+```bash
 docker-compose exec django_app python docker_django/manage.py collectstatic
 ```
 # Configuramos el superusuario de django
@@ -81,4 +85,15 @@ Comando para ver logs de Django
 
 ```bash
 docker-compose logs --follow django_app
+```
+
+4) COMANDOS DE APOYO
+* Para borrar toda la información de la base de datos (incluyendo superusuarios), usamos el siguiente comando
+```bash
+docker-compose exec django_app python docker_django/manage.py flush
+```
+
+* Restablecer las tablas de la base de datos de una aplicación en Django
+```bash
+docker-compose exec django_app python docker_django/manage.py migrate myapp zero
 ```
