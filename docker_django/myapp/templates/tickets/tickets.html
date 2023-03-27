@@ -26,11 +26,18 @@
                             <p></p>
                         </div>
                         <div class="d-flex justify-content-between">
+                            {% if user.is_staff %}
                             <form action="{% url 'progress_ticket' ticket.id %}">
                                 <button class="btn btn-primary">
                                     Ver progreso
                                 </button>
                             </form>
+                            {% else %}
+                            <form action="{% url 'historial_ticket' ticket.id %}">
+                                <button class="btn btn-primary">
+                                    Ver progreso
+                                </button>
+                            {% endif %}
                             <!-- {% if user.is_staff %}
                             <form action="{% url 'completed_ticket' ticket.id %}">
                                 {% csrf_token %}

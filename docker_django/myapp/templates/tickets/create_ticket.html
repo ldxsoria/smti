@@ -61,7 +61,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="lugar">*Lugar:</label>
-                    <select id="areaS2"  name='lugar' class="form-select" aria-label="Default select example">
+                    <select id="dselect-example2"  name='lugar' class="form-select" aria-label="Default select example">
                         <option selected disabled>----------</option>
                         {% for area in areas %}
                         <option value={{area.cod_area}} id={{area.cod_area}}>{{area.descripcion}}</option>
@@ -85,5 +85,15 @@
         //size: '', // Can be "sm" or "lg". Default ''
     }
         dselect(document.querySelector('#dselect-example'), config)
+</script>
+<script>
+    const config2 = {
+        search: true, // Toggle search feature. Default: false
+        creatable: true, // Creatable selection. Default: false
+        //clearable: false, // Clearable selection. Default: false
+        //maxHeight: '360px', // Max height for showing scrollbar. Default: 360px
+        //size: '', // Can be "sm" or "lg". Default ''
+    }
+        dselect(document.querySelector('#dselect-example2'), config2)
 </script>
 {% endblock %}
