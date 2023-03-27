@@ -6,6 +6,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://unpkg.com/@jarstone/dselect/dist/css/dselect.css">
+    <script src="https://unpkg.com/@jarstone/dselect/dist/js/dselect.js"></script>
     <script>
     $(document).ready(function()
         {
@@ -44,7 +46,7 @@
                 {% endif %}
                 <div class="mb-3">
                     <label for="asunto">*Asunto:</label>
-                    <select id="asuntoS2"  name='asunto' class="form-select" aria-label="Default select example">
+                    <select id="dselect-example"  name='asunto' class="form-select" aria-label="Default select example">
                         <option selected disabled>----------</option>
                         {% for opcion in asuntos %}
                         <option value={{opcion.id}} id={{opcion.id}}>{{opcion.desc}}</option>
@@ -72,4 +74,15 @@
         </div>
     </div>
 </main>
+
+<script>
+    const config = {
+        search: true, // Toggle search feature. Default: false
+        creatable: true, // Creatable selection. Default: false
+        //clearable: false, // Clearable selection. Default: false
+        //maxHeight: '360px', // Max height for showing scrollbar. Default: 360px
+        //size: '', // Can be "sm" or "lg". Default ''
+    }
+        dselect(document.querySelector('#dselect-example'), config)
+</script>
 {% endblock %}

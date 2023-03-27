@@ -1,8 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<link rel="stylesheet" href="https://unpkg.com/@jarstone/dselect/dist/css/dselect.css">
+<script src="https://unpkg.com/@jarstone/dselect/dist/js/dselect.js"></script>
 
 {%for fila in datos %}
 <p>{{fila}}</p>
 {% endfor%}
+
+<select class="form-select" id="dselect-example">
+    <option value="chrome">Chrome</option>
+    <option value="firefox">Firefox</option>
+    <option value="safari">Safari</option>
+    <option value="edge">Edge</option>
+    <option value="opera">Opera</option>
+    <option value="brave">Brave</option>
+</select>
+
+<script>
+const config = {
+    search: true, // Toggle search feature. Default: false
+    creatable: true, // Creatable selection. Default: false
+    //clearable: false, // Clearable selection. Default: false
+    //maxHeight: '360px', // Max height for showing scrollbar. Default: 360px
+    //size: '', // Can be "sm" or "lg". Default ''
+}
+    dselect(document.querySelector('#dselect-example'), config)
+</script>
 {% endblock %}
