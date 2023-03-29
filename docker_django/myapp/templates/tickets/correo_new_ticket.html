@@ -3,10 +3,11 @@
     </head>
     <body>
         <h3>Hola, {{user.first_name}}:</h3>
-        <h1>¡Tú ticket fue registrado con exito!</h1>
+        <h1>¡Tú ticket #{{ticket.id}} fue registrado con exito!</h1>
         <ul>
             <li> <strong>Asunto:</strong> {{ticket.asunto}}</li>
             <li> <strong>Descripcion:</strong> {{ticket.descripcion}}</li>
+            <li> <strong>Lugar:</strong> {{lugar}}</li>
             <li> <strong>Fecha de registro del ticket:</strong> {{ticket.fecha_solicitud}} a las {{ticket.hora_solicitud}}</li>
         </ul>
         <br>

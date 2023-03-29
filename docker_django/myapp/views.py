@@ -225,6 +225,9 @@ def create_ticket(request):
                 new_registro.save()
                 new_ticket.registro.add(new_registro)
                 new_ticket.save()
+                #FILTAR LUGAR PARA ENVIARLO POR CORREO
+                query_lugar_ticket = Area.objects.filter(ticket = new_ticket)
+                lugar_ticket = query_lugar_ticket.values()[0]['descripcion']
                 #------------
                 #ENVIAR CORREO
                 cc_admins = config('CC_TICKETS') #LOS OBTENGO DEL .env
@@ -235,6 +238,7 @@ def create_ticket(request):
                 context = {
                     'user' : request.user,
                     'ticket' : new_ticket,
+                    'lugar': lugar_ticket,
                     'dominio' : dominio
                 }
                 #ENVIO NORMAL
@@ -489,7 +493,7 @@ def report_ticket_area(request):
         #EJEMPLO
         #lista_tallas = Product.objects.all().select_related('talla').values_list('id', 'talla__name_size')
         tickets_x_area = Ticket.objects.all().select_related('area', 'asunto' ).values_list('area__siglas','id','asunto__desc', 'asunto__tipo', 'solicitante_id', 'completado')
-
+        #lugar = lugar_ticket.descripcion
 
         return render(request, 'testing/blank.html', {
             'datos': tickets_x_area,
