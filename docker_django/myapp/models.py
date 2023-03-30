@@ -100,3 +100,13 @@ class Zona(models.Model):
     #UN ZONA TIENE MUCHOS AREAS
     area = models.ManyToManyField(Area, blank=True)
 
+class Reporte(models.Model):
+    contexto = models.TextField(max_length=120,blank=True)
+    diagnostico = models.TextField(max_length=120,blank=True)
+    recomendacion = models.TextField(max_length=120,blank=True)
+    created_at = models.TimeField(auto_now_add=True)
+    #activo_codigo
+    #FK
+    #area¿?
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
