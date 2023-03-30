@@ -109,4 +109,4 @@ class Reporte(models.Model):
     #FK
     #area¿?
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, unique=True)

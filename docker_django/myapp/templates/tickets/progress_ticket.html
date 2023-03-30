@@ -119,10 +119,11 @@
             <div class="card card-body">
                 <form method="POST">
                     {% csrf_token %}
+                    {% for r in reporte %}
                     <h1 class="display-6">Reporte</h1>
                     <div class="mb-3">
-                        <label for="descripcion">Contexto</label>
-                        <textarea rows="4" type="text" name="contexto" class="form-control" placeholder="Describe la situación..."></textarea>
+                        <label for="descripcion">Contexto {{r.contexto}}</label>
+                        <textarea rows="4" type="text" name="contexto" class="form-control" placeholder="Describe la situación..." value=""></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="descripcion">Diagnostico</label>
@@ -131,7 +132,8 @@
                     <div class="mb-3">
                         <label for="descripcion">Recomendacion</label>
                         <textarea rows="4" type="text" name="recomendacion" class="form-control" placeholder="¿Que se deberia de hacer?"></textarea>
-                    </div>                                        
+                    </div>
+                    {% endfor %}                                        
                     <button class="btn btn-primary mt-3">
                         Guardar
                     </button>                    
