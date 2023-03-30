@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import  AuthenticationForm #SIGNIN
 
 #MODELOS
-from .models import Ticket, EstadosTicket, Registro, Area, Asunto
+from .models import Ticket, EstadosTicket, Registro, Area, Asunto, Reporte
 
 #LISTVIEW REQUIREMENTS
 from django.views.generic import ListView
@@ -18,7 +18,7 @@ from django.contrib.auth import login, logout, authenticate #para crear cookie d
 from django.contrib.auth.decorators import login_required #MAIN
 
 #MY REQUIREMENTS
-from .forms import TicketForm, RegistroForm
+from .forms import TicketForm, RegistroForm, ReporteForm
 
 #IMPORT CSV REQUIREMENTS
 import csv, io
@@ -128,6 +128,7 @@ def completed_tickets(request):
             'tickets': tickets,
             'title': 'Mis tickets completados'
         })
+
 
 class SearchCreatedTickets(ListView):
     paginate_by = 25
@@ -284,9 +285,15 @@ def progress_ticket(request, ticket_id):
             formAddRegistro = RegistroForm(instance=ticket)
             estados = EstadosTicket.objects.all()
             areas = Area.objects.all()
+            formReporte = ReporteForm()
 
             area_actual = Area.objects.filter(ticket=ticket_id)
             print(area_actual)
+
+            reporte_existe = Reporte.objects.filter(ticket=ticket_id).exists()
+            print(reporte_existe)
+            #if reporte_existe == True: reporte_actual = Reporte.objects.filter(ticket=ticket_id)
+            reporte_actual = Reporte.objects.filter(ticket=ticket_id) if reporte_existe == True else None
 
             return render(request, 'tickets/progress_ticket.html',{
                 'registros':registros,
@@ -295,15 +302,20 @@ def progress_ticket(request, ticket_id):
                 'formAddRegistro' : formAddRegistro,
                 'estados': estados,
                 'areas': areas,
-                'area_actual':area_actual
+                'area_actual':area_actual,
+                'formReporte': formReporte,
+                'reporte': reporte_actual
             })
         else:
             try:
                 registros = Registro.objects.filter(ticket__id=ticket_id).order_by('-hora_estado', 'fecha_estado')
                 ticket = get_object_or_404(Ticket, pk=ticket_id)
-                form = TicketForm(request.POST or None, instance=ticket)
-                if form.is_valid():
-                    form.save()
+                #form = TicketForm(request.POST or None, instance=ticket)
+                #if form.is_valid():
+                #    form.save()                
+                fromReporte = ReporteForm(request.POST or None, instance=ticket)
+                if fromReporte.is_valid():
+                    fromReporte.save()
                     return redirect('progress_ticket', ticket_id)
                 else:
                     print('ERROR'*100)

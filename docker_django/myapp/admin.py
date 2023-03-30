@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Zona, Area, Ticket, Registro, EstadosTicket, Asunto
+from .models import Zona, Area, Ticket, Registro, EstadosTicket, Asunto, Reporte
 
 class TicketAdmin(admin.ModelAdmin):
     #Mostrar los caompos de solo lectura
@@ -12,3 +12,4 @@ admin.site.register(EstadosTicket)
 admin.site.register(Ticket)
 admin.site.register(Registro)
 admin.site.register(Asunto)
+admin.site.register(Reporte)

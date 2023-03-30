@@ -115,9 +115,18 @@
                     </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-8">
             <div class="card card-body">
-                <h1 class="display-4"> Reporte </h1>
+                <h1 class="display-4"> Reporte</h1>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{formReporte}}
+                        <div class="d-flex justify-content-center mt-2">
+                            <button class="btn btn-primary">
+                                Guardar
+                            </button>
+                        </div>                        
+                    </form>
             </div>
         </div>
         {% endif %}
