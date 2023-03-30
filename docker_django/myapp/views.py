@@ -281,11 +281,11 @@ def progress_ticket(request, ticket_id):
         if request.method == 'GET':
             registros = Registro.objects.filter(ticket__id=ticket_id).order_by('-hora_estado', 'fecha_estado')
             ticket = get_object_or_404(Ticket, pk=ticket_id)
-            form = TicketForm(instance=ticket)
+            #form = TicketForm(instance=ticket)
             formAddRegistro = RegistroForm(instance=ticket)
             estados = EstadosTicket.objects.all()
             areas = Area.objects.all()
-            formReporte = ReporteForm()
+            #formReporte = ReporteForm()
 
             area_actual = Area.objects.filter(ticket=ticket_id)
             print(area_actual)
@@ -298,27 +298,39 @@ def progress_ticket(request, ticket_id):
             return render(request, 'tickets/progress_ticket.html',{
                 'registros':registros,
                 'ticket': ticket,
-                'form': form,
+                #'form': form,
                 'formAddRegistro' : formAddRegistro,
                 'estados': estados,
                 'areas': areas,
                 'area_actual':area_actual,
-                'formReporte': formReporte,
+                #'formReporte': formReporte,
                 'reporte': reporte_actual
             })
         else:
             try:
                 registros = Registro.objects.filter(ticket__id=ticket_id).order_by('-hora_estado', 'fecha_estado')
                 ticket = get_object_or_404(Ticket, pk=ticket_id)
+                #CREANDO UN REPORTE
+                new_reporte = Reporte (
+                    contexto = request.POST['contexto'],
+                    diagnostico = request.POST['diagnostico'],
+                    recomendacion = request.POST['recomendacion'],
+                    #ticket = Ticket.objects.filter(id=ticket_id),
+                    ticket = ticket,
+                    created_by = request.user,
+                )
+                print(new_reporte)
+                new_reporte.save()
+                return redirect('progress_ticket', ticket_id)
                 #form = TicketForm(request.POST or None, instance=ticket)
                 #if form.is_valid():
                 #    form.save()                
-                fromReporte = ReporteForm(request.POST or None, instance=ticket)
-                if fromReporte.is_valid():
-                    fromReporte.save()
-                    return redirect('progress_ticket', ticket_id)
-                else:
-                    print('ERROR'*100)
+                #fromReporte = ReporteForm(request.POST or None, instance=ticket)
+                # if fromReporte.is_valid():
+                #     fromReporte.save()
+                #     return redirect('progress_ticket', ticket_id)
+                # else:
+                #     print('ERROR'*100)
             except ValueError:
                 return HttpResponse('No funciono ERROR')
     else:
