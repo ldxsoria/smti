@@ -293,7 +293,7 @@ def progress_ticket(request, ticket_id):
             reporte_existe = Reporte.objects.filter(ticket=ticket_id).exists()
             print(reporte_existe)
             #if reporte_existe == True: reporte_actual = Reporte.objects.filter(ticket=ticket_id)
-            reporte_actual = Reporte.objects.filter(ticket=ticket_id) if reporte_existe == True else None
+            reporte_actual = Reporte.objects.filter(ticket=ticket_id).values()[0] if reporte_existe == True else None
 
             return render(request, 'tickets/progress_ticket.html',{
                 'registros':registros,

@@ -28,6 +28,13 @@
             </form>
             {% endif %} -->
         </div>
+        <div class="mt-3">
+
+        </div>
+        <div class="alert alert-primary alert-dismissible fade show text-center" role="alert">
+            <p><strong>Asunto: </strong>{{ticket.asunto}}</p>
+            <p><strong>Descripci&oacute;n: </strong>{{ticket.descripcion}}</p>
+        </div>
     </div>
     <div class="row">
         {# BLOKE 1 TOP#}
@@ -119,21 +126,19 @@
             <div class="card card-body">
                 <form method="POST">
                     {% csrf_token %}
-                    {% for r in reporte %}
                     <h1 class="display-6">Reporte</h1>
                     <div class="mb-3">
-                        <label for="descripcion">Contexto {{r.contexto}}</label>
-                        <textarea rows="4" type="text" name="contexto" class="form-control" placeholder="Describe la situación..." value=""></textarea>
+                        <label for="descripcion">Contexto</label>
+                        <textarea rows="4" type="text" name="contexto" class="form-control" placeholder="Describe la situación...">{{ reporte.contexto }}</textarea>
                     </div>
                     <div class="mb-3">
                         <label for="descripcion">Diagnostico</label>
-                        <textarea rows="4" type="text" name="diagnostico" class="form-control" placeholder="¿Que paso?"></textarea>
+                        <textarea rows="4" type="text" name="diagnostico" class="form-control" placeholder="¿Que paso?">{{ reporte.diagnostico }}</textarea>
                     </div>
                     <div class="mb-3">
                         <label for="descripcion">Recomendacion</label>
-                        <textarea rows="4" type="text" name="recomendacion" class="form-control" placeholder="¿Que se deberia de hacer?"></textarea>
-                    </div>
-                    {% endfor %}                                        
+                        <textarea rows="4" type="text" name="recomendacion" class="form-control" placeholder="¿Que se deberia de hacer?">{{ reporte.recomendacion }}</textarea>
+                    </div>                                        
                     <button class="btn btn-primary mt-3">
                         Guardar
                     </button>                    

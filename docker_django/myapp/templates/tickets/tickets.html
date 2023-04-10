@@ -14,6 +14,7 @@
                         <h5 class="card-title display-3 text-center">Ticket #{{ticket.id}}</h5>
                         <div class="card-text">
                             <p><strong>Asunto: </strong>{{ticket.asunto}}</p>
+                            <!-- <p><strong>Descripci&oacute;n: </strong>{{ticket.descripcion}}</p> -->
                             <p><strong>Lugar: </strong>
                                 {% for data in areas %}
                                 {% for x in data.ticket.all%}
