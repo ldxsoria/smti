@@ -33,6 +33,9 @@ from django.contrib.sites.shortcuts import get_current_site #para obtener el dom
 import threading
 from decouple import config #CORREOS DE CC COMO VARIABLES DE ENTORNO
 
+#TELEGRAM
+# import requests as telegram
+
 #FUNCIONES_GENERALES##################################################################################
 def create_mail(user, cc_mails, subject, template_path, context):
 
@@ -251,6 +254,9 @@ def create_ticket(request):
                     args=(request.user, cc_mails, subject, template_path, context)
                 )
                 thread.start()
+                #------------
+                #NOTIFICAR POR TELEGRAM
+                # telegram.post('https://api.telegram.org/bot6010368859:AAH3LbF3Z8SlIDWKGVCd4ZxrloSaE-1CQUQ/sendMessage', data = {'chat_id' : '@mtilogs', 'text' : 'Nuevo ticket registrado'})
                 #------------
                 context = {
                         'type' : 'success',
