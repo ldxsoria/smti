@@ -73,8 +73,8 @@ class Ticket(models.Model):
     fecha_solicitud = models.DateField(auto_now_add=True)
     hora_solicitud = models.TimeField(auto_now_add=True)
     completado = models.BooleanField(default=False)
-    fecha_cierre= models.DateField(auto_now_add=True,null=True, blank=True)
-    hora_cierre = models.TimeField(auto_now_add=True,null=True, blank=True)
+    fecha_cierre= models.DateField(null=True, blank=True)
+    hora_cierre = models.TimeField(null=True, blank=True)
     #UN TICKET TIENE MUCHOS REGISTROS
     registro = models.ManyToManyField(Registro, blank=True)
     #FK

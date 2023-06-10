@@ -8,6 +8,7 @@ urlpatterns = [
     path('', views.signin, name = 'singin'),
     path('main/', views.main, name = 'main'),
     path('logout/', views.signout, name = 'logout'),
+
     #URL TICKETS
     path('tickets/', views.tickets, name = 'tickets'),
     path('ticket/create', views.create_ticket, name = 'create_ticket' ),
@@ -19,13 +20,18 @@ urlpatterns = [
     path('ticket/<int:ticket_id>/<str:cod_area>/del', views.delete_ticket_to_area, name = 'delete_ticket_to_area'),
     path('ticket/<int:ticket_id>/completed', views.completed_ticket, name = 'completed_ticket'),
     #path('tickets/completed', views.completed_tickets, name = 'completed_tickets'),
+
     #URL TESTING
     #path('tickets/export', views.export_csv, name = 'export_tickets_csv'),
     path('tickets/created', SearchCreatedTickets.as_view(), name='search_tickets'),
     path('tickets/completed', SearchCompletedTickets.as_view(), name = 'completed_tickets'),
+
     #UPLOAD URLS
     path('import/<str:model>', views.auto_import, name='import_model'),
     #path('users/import', views.users_import, name='import_users')
+
     #REPORT
-    path('test', views.report_ticket_area, name = 'test')
+    path('test', views.report_ticket_area, name = 'test'),
+    path('report/tickets/pdf', views.report_tickets, name = 'report_tickets'),
+    path('report/tickets/xls', views.report_all_tickets_xls, name = 'report_tickets_xls')
     ]

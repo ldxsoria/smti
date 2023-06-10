@@ -33,6 +33,15 @@ from django.contrib.sites.shortcuts import get_current_site #para obtener el dom
 import threading
 from decouple import config #CORREOS DE CC COMO VARIABLES DE ENTORNO
 
+#REPORTE PDF
+#from django.http import HttpResponse
+from reportlab.pdfgen import canvas
+
+#REPORTE EXCEL
+#from django.http import HttpResponse
+from datetime import datetime #PARA LA HORA
+from openpyxl import Workbook
+
 #TELEGRAM
 # import requests as telegram
 
@@ -355,6 +364,10 @@ def add_registro_ticket(request, ticket_id):
             ticket = Ticket.objects.get(id=ticket_id)
             #MODIFICAR A COMPLETADO SI EL ESTADO ES
             if request.POST['estado'] == '6':
+                #HORA Y FECHA DEL CIERRE
+                ticket.fecha_cierre = datetime.now().date()
+                ticket.hora_cierre = datetime.now().time()
+                #
                 ticket.completado = True
             new_registro = Registro(responsable=request.user, estado=EstadosTicket(estado=request.POST['estado']), comment_estado=request.POST['comentario'])
             new_registro.save()
@@ -530,3 +543,114 @@ def report_ticket_area(request):
         })
     else:
         return redirect('main')
+
+
+#REPORT   ##########################################################################################
+def report_tickets(request):
+    # Creamos un objeto HttpResponse con el tipo de contenido "application/pdf"
+    response = HttpResponse(content_type='application/pdf')
+    # Indicamos que el archivo se descargará como "reporte.pdf"
+    response['Content-Disposition'] = 'attachment; filename="reporte.pdf"'
+
+    # Creamos el objeto PDF utilizando reportlab
+    p = canvas.Canvas(response)
+
+    # Agregamos contenido al PDF
+    p.drawString(20, 100, "¡Hola, este es un reporte PDF generado desde Django!")
+
+    # Finalizamos el objeto PDF
+    p.showPage()
+    p.save()
+
+    # Devolvemos la respuesta HTTP con el contenido del PDF
+    return response
+
+def report_all_tickets_xls2(request):
+    # Creamos un objeto HttpResponse con el tipo de contenido "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    # Indicamos que el archivo se descargará como "reporte.xlsx"
+    response['Content-Disposition'] = 'attachment; filename="reporte.xlsx"'
+
+    # Creamos el libro de trabajo (workbook) de Excel
+    workbook = Workbook()
+    # Seleccionamos la hoja activa
+    hoja = workbook.active
+
+    # Agregamos datos al reporte
+    hoja['A1'] = "Nombre"
+    hoja['B1'] = "Edad"
+
+    hoja['A2'] = "Juan"
+    hoja['B2'] = 25
+
+    hoja['A3'] = "María"
+    hoja['B3'] = 30
+
+    # Guardamos el libro de trabajo
+    workbook.save(response)
+
+    # Devolvemos la respuesta HTTP con el contenido del archivo Excel
+    return response
+
+def report_all_tickets_xls(request):
+   # Creamos un objeto HttpResponse con el tipo de contenido "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    # Indicamos que el archivo se descargará como "reporte.xlsx"
+    response['Content-Disposition'] = 'attachment; filename="reporte.xlsx"'
+
+    # Creamos el libro de trabajo (workbook) de Excel
+    workbook = Workbook()
+    # Seleccionamos la hoja activa
+    hoja = workbook.active
+
+    # Obtenemos todas las áreas y los tickets relacionados
+    #areas = Area.objects.all()
+    tickets = Ticket.objects.select_related('area','asunto').values_list(
+        'id',
+        'area__descripcion',
+        'fecha_solicitud',
+        'hora_solicitud',
+        'fecha_cierre',
+        'hora_cierre',
+        'asunto__desc',
+        ).order_by('-id')
+
+    #tickets = Ticket.objects.all()
+    #areas = Area.objects.select_related('ticket').values_list('area__siglas','id')
+
+    # Agregamos los encabezados al reporte
+    hoja['A1'] = "ticket"
+    hoja['B1'] = "area"
+    hoja['C1'] = 'fecha_solicitud'
+    hoja['D1'] = 'hora_solictud'
+    hoja['E1'] = 'fecha_cierre'
+    hoja['F1'] = 'hora_cierre'
+    hoja['G1'] = 'asunto'    
+    # Agrega más encabezados según las columnas que desees mostrar
+
+    fila = 2
+    for t in tickets:
+        hoja.cell(row=fila, column=1).value = t[0]
+        hoja.cell(row=fila, column=2).value = t[1]
+        hoja.cell(row=fila, column=3).value = t[2]
+        hoja.cell(row=fila, column=4).value = t[3]
+        hoja.cell(row=fila, column=5).value = t[4]
+        hoja.cell(row=fila, column=6).value = t[5]
+        hoja.cell(row=fila, column=7).value = t[6]
+        fila += 1
+
+    # Agregamos los datos al reporte
+    # fila = 2
+    # for area in areas:
+    #     ticket = tickets.filter(area=area).first()
+    #     print(area.cod_area)
+    #     hoja.cell(row=fila, column=1).value = area.cod_area
+    #     hoja.cell(row=fila, column=2).value = ticket.id if ticket else ""
+    #     # Agrega más columnas según los datos que desees mostrar
+    #     fila += 1
+
+    # Guardamos el libro de trabajo
+    workbook.save(response)
+
+    # Devolvemos la respuesta HTTP con el contenido del archivo Excel
+    return response
