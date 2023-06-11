@@ -4,38 +4,32 @@
 
 <main class="container py-4">
     <div class="row mb-5">
-        <div class="col">
-            <h1 class="display-4">Resumen</h1>
-            <ol class="list-group list-group-numbered">
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                  <div class="ms-2 me-auto">
-                    <div class="fw-bold">Tickets registrados</div>
-                  </div>
-                  <span class="badge bg-primary rounded-pill">{{ count_tickets }}</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                  <div class="ms-2 me-auto">
-                    <div class="fw-bold">Tickets atendidos</div>
-                  </div>
-                  <span class="badge bg-success rounded-pill">{{ count_tickets_completed }}</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                  <div class="ms-2 me-auto">
-                    <div class="fw-bold">Tickets pendientes</div>
-                  </div>
-                  <span class="badge bg-danger rounded-pill">{{ count_tickets_uncompleted }}</span>
-                </li>
-              </ol>
-        </div>
-        <div class="col">            
-        </div>
-        <div class="col">
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
-            <h1 class="display-4">Reportes</h1>
+        <div class="col-md-4">
+            <div class="row mb-5">
+                <h1 class="display-4">Resumen</h1>
+                <ol class="list-group list-group-numbered">
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">Tickets registrados</div>
+                      </div>
+                      <span class="badge bg-primary rounded-pill">{{ count_tickets }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">Tickets atendidos</div>
+                      </div>
+                      <span class="badge bg-success rounded-pill">{{ count_tickets_completed }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">Tickets pendientes</div>
+                      </div>
+                      <span class="badge bg-danger rounded-pill">{{ count_tickets_uncompleted }}</span>
+                    </li>
+                  </ol>
+            </div>
+            <div class="row">
+                <h1 class="display-6">Descargar reportes</h1>
                 <table class="table">
                     <thead>
                       <tr>
@@ -53,16 +47,49 @@
                             <button onclick="redirectToURL()" class="material-icons btn btn-outline-success">download</button>
                         </td>
                         <td>
-                            <button  class="material-icons btn btn-outline-primary">download</button>
+                            <button  class="material-icons btn btn-outline-primary disabled">download</button>
                         </td>
                       </tr>
                     </tbody>
-                  </table>
+                  </table>                    
+            </div>
         </div>
+        <div class="col text-center">
+            <div>
+                <h1 class="display-4">Categor&iacute;as m&aacute;s reportadas</h1>
+                <canvas id="myChart"></canvas>
+            </div>
+              
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+              
+            <script>
+                const ctx = document.getElementById('myChart');
+              
+                new Chart(ctx, {
+                  type: 'doughnut',
+                  data: {
+                    // labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    labels: [{% for asunto in asuntos_title_list %} '{{ asunto }}', {% endfor %}],
+                    datasets: [{
+                      label: '# of Votes',
+                    //   data: [12, 19, 3, 5, 2, 3],
+                    data: [{% for valor in asuntos_value_list %} '{{ valor }}', {% endfor %}],
+                      borderWidth: 1
+                    }]
+                  },
+                  options: {
+                    scales: {
+                      y: {
+                        beginAtZero: true
+                      }
+                    }
+                  }
+                });
+            </script>
+                         
         </div>
     </div>
-
-
+    </div>
 </main>
 
 <script>

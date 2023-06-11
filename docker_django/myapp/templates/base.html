@@ -62,7 +62,7 @@
                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Tickets</a>
                 <ul class="dropdown-menu">
                   {% if user.is_staff %}
-                  <li><a class="dropdown-item" href="{% url 'report_tickets' %}">Reportes</a></li>
+                  <li><a class="dropdown-item" href="{% url 'report_tickets' %}">Dashboard</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="{% url 'tickets' %}">Pendientes</a></li>
                   <li><a class="dropdown-item" href="{% url 'search_tickets' %}">Creados</a></li>

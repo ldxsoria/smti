@@ -435,17 +435,43 @@ def completed_ticket(request, ticket_id):
     return redirect('tickets')
 
 def report_tickets_view(request):
+
     count_tickets = Ticket.objects.count()
     count_tickets_completed = Ticket.objects.filter(completado=True).count()
     count_tickets_uncompleted = Ticket.objects.filter(completado=False).count()
 
-    return render(request, 'tickets/report_tickets.html',
-                  {
-                      'count_tickets' : count_tickets,
-                      'count_tickets_completed' : count_tickets_completed,
-                      'count_tickets_uncompleted' : count_tickets_uncompleted,
-                  }
-                  )
+    # cs_no = Students.objects.filter(course='Computer Science').count()
+    # cs_no = int(cs_no)
+    # print('Number of Computer Science Students Are',cs_no)
+
+    # asuntos_list = Asunto.objects.values_list('id','desc')
+    # ticket_list = Ticket.objects.filter(asunto=23).count()
+
+    asuntos = Asunto.objects.values_list('id','desc')
+
+    asuntos_title_list = []
+    asuntos_value_list = []
+
+
+    for a in asuntos :
+        total_asunto_x = Ticket.objects.filter(asunto=a[0]).count()
+        if total_asunto_x > 0:
+            asuntos_title_list.append(a[1])
+            asuntos_value_list.append(total_asunto_x)
+
+
+
+    content = {
+                'count_tickets' : count_tickets,
+                'count_tickets_completed' : count_tickets_completed,
+                'count_tickets_uncompleted' : count_tickets_uncompleted,
+                ########################################################
+                'asuntos_title_list' : asuntos_title_list,
+                'asuntos_value_list' : asuntos_value_list,
+
+    }
+
+    return render(request, 'tickets/report_tickets.html',content)
 
 #EXPORT VIEWS##########################################################################################
 
@@ -567,7 +593,8 @@ def report_all_tickets_xls(request):
    # Creamos un objeto HttpResponse con el tipo de contenido "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     # Indicamos que el archivo se descargará como "reporte.xlsx"
-    response['Content-Disposition'] = 'attachment; filename="reporte.xlsx"'
+    fecha = datetime.now().date()
+    response['Content-Disposition'] = f'attachment; filename="MTI - Reporte #1 - {fecha}.xlsx"'
 
     # Creamos el libro de trabajo (workbook) de Excel
     workbook = Workbook()
