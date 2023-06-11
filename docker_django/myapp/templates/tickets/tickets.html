@@ -39,14 +39,6 @@
                                     Ver progreso
                                 </button>
                             {% endif %}
-                            <!-- {% if user.is_staff %}
-                            <form action="{% url 'completed_ticket' ticket.id %}">
-                                {% csrf_token %}
-                                <button class="btn btn-dark">
-                                    Atendido
-                                </button>
-                            </form>
-                            {% endif %} -->
                             <form action="{% url 'deactivate_ticket' ticket.id %}" method="POST">
                                 {% csrf_token %}
                                 <button class="btn btn-danger">
