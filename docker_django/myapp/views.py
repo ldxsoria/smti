@@ -394,7 +394,7 @@ def add_ticket_to_area(request, ticket_id):
             area.save()
     
             return redirect('progress_ticket', ticket_id)
-
+        
 @login_required
 def deactivate_ticket(request, ticket_id):
     if request.method == 'POST':
@@ -407,6 +407,22 @@ def deactivate_ticket(request, ticket_id):
 
         return redirect('progress_ticket', ticket_id)
 
+@login_required
+def delete_registro_to_ticket(request, ticket_id, registro_id):
+    if request.user.is_staff:
+        if request.method == 'POST':
+            # #OBTENGO EL ID DE LA LA PETICION
+            # ticket = Ticket.objects.get(id=ticket_id)
+            # #OBTENGO EL AREA SELECIONA DEL FORM
+            # area = Area.objects.get(cod_area=cod_area)
+            # #ASIGNO EL TICKET A AREA
+            # area.ticket.remove(ticket)
+            # area.save()
+            registro = Registro.objects.get(id=registro_id)
+            registro.delete()
+    
+            return redirect('progress_ticket', ticket_id)
+        
 @login_required
 def delete_ticket_to_area(request, ticket_id, cod_area):
     if request.user.is_staff:

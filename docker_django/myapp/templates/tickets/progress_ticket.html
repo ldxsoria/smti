@@ -170,7 +170,22 @@
                         <td>{{registro.responsable}}</td>
                         {% if user.is_staff %}
                         <td>{{registro.comment_estado}}</td>
-                        <td><button class="material-icons btn btn-danger" >delete</button></td>
+                        {% if registro.estado.desc == 'Ingresado al sistema' %}
+                        <div>
+                            <form method="post" action="{% url 'delete_registro_to_ticket' ticket.id registro.id %}">
+                            {% csrf_token %}
+                            <td><button class="material-icons btn btn-outline-danger disabled" >delete</button></td>
+                        </form>
+                        </div>
+                        {% else %}
+                        <div>
+                            <form method="post" action="{% url 'delete_registro_to_ticket' ticket.id registro.id %}">
+                            {% csrf_token %}
+                            <td><button class="material-icons btn btn-outline-danger" >delete</button></td>
+                        </form>
+                        </div>
+                        {% endif %}
+
                         {% endif %}
                     </tr>
                     {% endfor%}
