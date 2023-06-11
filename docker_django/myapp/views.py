@@ -433,6 +433,10 @@ def completed_ticket(request, ticket_id):
     ticket.save()
    
     return redirect('tickets')
+
+def report_tickets_view(request):
+    return render(request, 'tickets/report_tickets.html')
+
 #EXPORT VIEWS##########################################################################################
 
 @login_required       

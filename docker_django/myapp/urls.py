@@ -19,6 +19,8 @@ urlpatterns = [
     path('ticket/<int:ticket_id>/area', views.add_ticket_to_area, name = 'add_ticket_to_area'),
     path('ticket/<int:ticket_id>/<str:cod_area>/del', views.delete_ticket_to_area, name = 'delete_ticket_to_area'),
     path('ticket/<int:ticket_id>/completed', views.completed_ticket, name = 'completed_ticket'),
+
+    path('tickets/report', views.report_tickets_view, name = 'report_tickets'),
     #path('tickets/completed', views.completed_tickets, name = 'completed_tickets'),
 
     #URL TESTING
