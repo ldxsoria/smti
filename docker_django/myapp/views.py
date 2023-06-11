@@ -529,24 +529,8 @@ def auto_import(request, model):
             return redirect('main')
             
 #-----------------------------------
-#REPORTES
-@login_required
-def report_ticket_area(request):
-    if request.user.is_staff:
-        #EJEMPLO
-        #lista_tallas = Product.objects.all().select_related('talla').values_list('id', 'talla__name_size')
-        tickets_x_area = Ticket.objects.all().select_related('area', 'asunto' ).values_list('area__siglas','id','asunto__desc', 'asunto__tipo', 'solicitante_id', 'completado')
-        #lugar = lugar_ticket.descripcion
-
-        return render(request, 'testing/blank.html', {
-            'datos': tickets_x_area,
-        })
-    else:
-        return redirect('main')
-
-
-#REPORT   ##########################################################################################
-def report_tickets(request):
+#REPORTES     ##########################################################################################
+def report_all_tickets_pdf(request):
     # Creamos un objeto HttpResponse con el tipo de contenido "application/pdf"
     response = HttpResponse(content_type='application/pdf')
     # Indicamos que el archivo se descargará como "reporte.pdf"
@@ -565,33 +549,6 @@ def report_tickets(request):
     # Devolvemos la respuesta HTTP con el contenido del PDF
     return response
 
-def report_all_tickets_xls2(request):
-    # Creamos un objeto HttpResponse con el tipo de contenido "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    # Indicamos que el archivo se descargará como "reporte.xlsx"
-    response['Content-Disposition'] = 'attachment; filename="reporte.xlsx"'
-
-    # Creamos el libro de trabajo (workbook) de Excel
-    workbook = Workbook()
-    # Seleccionamos la hoja activa
-    hoja = workbook.active
-
-    # Agregamos datos al reporte
-    hoja['A1'] = "Nombre"
-    hoja['B1'] = "Edad"
-
-    hoja['A2'] = "Juan"
-    hoja['B2'] = 25
-
-    hoja['A3'] = "María"
-    hoja['B3'] = 30
-
-    # Guardamos el libro de trabajo
-    workbook.save(response)
-
-    # Devolvemos la respuesta HTTP con el contenido del archivo Excel
-    return response
-
 def report_all_tickets_xls(request):
    # Creamos un objeto HttpResponse con el tipo de contenido "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
@@ -605,29 +562,41 @@ def report_all_tickets_xls(request):
 
     # Obtenemos todas las áreas y los tickets relacionados
     #areas = Area.objects.all()
-    tickets = Ticket.objects.select_related('area','asunto').values_list(
-        'id',
-        'area__descripcion',
-        'fecha_solicitud',
-        'hora_solicitud',
-        'fecha_cierre',
-        'hora_cierre',
-        'asunto__desc',
-        ).order_by('-id')
+    tickets = Ticket.objects.select_related('area','asunto', 'registro').values_list(
+        'id', #1
+        'area__descripcion', #2
+        'fecha_solicitud', #3
+        'hora_solicitud', #4
+        'fecha_cierre', #5
+        'hora_cierre', #6
+        'asunto__desc', #7
+        'asunto__tipo', #8
+        'solicitante_id__username', #9
+        'descripcion', #10
+        'completado', #11
+        # 'registro', #12
+        # 'registro__estado__desc', #13
+        ).order_by('id')
 
     #tickets = Ticket.objects.all()
     #areas = Area.objects.select_related('ticket').values_list('area__siglas','id')
 
     # Agregamos los encabezados al reporte
-    hoja['A1'] = "ticket"
-    hoja['B1'] = "area"
-    hoja['C1'] = 'fecha_solicitud'
-    hoja['D1'] = 'hora_solictud'
-    hoja['E1'] = 'fecha_cierre'
-    hoja['F1'] = 'hora_cierre'
-    hoja['G1'] = 'asunto'    
-    # Agrega más encabezados según las columnas que desees mostrar
+    hoja['A1'] = "ticket" #1
+    hoja['B1'] = "area" #2
+    hoja['C1'] = 'fecha_solicitud' #3
+    hoja['D1'] = 'hora_solictud' #4
+    hoja['E1'] = 'fecha_cierre' #5
+    hoja['F1'] = 'hora_cierre' #6
+    hoja['G1'] = 'asunto_desc' #7   
+    hoja['H1'] = 'asunto_tipo' #8
+    hoja['I1'] = 'solicitante_id' #9
+    hoja['J1'] = 'descripcion_ticket' #10
+    hoja['K1'] = 'completado' #11
+    # hoja['L1'] = 'registro_id' #12
+    # hoja['M1'] = 'registro_id_estado' #13
 
+    # Agregamos los datos al reporte
     fila = 2
     for t in tickets:
         hoja.cell(row=fila, column=1).value = t[0]
@@ -637,17 +606,13 @@ def report_all_tickets_xls(request):
         hoja.cell(row=fila, column=5).value = t[4]
         hoja.cell(row=fila, column=6).value = t[5]
         hoja.cell(row=fila, column=7).value = t[6]
+        hoja.cell(row=fila, column=8).value = t[7]
+        hoja.cell(row=fila, column=9).value = t[8]
+        hoja.cell(row=fila, column=10).value = t[9]
+        hoja.cell(row=fila, column=11).value = t[10]
+        # hoja.cell(row=fila, column=12).value = t[11]
+        # hoja.cell(row=fila, column=13).value = t[12]
         fila += 1
-
-    # Agregamos los datos al reporte
-    # fila = 2
-    # for area in areas:
-    #     ticket = tickets.filter(area=area).first()
-    #     print(area.cod_area)
-    #     hoja.cell(row=fila, column=1).value = area.cod_area
-    #     hoja.cell(row=fila, column=2).value = ticket.id if ticket else ""
-    #     # Agrega más columnas según los datos que desees mostrar
-    #     fila += 1
 
     # Guardamos el libro de trabajo
     workbook.save(response)

@@ -31,7 +31,6 @@ urlpatterns = [
     #path('users/import', views.users_import, name='import_users')
 
     #REPORT
-    path('test', views.report_ticket_area, name = 'test'),
-    path('report/tickets/pdf', views.report_tickets, name = 'report_tickets'),
+    # path('report/tickets/pdf', views.report_all_tickets_pdf, name = 'report_tickets_pdf'),
     path('report/tickets/xls', views.report_all_tickets_xls, name = 'report_tickets_xls')
     ]
