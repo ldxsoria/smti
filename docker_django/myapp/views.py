@@ -435,7 +435,17 @@ def completed_ticket(request, ticket_id):
     return redirect('tickets')
 
 def report_tickets_view(request):
-    return render(request, 'tickets/report_tickets.html')
+    count_tickets = Ticket.objects.count()
+    count_tickets_completed = Ticket.objects.filter(completado=True).count()
+    count_tickets_uncompleted = Ticket.objects.filter(completado=False).count()
+
+    return render(request, 'tickets/report_tickets.html',
+                  {
+                      'count_tickets' : count_tickets,
+                      'count_tickets_completed' : count_tickets_completed,
+                      'count_tickets_uncompleted' : count_tickets_uncompleted,
+                  }
+                  )
 
 #EXPORT VIEWS##########################################################################################
 
