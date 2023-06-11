@@ -19,14 +19,6 @@
     <div class="row">
         <div class="d-flex justify-content-start mt-3">
             <h1 class="display-4">Ticket #{{ticket.id}}</h1>
-            <!-- {% if user.is_staff %}
-            <form action="{% url 'completed_ticket' ticket.id %}">
-                {% csrf_token %}
-                <button class="btn btn-success">
-                    Atendido
-                </button>
-            </form>
-            {% endif %} -->
         </div>
         <div class="mt-3">
 
@@ -34,6 +26,7 @@
         <div class="alert alert-primary alert-dismissible fade show text-center" role="alert">
             <p><strong>Asunto: </strong>{{ticket.asunto}}</p>
             <p><strong>Descripci&oacute;n: </strong>{{ticket.descripcion}}</p>
+            <p><strong>Area: </strong>{{ticket.area}}</p>
         </div>
     </div>
     <div class="row">

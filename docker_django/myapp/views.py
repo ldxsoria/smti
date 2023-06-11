@@ -143,7 +143,7 @@ def completed_tickets(request):
 
 
 class SearchCreatedTickets(ListView):
-    paginate_by = 25
+    paginate_by = 15
     model = Ticket
     template_name = 'tickets/search_result_tickets.html'
 
@@ -421,19 +421,6 @@ def delete_ticket_to_area(request, ticket_id, cod_area):
     
             return redirect('progress_ticket', ticket_id)
 
-@login_required
-def completed_ticket(request, ticket_id):
-    ticket = Ticket.objects.get(id=ticket_id)
-    ticket.completado = True
-    new_registro = Registro(responsable=request.user, estado=EstadosTicket(estado=6))#6 - RESUELTO
-    #ticket.fecha_cierre = Timezon
-    #ticket.hora_cierre =
-    new_registro.save()
-    ticket.registro.add(new_registro)
-    ticket.save()
-   
-    return redirect('tickets')
-
 def report_tickets_view(request):
 
     count_tickets = Ticket.objects.count()
@@ -570,6 +557,7 @@ def auto_import(request, model):
             
 #-----------------------------------
 #REPORTES     ##########################################################################################
+@login_required
 def report_all_tickets_pdf(request):
     # Creamos un objeto HttpResponse con el tipo de contenido "application/pdf"
     response = HttpResponse(content_type='application/pdf')
@@ -589,6 +577,7 @@ def report_all_tickets_pdf(request):
     # Devolvemos la respuesta HTTP con el contenido del PDF
     return response
 
+@login_required
 def report_all_tickets_xls(request):
    # Creamos un objeto HttpResponse con el tipo de contenido "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
