@@ -16,167 +16,110 @@
 </head>
 
 <main class="container">
-    <div class="row">
-        <div class="d-flex justify-content-start mt-3">
-            <h1 class="display-4">Ticket #{{ticket.id}}</h1>
-        </div>
-        <div class="mt-3">
+    <div class="row mt-3">
+        <div class="col-md-4">{# COL 1 #}
+            <div class="d-flex flex-column">
+                <div class="A1">{# CARD A1 #}
+                    <div class="card text-white bg-dark mb-3"> 
+                        <div class="row g-0">
+                          <div class="col">
+                            <div class="card-body">
+                              <h1 class="card-title display-4">Ticket #{{ticket.id}}</h1>
+                              <p class="card-text"><strong>Asunto: </strong>{{ticket.asunto}}</p>
+                              <p class="card-text"><strong>Descripci&oacute;n: </strong>{{ticket.descripcion}}</p>
+                              <!-- <p class="card-text"><strong>Lugar: </strong>
+                                {% for data in areas %}
+                                    {% for x in data.ticket.all%}
+                                        {% if x.id == ticket.id %}
+                                            {{data}}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endfor %}
+                              </p> -->
+                              <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>{# CARD A1 #}                
 
-        </div>
-        <div class="alert alert-primary alert-dismissible fade show text-center" role="alert">
-            <p><strong>Asunto: </strong>{{ticket.asunto}}</p>
-            <p><strong>Descripci&oacute;n: </strong>{{ticket.descripcion}}</p>
-        </div>
-    </div>
-    <div class="row">
-        {# BLOKE 1 TOP#}
-        <!-- {% if user.is_staff %}
-        <div class="col-md-4 ">
-            <div class="card card-body">
-                <h1 class="display-6"> Info ticket</h1>
-                <form method="post">
-                    {% csrf_token %}
-                    {{form.as_p}}
-                    <div class="d-flex justify-content-center">
-                        <button class="btn btn-danger">
-                            Modificar
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div> -->
-        {# BLOKE 1 TOP END#}
-        <div class="col-md-4">
-            <div class="col-md card card-body">
-                <form method="post" action="{% url 'add_registro_ticket' ticket.id %}">
-                    <h1 class="display-6"> Actualizar estado </h1>
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <select   name='estado' class="form-select" aria-label="Default select example">
-                            <option selected disabled>----------</option>
-                            {% for opcion in estados%}
-                            <option value={{opcion.estado}} id={{opcion.estado}}>{{opcion.desc}}</option>
-                            {% endfor %}
-                          </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="comentario">Comentario</label>
-                        <input type="text" name="comentario" class="form-control" placeholder="Ingresa un comentario" id="comentario">
-                    </div>
-                    <div class="d-flex justify-content-center">
-                        <button class="btn btn-primary ">
-                            Registrar
-                        </button>
-                    </div>
-                </form>
-            </div>
+                <div class="A2">{# CARD A2 #}
+                    <div class="card card-body text-white bg-dark">
+                        <div>{# CARD A2-1 #}
+                            <p class="card-text"><strong>Lugar: </strong>
+                            <table class="table table-dark table-striped">
+                                <thead>
+                                  <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    {% for area in area_actual%}
+                                  <tr>
+                                    <form action="{% url 'delete_ticket_to_area' ticket.id area.cod_area %}" method="post">
+                                    {% csrf_token %}
+                                    <th scope="row" >{{area}}</th>
+                                    <th class="text-end"><button class="material-icons btn btn-outline-danger" >delete</button></th>
+                                  </tr>
+                                </form>
+                                  {% endfor %}
+                                </tbody>
+                              </table>
 
-            <div class="col-md card card-body mt-3">
-                <form method="post" action="{% url 'add_ticket_to_area' ticket.id %}">
-                    <h1 class="display-6">Areas</h1>
-                    <div class="mb-3">
-                        <select id="selectArea" name='area' class="form-select" aria-label="Default select example">
-                            <option selected disabled="true">----------</option>
-                            {% for area in areas %}
-                            <option value={{area.cod_area}} id='{{area.cod_area}}'>{{area.descripcion}}</option>
-                            {% endfor %}
-                          </select>
-                    </div>
-                    {% csrf_token %}
-                    <div class="d-flex justify-content-center">
-                        <button class="btn btn-success">
-                            Asignar
-                        </button>
-                    </div>
-                </form>
-                    <div>
-                        <table class="table table-striped">
-                            <thead>
-                              <tr>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                                {% for area in area_actual%}
-                              <tr>
-                            <form action="{% url 'delete_ticket_to_area' ticket.id area.cod_area %}" method="post">
+                              <form method="post" action="{% url 'add_ticket_to_area' ticket.id %}">
+                                <div class="d-flex justify-content-between" style="padding: .5rem .5rem;">
+                                    <div class="col mx-3">
+                                        <!-- <p >Agregar/Cambiar lugar</h1> -->
+                                        <select id="selectArea" name='area' class="form-select" aria-label="Default select example">
+                                            <option selected disabled="true">----------</option>
+                                            {% for area in areas %}
+                                            <option value={{area.cod_area}} id='{{area.cod_area}}'>{{area.descripcion}}</option>
+                                            {% endfor %}
+                                        </select>                                            
+                                    </div>
+                                    <div>
+                                        <button class="material-icons btn btn-outline-success" >add_circle</button>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+
+                                </div>
                                 {% csrf_token %}
-                                <th scope="row" >{{area}}</th>
-                                <td>
-                                    <button class="btn btn-danger" >Eliminar</button>
-                                </td>
-                              </tr>
                             </form>
-                              {% endfor %}
-                            </tbody>
-                          </table>
+
+                        </div>{# CARD A2-1 #}
                     </div>
+                </div>{# CARD A2 #}
             </div>
-        </div>
-        <div class="col-md-8">
-            <div class="card card-body">
-                <form method="POST">
-                    {% csrf_token %}
-                    <h1 class="display-6">Reporte</h1>
-                    <div class="mb-3">
-                        <label for="descripcion">Contexto</label>
-                        <textarea rows="4" type="text" name="contexto" class="form-control" placeholder="Describe la situación...">{{ reporte.contexto }}</textarea>
+        </div>{# COL 1 #}
+        <div class="col-8" style="background-color: coral;">{# COL 2 #}
+            <div class="card card-body">{# CARD B1-B2 #}
+                <div class="d-flex justify-content-between">
+                    <div><h1 class="display-6">Reporte</h1></div>
+                    <div class="d-flex flex-row">
+                        <div><button class="material-icons btn btn-outline-success" >save</button></div>
+                        <div><button class="material-icons btn btn-outline-primary disabled" >mail</button></div>
+                        <div><button class="material-icons btn btn-outline-dark disabled" >print</button></div>
                     </div>
-                    <div class="mb-3">
-                        <label for="descripcion">Diagnostico</label>
-                        <textarea rows="4" type="text" name="diagnostico" class="form-control" placeholder="¿Que paso?">{{ reporte.diagnostico }}</textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="descripcion">Recomendacion</label>
-                        <textarea rows="4" type="text" name="recomendacion" class="form-control" placeholder="¿Que se deberia de hacer?">{{ reporte.recomendacion }}</textarea>
-                    </div>                                        
-                    <button class="btn btn-primary mt-3 disabled">
-                        Guardar
-                    </button>                    
-                </form>
-            </div>
-        </div>
-        {% endif %}
-        <div class="col-md mb-3">
-            <h1 class="display-3"> Historial </h1>
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        {% if user.is_staff %}
-                        <th scope="col">ID HISTORIAL</th>
-                        {% endif %}
-                        <th scope="col">ESTADO</th>
-                        <th scope="col">FECHA</th>
-                        <th scope="col">HORA</th>
-                        <th scope="col">RESPONSABLE</th>
-                        {% if user.is_staff %}
-                        <th scope="col">COMENTARIO</th>
-                        <th scope="col"></th>
-                        {% endif %}
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for registro in registros %}
-                    <tr>
-                        {% if user.is_staff %}
-                        <th scope="row"># {{registro.id}}</th>
-                        {% endif %}
-                        <td>{{registro.estado.desc}}</td>
-                        <td>{{registro.fecha_estado}}</td>
-                        <td>{{registro.hora_estado}}</td>
-                        <td>{{registro.responsable}}</td>
-                        {% if user.is_staff %}
-                        <td>{{registro.comment_estado}}</td>
-                        <td><a class="btn btn-danger" href="">Eliminar</a></td>
-                        {% endif %}
-                    </tr>
-                    {% endfor%}
-                    </tbody>
-                </table>
-            </div>
-    </div>
+                </div>
+                <hr>
+                <div>
+                    <label for="descripcion">Contexto</label>
+                    <textarea rows="4" type="text" name="contexto" class="form-control" placeholder="Describe la situación...">{{ reporte.contexto }}</textarea>
+                </div>
+                <div>
+                    <label for="descripcion">Diagnostico</label>
+                    <textarea rows="4" type="text" name="diagnostico" class="form-control" placeholder="¿Que paso?">{{ reporte.diagnostico }}</textarea>
+                </div>
+                <div>
+                    <label for="descripcion">Recomendacion</label>
+                    <textarea rows="4" type="text" name="recomendacion" class="form-control" placeholder="¿Que se deberia de hacer?">{{ reporte.recomendacion }}</textarea>
+                </div>                 
+
+            </div>{# CARD B1-B2 #}
+        </div>{# COL 2 #}
+    </div>  
 </main>
 
 {% endblock %}

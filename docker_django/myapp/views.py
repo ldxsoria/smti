@@ -118,7 +118,7 @@ def tickets(request):
         return render(request, 'tickets/tickets.html', {
             'tickets': tickets,
             'areas':areas,
-            'title': 'Mis tickets pendientes'
+            'title': 'Mis tickets pendientes',
         })
 
 @login_required
@@ -143,7 +143,7 @@ def completed_tickets(request):
 
 
 class SearchCreatedTickets(ListView):
-    paginate_by = 15
+    paginate_by = 10
     model = Ticket
     template_name = 'tickets/search_result_tickets.html'
 
@@ -169,7 +169,7 @@ class SearchCreatedTickets(ListView):
         return context
     
 class SearchCompletedTickets(ListView):
-    paginate_by = 25
+    paginate_by = 10
     model = Ticket
     template_name = 'tickets/search_result_tickets.html'
 
