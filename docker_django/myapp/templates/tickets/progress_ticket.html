@@ -27,15 +27,6 @@
                               <h1 class="card-title display-4">Ticket #{{ticket.id}}</h1>
                               <p class="card-text"><strong>Asunto: </strong>{{ticket.asunto}}</p>
                               <p class="card-text"><strong>Descripci&oacute;n: </strong>{{ticket.descripcion}}</p>
-                              <!-- <p class="card-text"><strong>Lugar: </strong>
-                                {% for data in areas %}
-                                    {% for x in data.ticket.all%}
-                                        {% if x.id == ticket.id %}
-                                            {{data}}
-                                        {% endif %}
-                                    {% endfor %}
-                                {% endfor %}
-                              </p> -->
                               <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
                             </div>
                           </div>
@@ -44,8 +35,8 @@
                 </div>{# CARD A1 #}                
 
                 <div class="A2">{# CARD A2 #}
-                    <div class="card card-body text-white bg-dark">
-                        <div>{# CARD A2-1 #}
+                    <div class="card text-white bg-dark">
+                        <div class=" card-body">{# CARD A2-1 #}
                             <p class="card-text"><strong>Lugar: </strong>
                             <table class="table table-dark table-striped">
                                 <thead>
@@ -82,9 +73,6 @@
                                         <button class="material-icons btn btn-outline-success" >add_circle</button>
                                     </div>
                                 </div>
-                                <div class="mb-3">
-
-                                </div>
                                 {% csrf_token %}
                             </form>
 
@@ -93,12 +81,12 @@
                 </div>{# CARD A2 #}
             </div>
         </div>{# COL 1 #}
-        <div class="col-8" style="background-color: coral;">{# COL 2 #}
-            <div class="card card-body">{# CARD B1-B2 #}
+        <div class="col-8">{# COL 2 #}
+            <div class="card card-body ">{# CARD B1-B2 #}
                 <div class="d-flex justify-content-between">
                     <div><h1 class="display-6">Reporte</h1></div>
                     <div class="d-flex flex-row">
-                        <div><button class="material-icons btn btn-outline-success" >save</button></div>
+                        <div><button class="material-icons btn btn-outline-success disabled" >save</button></div>
                         <div><button class="material-icons btn btn-outline-primary disabled" >mail</button></div>
                         <div><button class="material-icons btn btn-outline-dark disabled" >print</button></div>
                     </div>
@@ -119,7 +107,96 @@
 
             </div>{# CARD B1-B2 #}
         </div>{# COL 2 #}
-    </div>  
+    </div>
+
+    <div class="row mb-3">
+        <h1 class="display-6 text-center mt-3"> Historial </h1>
+        <hr>
+
+        <div class="col-12 mb-3">
+            <form method="post" action="{% url 'add_registro_ticket' ticket.id %}">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            {% csrf_token %}
+                            <div>Agregar nuevo historico</div>
+                            <div>
+                                <label for="comentario">Asunto</label>
+                                <select   name='estado' class="form-select" aria-label="Default select example">
+                                    <option selected disabled>----------</option>
+                                    {% for opcion in estados%}
+                                    <option value={{opcion.estado}} id={{opcion.estado}}>{{opcion.desc}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div>
+                                <label for="comentario">Comentario</label>
+                                <input type="text" name="comentario" class="form-control" placeholder="Ingresa un comentario" id="comentario">
+                            </div>
+                            <div><button class="material-icons btn btn-outline-primary" >add_circle</button></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-12">{# COL2-A #}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        {% if user.is_staff %}
+                        <th scope="col">Id</th>
+                        {% endif %}
+                        <th scope="col">Estado</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Hora</th>
+                        <th scope="col">Responsable</th>
+                        {% if user.is_staff %}
+                        <th scope="col">Comentario</th>
+                        <th scope="col"></th>
+                        {% endif %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for registro in registros %}
+                    <tr>
+                        {% if user.is_staff %}
+                        <th scope="row"># {{registro.id}}</th>
+                        {% endif %}
+                        <td>{{registro.estado.desc}}</td>
+                        <td>{{registro.fecha_estado}}</td>
+                        <td>{{registro.hora_estado}}</td>
+                        <td>{{registro.responsable}}</td>
+                        {% if user.is_staff %}
+                        <td>{{registro.comment_estado}}</td>
+                        <td><button class="material-icons btn btn-danger" >delete</button></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor%}
+                    </tbody>
+                </table>
+            </div>
+        </div>{# COL2-A#}
+    </div>
 </main>
 
 {% endblock %}
+
+<!-- <form method="post" action="{% url 'add_ticket_to_area' ticket.id %}">
+    <div class="d-flex justify-content-between" style="padding: .5rem .5rem;">
+        <div class="col mx-3">
+            <p >Agregar/Cambiar lugar</h1>
+            <select id="selectArea" name='area' class="form-select" aria-label="Default select example">
+                <option selected disabled="true">----------</option>
+                {% for area in areas %}
+                <option value={{area.cod_area}} id='{{area.cod_area}}'>{{area.descripcion}}</option>
+                {% endfor %}
+            </select>                                            
+        </div>
+        <div>
+            <button class="material-icons btn btn-outline-success" >add_circle</button>
+        </div>
+    </div>
+    {% csrf_token %}
+</form> -->
