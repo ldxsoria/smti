@@ -20,6 +20,7 @@ urlpatterns = [
     #### BOTONES TICKETS (NO SON URL'S)
     path('ticket/<int:ticket_id>/<str:cod_area>/del', views.delete_ticket_to_area, name = 'delete_ticket_to_area'),
     path('ticket/<int:ticket_id>/registro/<int:registro_id>/del', views.delete_registro_to_ticket, name='delete_registro_to_ticket'),
+    path('ticket/<int:ticket_id>/report/add' ,views.add_reporte_ticket, name = 'add_reporte_ticket'),
 
     path('tickets/dashboard', views.dashboard_tickets, name = 'dashboard_tickets'),
     #path('tickets/completed', views.completed_tickets, name = 'completed_tickets'),

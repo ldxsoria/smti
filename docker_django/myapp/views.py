@@ -306,8 +306,6 @@ def progress_ticket(request, ticket_id):
             print(area_actual)
 
             reporte_existe = Reporte.objects.filter(ticket=ticket_id).exists()
-            print(reporte_existe)
-            #if reporte_existe == True: reporte_actual = Reporte.objects.filter(ticket=ticket_id)
             reporte_actual = Reporte.objects.filter(ticket=ticket_id).values()[0] if reporte_existe == True else None
 
             return render(request, 'tickets/progress_ticket.html',{
@@ -319,7 +317,7 @@ def progress_ticket(request, ticket_id):
                 'areas': areas,
                 'area_actual':area_actual,
                 #'formReporte': formReporte,
-                'reporte': reporte_actual
+                'reporte': reporte_actual,
             })
         else:
             try:
@@ -394,6 +392,39 @@ def add_ticket_to_area(request, ticket_id):
             area.save()
     
             return redirect('progress_ticket', ticket_id)
+        
+@login_required
+def add_reporte_ticket(request, ticket_id):
+    if request.user.is_staff:
+        if request.method == 'POST':
+            #CREANDO UN REPORTE
+            ticket = get_object_or_404(Ticket, pk=ticket_id)
+            reporte = Reporte.objects.filter(ticket_id=ticket_id).exists()
+            if reporte == False:
+                new_reporte = Reporte (
+                    contexto = request.POST['contexto'],
+                    diagnostico = request.POST['diagnostico'],
+                    recomendacion = request.POST['recomendacion'],
+                    #ticket = Ticket.objects.filter(id=ticket_id),
+                    ticket = ticket,
+                    created_by = request.user,
+                )
+                new_reporte.save()
+            else:
+                #ACTUALIZO EL REPORTE
+                update_reporte = get_object_or_404(Reporte, ticket_id=ticket_id)
+                contexto = request.POST['contexto']
+                diagnostico = request.POST['diagnostico']
+                recomendacion = request.POST['recomendacion']
+
+                # Actualiza los campos del objeto Reporte
+                update_reporte.contexto = contexto
+                update_reporte.diagnostico = diagnostico
+                update_reporte.recomendacion = recomendacion
+                update_reporte.save()
+                return redirect('progress_ticket', ticket_id)
+            
+        return redirect('progress_ticket', ticket_id)
         
 @login_required
 def deactivate_ticket(request, ticket_id):

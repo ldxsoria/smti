@@ -46,7 +46,7 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                    {% for area in area_actual%}
+                                    {% for area in area_actual %}
                                   <tr>
                                     <form action="{% url 'delete_ticket_to_area' ticket.id area.cod_area %}" method="post">
                                     {% csrf_token %}
@@ -83,10 +83,20 @@
         </div>{# COL 1 #}
         <div class="col-8">{# COL 2 #}
             <div class="card card-body ">{# CARD B1-B2 #}
+                <form method="post" action="{% url 'add_reporte_ticket' ticket.id %}">
+                {% csrf_token %}
                 <div class="d-flex justify-content-between">
-                    <div><h1 class="display-6">Reporte</h1></div>
+                    <div><h1 class="display-6">
+                        {% if reporte %}
+                        Reporte # {{reporte.id}}
+                        {% else %}
+                        Crear un reporte
+                        {% endif %}
+                    </h1></div>
                     <div class="d-flex flex-row">
-                        <div><button class="material-icons btn btn-outline-success disabled" >save</button></div>
+                        {% if user.is_superuser%}
+                        <div><button class="material-icons btn btn-outline-success" >save</button></div>
+                        {% endif %}
                         <div><button class="material-icons btn btn-outline-primary disabled" >mail</button></div>
                         <div><button class="material-icons btn btn-outline-dark disabled" >print</button></div>
                     </div>
@@ -104,7 +114,7 @@
                     <label for="descripcion">Recomendacion</label>
                     <textarea rows="4" type="text" name="recomendacion" class="form-control" placeholder="¿Que se deberia de hacer?">{{ reporte.recomendacion }}</textarea>
                 </div>                 
-
+            </form>
             </div>{# CARD B1-B2 #}
         </div>{# COL 2 #}
     </div>
@@ -112,7 +122,7 @@
     <div class="row mb-3">
         <h1 class="display-6 text-center mt-3"> Historial </h1>
         <hr>
-
+        {% if user.is_superuser%}
         <div class="col-12 mb-3">
             <form method="post" action="{% url 'add_registro_ticket' ticket.id %}">
                 <div class="card text-white bg-dark">
@@ -139,7 +149,7 @@
                 </div>
             </form>
         </div>
-
+        {% endif %}
         <div class="col-12">{# COL2-A #}
             <div class="table-responsive">
                 <table class="table">
