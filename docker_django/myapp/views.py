@@ -437,7 +437,7 @@ def delete_ticket_to_area(request, ticket_id, cod_area):
     
             return redirect('progress_ticket', ticket_id)
 
-def report_tickets_view(request):
+def dashboard_tickets(request):
 
     count_tickets = Ticket.objects.count()
     count_tickets_completed = Ticket.objects.filter(completado=True).count()
@@ -474,7 +474,7 @@ def report_tickets_view(request):
 
     }
 
-    return render(request, 'tickets/report_tickets.html',content)
+    return render(request, 'tickets/dashboard_tickets.html',content)
 
 #EXPORT VIEWS##########################################################################################
 

@@ -21,7 +21,7 @@ urlpatterns = [
     path('ticket/<int:ticket_id>/<str:cod_area>/del', views.delete_ticket_to_area, name = 'delete_ticket_to_area'),
     path('ticket/<int:ticket_id>/registro/<int:registro_id>/del', views.delete_registro_to_ticket, name='delete_registro_to_ticket'),
 
-    path('tickets/report', views.report_tickets_view, name = 'report_tickets'),
+    path('tickets/dashboard', views.dashboard_tickets, name = 'dashboard_tickets'),
     #path('tickets/completed', views.completed_tickets, name = 'completed_tickets'),
 
     #URL TESTING
