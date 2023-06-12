@@ -8,6 +8,9 @@ from .models import Area, Incidencia, Laboratorio
 from django.contrib.auth import login, logout, authenticate #para crear cookie de inicio de sesion
 from django.contrib.auth.decorators import login_required #MAIN
 
+#ENVIAR MENSAJES DE UNA VISTA A OTRA
+from django.contrib import messages
+
 @login_required      
 def registrar_incidencia(request):
     if request.method == 'GET':
@@ -35,5 +38,6 @@ def registrar_incidencia(request):
                 'type' : 'success',
                 'alert' : '¡La incidencia fue registrado con exito!'
             }
-        return render(request, 'main.html',context)
+        return render(request, 'main.html', context)
+        # return redirect('/main')
 

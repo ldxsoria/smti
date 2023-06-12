@@ -2,44 +2,54 @@
 {% load static %}
 {% block content %}
 
-<main class="container py-5">
-    <section >
-
+<main class="container">
         <!--p class="text-center mb-5">El objetivo de la plataforma es apoyar el registro y atender oportunamente los requerimientos <br>del &aacute;rea de Sistemas.</p-->
         <div class="row">
             {% if type%}
             <div class="alert alert-{{type}} alert-dismissible fade show text-center" role="alert">
                 <strong>Aviso: </strong>{{alert}}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>
+            </div>
             {% endif %}
-            <h1 class="display-1 text-center mb-5 ">Mis accesos directos</h1>
-            <div class="d-flex d-flex justify-content-around">
-                <div class="col-md-4">
-                    <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="{% static 'images/ticket_bg.webp' %}" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title"><strong>Genera un ticket de atenci&oacute;n</strong></h5>
-                            <p class="card-text">Un ticket es utilizado para registrar una solicitud de ayuda ante inconvenientes que esté presentando el usuario con el servicio.</p>
-                            <a href="{% url 'create_ticket' %}" class="btn btn-primary">Crear</a>
-                        </div>
-                      </div>
-                </div>
-                <!-- {%if user.is_staff %}
-                <div class="col-md-4">
-                    <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="{% static 'images/inventario_bg.png' %}" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title"><strong>Registra un nuevo activo</strong></h5>
-                            <p class="card-text">Registrar un activo es primordial para automatizar reportes y tener un registro total del patrimonio de la instituci&oacute;n.</p>
-                            <a href="{% url 'new_activo' %}" class="btn btn-primary">Agregar +</a>
-                        </div>
-                      </div>
-                </div>
-                {% endif %} -->
+            <div class="col">
+                <h1 class="display-1 text-center mb-5 ">Mis accesos directos</h1>
+
             </div>
         </div>
 
-    </section>    
+        <div class="row d-flex justify-content-around align-items-stretch"> {# FILA 2 #}
+            
+            <div class="col">
+                <div class="d-flex d-flex justify-content-around">
+                    <div class="col-md-4">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="{% static 'images/ticket_bg.webp' %}" alt="Card image cap" style="height: 20vh;">
+                            <div class="card-body" style="height: 30vh;">
+                                <h5 class="card-title"><strong>Genera un ticket de atenci&oacute;n</strong></h5>
+                                <p class="card-text">Un ticket es utilizado para registrar una solicitud de ayuda ante inconvenientes que esté presentando el usuario con el servicio.</p>
+                                <a href="{% url 'create_ticket' %}" class="btn btn-primary">Crear</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="d-flex d-flex justify-content-around ">
+                    <div class="col-md-4">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="{% static 'images/lab_wallpaper.jpg' %}" alt="Card image cap" style="height: 20vh;">
+                            <div class="card-body" style="height: 30vh;">
+                                <h5 class="card-title"><strong>Reportar una incidencia (Laboratorios) </strong></h5>
+                                <p class="card-text">Reportar las incidencias ayudan a resolver las inconvenientes oportunamente.</p>
+                                <a href="{% url 'registrar_incidencia' %}" class="btn btn-primary">Reportar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>{# FILA 2 #}
+
 </main>
 {% endblock %}

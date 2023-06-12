@@ -42,6 +42,9 @@ from reportlab.pdfgen import canvas
 from datetime import datetime #PARA LA HORA
 from openpyxl import Workbook
 
+#ENVIAR MENSAJES DE UNA VISTA A OTRA
+from django.contrib import messages
+
 #TELEGRAM
 # import requests as telegram
 
