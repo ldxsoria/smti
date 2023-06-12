@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% if msg%}
+<div class="alert alert-{{type}} alert-dismissible fade show text-center" role="alert">
+    <strong>Aviso: </strong>{{msg}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+<main class="container pt-3">
+    <div class="card col-sm-8 col-md-4 offset-sm-2 offset-md-4">
+        <form method="POST">
+        {% csrf_token %}
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h1 class="display-4 text-center">Registrar incidencia</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <label for="actividad">*Actividad:</label>
+                        <select id="id_actividad"  name='actividad' class="form-select" aria-label="Default select example">
+                            <option selected disabled>----------</option>
+                            <!-- <option value={{opcion.id}} id={{opcion.id}}>{{opcion.desc}}</option> -->
+                            <option value="clase">clase</option>
+                            <option value="taller">taller</option>
+                            <option value="capacitacion">capacitacion</option>
+                            <option value="otro">otro</option>
+                        </select>
+                        <p class="text-secondary">Si no encuentras el actividad realizada en el laborario al momento del incidente en la lista, seleciona <strong>Otro</strong>.</p>
+                    </div>
+                    <div class="col-12">
+                        <label for="comentario">Comentario</label>
+                        <textarea rows="4" type="text" name="comentario" class="form-control" placeholder="Que paso?"></textarea>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <label for="laborario">*Laboratorio:</label>
+                        <select id="dselect-example2"  name='laboratorio' class="form-select" aria-label="Default select example">
+                            <option selected disabled>----------</option>
+                            {% for lab in laboratorios %}
+                            <option value={{lab.id}} id={{lab.id}}>{{lab.desc}}</option>
+                            {% endfor %}
+                        </select>                                        
+                    </div>
+                    <div class="col-12 flex-column d-flex">
+                        <button class="btn btn-primary mt-3">Registrar</button>                      
+                    </div>
+                </div>          
+            </div>
+        </form>        
+    </div>
+</main>
+
+{% endblock %}
+    <!-- <ul>
+        {% for incidencia in incidencias %}
+          <li>x{{ incidencia.get_actividad_display }}</li>
+        {% endfor %}
+      </ul>  -->

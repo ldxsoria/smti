@@ -54,10 +54,15 @@
                   <li><a class="dropdown-item" href="{% url 'proveedores' %}">Ver proveedores</a></li>
                 </ul>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="">Redes</a>
-              </li>
               {% endif %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Laboratorio</a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="">Dashboard</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="{% url 'registrar_incidencia' %}">Reportar incidencia</a></li>
+                </ul>
+              </li>              
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Tickets</a>
                 <ul class="dropdown-menu">
