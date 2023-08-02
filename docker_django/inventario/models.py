@@ -2,7 +2,8 @@ from django.db import models #DJANGO DEFAULT
 from django.contrib.auth.models import User #COLABORADOR
 from myapp.models import Area
 
-# Create your models here.
+##############################################################################
+### INFORMACION DEL PROVEEDOR 
 
 
 #Proveedor
@@ -66,7 +67,8 @@ class TipoHistorial(models.Model):
 
 #Tipo activo
 class TipoActivo(models.Model):
-    desc = models.CharField(max_length=60)
+    nombre = models.CharField(max_length=60)
+
 
     def __str__(self):
         return self.desc
