@@ -9,7 +9,7 @@ class Proveedor(models.Model):
     telefono = models.BigIntegerField(max_length=9, blank=True, null=True)
 
     def __str__(self):
-        return self.razon
+        return self.razon_social
 
 
 #FACTURA
