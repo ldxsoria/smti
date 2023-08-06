@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 # PROVEEDOR
 class Proveedor(models.Model):
@@ -23,23 +24,34 @@ class Item(models.Model):
     precio_unitario = models.FloatField()
     precio_total = models.FloatField()
     ##JOIN
-    proveedor = models.ForeignKey(Proveedor, blank=True, null=True, on_delete=models.SET_NULL)
+
+    def save(self, *args, **kwargs):
+        self.precio_total = self.precio_unitario * self.total_unidades
+        super(Item, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f'{self.nombre} {self.num_unidad}/{self.total_unidades}'    
 
 class Factura(models.Model):
     proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
     serie = models.CharField(max_length=35)
+    correlativo = models.CharField(max_length=35, null=True)
     fecha_factura = models.DateField(auto_now=False, auto_now_add=False)
     importe_total = models.FloatField()
     ### JOIN
     # UNA FACTURA TIENE MUCHOS ITEMS
-    item = models.ManyToManyField(Item)
+    item = models.ManyToManyField(Item, blank=True, null=True)
+    proveedor = models.ForeignKey(Proveedor, blank=True, null=True, on_delete=models.SET_NULL)
     
     def __str__(self) -> str:
-        return self.serie
+        return f'{self.serie}-{self.correlativo}'
 
 #ACTIVO - PUEDE SER INDEPENDIENTE DE UNA FACTURA
 class Categoria(models.Model):
     desc = models.CharField(max_length=60, unique=True)
+
+    def __str__(self):
+        return f'{self.desc}'    
 
 
 class Tipo(models.Model):
@@ -47,22 +59,73 @@ class Tipo(models.Model):
     ##JOIN
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'{self.desc}'    
+
 
 class Marca(models.Model):
     desc = models.CharField(max_length=60, unique=True)
+
+    def __str__(self):
+        return f'{self.desc}'    
 
 class Modelo(models.Model):
     desc = models.CharField(max_length=60)
     ##JOIN
     marca = models.ForeignKey(Marca, on_delete=models.CASCADE)    
 
+    def __str__(self):
+        return f'{self.desc}'
+
 
 class Activo(models.Model):
+    codigo = models.CharField(max_length=8, unique=True, blank=True)
+
     s_n = models.CharField(max_length=70, blank=True, null=True)
     ##JOIN
     tipo = models.ForeignKey(Tipo, null=True, on_delete=models.SET_NULL)
     modelo = models.ForeignKey(Modelo, null=True, on_delete=models.SET_NULL)
     item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL)
+
+    # def save(self, *args, **kwargs):
+    #     if not self.pk:
+    #         current_year = timezone.now().year
+    #         # total_activos = Activo.objects.count()
+    #         # new_code = ((current_year - 2000) * 1000000) + total_activos + 1
+    #         total_activos_year = Activo.objects.filter(codigo__startswith=str(current_year - 2000)).count()
+    #         new_code = ((current_year - 2000) * 1000000) + total_activos_year + 1
+            
+    #         self.codigo = str(new_code).zfill(8)
+
+    #         existe = Activo.objects.filter(codigo=self.codigo).exists()
+
+    #         if existe == False:
+    #             super(Activo, self).save(*args, **kwargs)
+    #         else:
+    #             new_code += 1
+    #             self.codigo = str(new_code).zfill(8)
+    #             super(Activo, self).save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            current_year = timezone.now().year
+
+            # Filtrar los activos del año actual para encontrar el primer código disponible
+            # Esto evita posibles ciclos infinitos si todos los códigos están ocupados
+            first_available_code = 1
+            while True:
+                new_code = ((current_year - 2000) * 1000000) + first_available_code
+                self.codigo = str(new_code).zfill(8)
+
+                existe = Activo.objects.filter(codigo=self.codigo).exists()
+                if not existe:
+                    break
+
+                first_available_code += 1
+
+        super(Activo, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f'{self.id} - {self.codigo}'
 
 
     
