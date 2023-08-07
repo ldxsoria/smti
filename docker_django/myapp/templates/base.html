@@ -44,7 +44,7 @@
                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Inventario</a>
                 <ul class="dropdown-menu">
                   {% if user.is_staff %}
-                  <li><a class="dropdown-item" href="{# url 'new_activo' #}">Agregar un activo</a></li>
+                  <li><a class="dropdown-item" href="{% url 'new_factura' %}">Registrar</a></li>
                   {% else %}
                   <li><a class="dropdown-item" href="{# url 'inventario' #}">Ver activos asignados</a></li>
                   {% endif %}

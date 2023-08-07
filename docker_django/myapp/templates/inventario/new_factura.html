@@ -2,5 +2,75 @@
 
 {% block content %}
 
+<div class="container">
+    <div class="d-flex flex-column">
+        <div>
+            <h1 class="display-4"> Registrar Factura</h1>
+        </div>
+        <div>
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <h2 class="display-6">Proveedor</h2>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="ruc">RUC</span>
+                            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4">
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="mb-3">
+                            <div class="input-group">
+                                <span class="input-group-text" id="serie">Serie</span>
+                                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="input-group">
+                                <span class="input-group-text" id="correlativo">Correlativo</span>
+                                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h2 class="display-6">Detalle</h2>
+                        </div>
+                        <div>
+                            <button class="material-icons btn btn-outline-primary" >add_circle</button>
+                        </div>
+                    </div>
+                    <div>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                  <th scope="col">Cant.</th>
+                                  <th scope="col">Unidad</th>
+                                  <th scope="col">Desc.</th>
+                                  <th scope="col">Precio Unit.</th>
+                                  <th scope="col">Total</th>
+                                  <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>1</th>
+                                  <td>Mark</td>
+                                  <td>Otto</td>
+                                  <td>75</td>
+                                  <td>75</td>
+                                  <td>
+                                    <button class="material-icons btn btn-outline-danger" >delete</button></th>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-{% block end %}
+
+{% endblock %}
