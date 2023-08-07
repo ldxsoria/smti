@@ -15,7 +15,6 @@ class Proveedor(models.Model):
 
 #FACTURA
 class Item(models.Model):
-    nombre = models.CharField(max_length=60)
     desc = models.CharField(max_length=60)
     comentario = models.CharField(max_length=60)
     num_unidad = models.SmallIntegerField(max_length=9)

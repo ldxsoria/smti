@@ -36,8 +36,62 @@
                             <h2 class="display-6">Detalle</h2>
                         </div>
                         <div>
-                            <button class="material-icons btn btn-outline-primary" >add_circle</button>
+                            <button class="material-icons btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter" >add_circle</button>
                         </div>
+                    </div>
+                    <div class="container">
+                        {# FUNCION #}
+
+                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalCenterTitle">Agregar transaccion</h5>
+                                    <div>
+                                        <a href="" class=" btn btn-danger material-icons close">close</a>                            
+                                    </div>
+                                </div>
+            
+                                <div class="modal-body">
+                                {# FORMULARIO DETALLE FACTURA#}
+                                <form method="POST" class="card card-body">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        <label for="valor">Descripci&oacute;n</label>
+                                        <input type="text" class="form-control" name="valor" id="valor" placeholder="">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="valor">Cantidad</label>
+                                        <input type="text" class="form-control" name="valor" id="valor" placeholder="Cuantos?">
+                                    </div>   
+                                    <div class="mb-3">
+                                        <label for="valor">Comentario</label>
+                                        <input type="text" class="form-control" name="valor" id="valor" placeholder="">
+                                    </div>                                                                                                                                              
+                                    <div class="mb-3">
+                                        <label for="valor">Precio unitario</label>
+                                        <input type="text" class="form-control" name="valor" id="valor" placeholder="S/">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="tipo">*El precio incluye IGV?:</label>
+                                        <select id="dselect-example"  name='tipo' class="form-select" aria-label="Default select example">
+                                            <option selected disabled>----------</option>
+                                            <option value="SI" id="SI">Si</option>
+                                            <option value="NO" id="NO">No</option>
+                                          </select>
+                                    </div>
+                                    <button class="btn btn-primary mt-3">
+                                        Agregar
+                                    </button>
+                                </form>                    
+            
+                                {# FORMULARIO AGREGAR TRANSACCION #}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+            
+                        {# END BOTON POPUP #}
                     </div>
                     <div>
                         <table class="table table-striped">
@@ -63,8 +117,10 @@
                                   </td>
                                 </tr>
                               </tbody>
-                            
                         </table>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary mt-3">Guardar</button>
                     </div>
                 </div>
             </div>
