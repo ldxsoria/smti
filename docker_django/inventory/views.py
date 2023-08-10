@@ -38,3 +38,6 @@ def new_proveedor(request):
                     'form': ProveedorForm,
                     'error': 'Error'
                 })
+            
+def scanner_qr(request):
+    return render(request, 'inventario/scanner_qr.html')
