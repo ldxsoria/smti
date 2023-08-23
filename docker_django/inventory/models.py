@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from myapp.models import Area, User
 
 # PROVEEDOR
 class Proveedor(models.Model):
@@ -74,18 +75,24 @@ class Modelo(models.Model):
     marca = models.ForeignKey(Marca, on_delete=models.CASCADE)    
 
     def __str__(self):
-        return f'{self.desc}'
+        return f'{self.marca} - {self.desc}'
 
 
 class Activo(models.Model):
-    codigo = models.CharField(max_length=8, unique=True, blank=True)
+    cod = models.CharField(max_length=8, primary_key=True)
 
     s_n = models.CharField(max_length=70, blank=True, null=True)
     ##JOIN
     tipo = models.ForeignKey(Tipo, null=True, on_delete=models.SET_NULL)
     modelo = models.ForeignKey(Modelo, null=True, on_delete=models.SET_NULL)
     item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL)
-
+    codigo_antiguo = models.SmallIntegerField(max_length=15, blank=True, null=True)
+    area = models.ForeignKey(Area, blank=True, null=True, on_delete=models.SET_NULL)
+    responsable = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name="responsable_activos")
+    estado = models.SmallIntegerField(max_length=1, blank=True, null=True, default=1)
+    comentario = models.TextField(max_length=200, null=True, blank=True)
+    created_at = models.TimeField(auto_now_add=True, null=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="creador_activos")
     # def save(self, *args, **kwargs):
     #     if not self.pk:
     #         current_year = timezone.now().year
@@ -104,6 +111,9 @@ class Activo(models.Model):
     #             new_code += 1
     #             self.codigo = str(new_code).zfill(8)
     #             super(Activo, self).save(*args, **kwargs)
+
+    """
+    # METODO QUE BUSCA QUE CODIGO FALTA Y LO ASIGNA
     def save(self, *args, **kwargs):
         if not self.pk:
             current_year = timezone.now().year
@@ -122,9 +132,9 @@ class Activo(models.Model):
                 first_available_code += 1
 
         super(Activo, self).save(*args, **kwargs)
-
+    """
     def __str__(self):
-        return f'{self.id} - {self.codigo}'
+        return f'{self.cod} - {self.tipo}'
 
 
     

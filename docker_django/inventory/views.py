@@ -2,6 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 
+#MODELOS
+from myapp.models import Area
+from .models import Modelo, Tipo, Activo
+
 #PROJECTS ROUTES
 from django.contrib.auth.decorators import login_required #MAIN
 
@@ -16,8 +20,71 @@ from django.template.loader import get_template
 
 # Create your views here.
 
+@login_required
 def new_factura(request):
     return render(request, 'inventario/new_factura.html')
+
+@login_required
+def new_activo(request):
+    if request.method == 'GET':
+        areas = Area.objects.all()
+        responsables = User.objects.all()
+        modelos = Modelo.objects.all()
+        tipos = Tipo.objects.all()
+
+        context = {
+            'areas': areas,
+            'responsables': responsables,
+            'modelos': modelos,
+            'tipos': tipos,
+        }
+        return render(request, 'inventario/new_activo.html', context)
+    else:
+        try:
+            #VERIFICO CAMPOS OBLIGATORIOS
+            if('cod' not in request.POST) or ('tipo' not in request.POST):
+                areas = Area.objects.all()
+                responsables = User.objects.all()
+                modelos = Modelo.objects.all()
+                tipos = Tipo.objects.all()
+
+                context = {
+                    'areas': areas,
+                    'responsables': responsables,
+                    'modelos': modelos,
+                    'tipos': tipos,
+                    'type' : 'danger',
+                    'msg' : '¡Es obligario ingresar un codigo y seleccionar un tipo!'                    
+                }
+                return render(request, 'inventario/new_activo.html', context)
+            
+            else:
+                add_activo = Activo(
+                    cod = request.POST['cod'],
+                    s_n = request.POST['sn'],
+                    tipo = Tipo.objects.get(id=request.POST['tipo']),
+                    modelo = Modelo.objects.get(id=request.POST['modelo']),
+                    codigo_antiguo = request.POST['old_cod'],
+                    area = Area.objects.get(cod_area=request.POST['area']),
+                    responsable = User.objects.get(id=request.POST['responsable']),
+                    comentario = request.POST['comentario'],
+                    created_by = request.user,
+                )
+
+                add_activo.save()
+
+                context = {
+                        'type' : 'success',
+                        'alert' : '¡El activo fue registrado con exito!'
+                    }
+                return render(request, 'main.html',context)
+            
+        except ValueError as e:
+                context = {
+                        'type' : 'danger',
+                        'alert' : f'Error: {e}'
+                    }
+                return render(request, 'main.html',context)      
     
 
 @login_required

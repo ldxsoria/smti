@@ -4,18 +4,129 @@
 
 <main class="container pt-3">
     <div class="row">
-        <div class="col-md-4 offset-md-4">
-            <h1 class="display-4 text-center">Registrar un nuevo activo</h1>
-            <form action="/inventario/add" method="POST" class="card card-body">
-                <strong>{{error}}</strong>    
+        <div class="col-sm-8 col-md-8 offset-sm-2 offset-md-2">
+            <form method="POST" class="card card-body">
                 {% csrf_token %}
-                {{form}}
+                <h1 class="display-4 text-center">Registrar un activo</h1>
+
+                {% if msg%}
+                <div class="alert alert-{{type}} alert-dismissible fade show text-center" role="alert">
+                    <strong>Aviso: </strong>{{msg}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                {% endif %}
+
+                <div class="mb-3">
+                    <label for="cod">*Codigo:</label>
+                    <input rows="4" type="text" name="cod" class="form-control" placeholder="2300000"></input>
+                </div>
+
+                <div class="mb-3">
+                    <label for="sn">Numero de serie:</label>
+                    <input rows="4" type="text" name="sn" class="form-control" placeholder="Ejemplo: A1B2C3D4..."></input>
+                </div>
+
+                <div class="mb-3">
+                    <label for="tipo">Tipo:</label>
+                    <select id="dselect-tipo"  name='tipo' class="form-select" aria-label="Default select example">
+                        <option selected disabled>----------</option>
+                        {% for tipo in tipos %}
+                        <option value={{tipo.id}} id={{tipo.id}}>{{tipo.desc}}</option>
+                        {% endfor %}
+                      </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="modelo">Modelo:</label>
+                    <select id="dselect-modelo"  name='modelo' class="form-select" aria-label="Default select example">
+                        <option selected disabled>----------</option>
+                        {% for modelo in modelos %}
+                        <option value={{modelo.id}} id={{modelo.id}}>{{modelo.marca}} - {{modelo.desc}}</option>
+                        {% endfor %}
+                      </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="old_cod">Codigo antiguo:</label>
+                    <input rows="4" type="text" name="old_cod" class="form-control" placeholder="Ejemplo: A1B2C3D4..."></input>
+                </div>
+
+                <div class="mb-3">
+                    <label for="area">*Lugar:</label>
+                    <select id="dselect-area"  name='area' class="form-select" aria-label="Default select example">
+                        <option selected disabled>----------</option>
+                        {% for area in areas %}
+                        <option value={{area.cod_area}} id={{area.cod_area}}>{{area.descripcion}}</option>
+                        {% endfor %}
+                      </select>
+                </div> 
+
+                <div class="mb-3">
+                    <label for="responsable">Responsable:</label>
+                    <select id="dselect-responsable"  name='responsable' class="form-select" aria-label="Default select example">
+                        <option selected disabled>----------</option>
+                        {% for responsable in responsables %}
+                        <option value={{responsable.id}} id={{responsable.id}}>{{responsable.username}}</option>
+                        {% endfor %}
+                      </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="comentario">comentario:</label>
+                    <textarea rows="4" type="text" name="comentario" class="form-control" placeholder="M&aacute;s detalles?"></textarea>
+                </div>                
+                
                 <button class="btn btn-primary mt-3">
-                    Agregar
+                    Registrar
                 </button>
+
             </form>
         </div>
     </div>
 </main>
+
+<script>
+    const tipo = {
+        search: true, // Toggle search feature. Default: false
+        creatable: true, // Creatable selection. Default: false
+        //clearable: false, // Clearable selection. Default: false
+        //maxHeight: '360px', // Max height for showing scrollbar. Default: 360px
+        //size: '', // Can be "sm" or "lg". Default ''
+    }
+        dselect(document.querySelector('#dselect-tipo'), tipo)
+</script>
+
+<script>
+    const modelo = {
+        search: true, // Toggle search feature. Default: false
+        creatable: true, // Creatable selection. Default: false
+        //clearable: false, // Clearable selection. Default: false
+        //maxHeight: '360px', // Max height for showing scrollbar. Default: 360px
+        //size: '', // Can be "sm" or "lg". Default ''
+    }
+        dselect(document.querySelector('#dselect-modelo'), modelo)
+</script>
+
+<script>
+    const area = {
+        search: true, // Toggle search feature. Default: false
+        creatable: true, // Creatable selection. Default: false
+        //clearable: false, // Clearable selection. Default: false
+        //maxHeight: '360px', // Max height for showing scrollbar. Default: 360px
+        //size: '', // Can be "sm" or "lg". Default ''
+    }
+        dselect(document.querySelector('#dselect-lugar'), area)
+</script>
+
+<script>
+    const responsable = {
+        search: true, // Toggle search feature. Default: false
+        creatable: true, // Creatable selection. Default: false
+        //clearable: false, // Clearable selection. Default: false
+        //maxHeight: '360px', // Max height for showing scrollbar. Default: 360px
+        //size: '', // Can be "sm" or "lg". Default ''
+    }
+        dselect(document.querySelector('#dselect-responsable'), responsable)
+</script>
 
 {% endblock %}
