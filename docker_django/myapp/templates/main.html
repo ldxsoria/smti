@@ -18,6 +18,24 @@
 
     <div class="row d-flex justify-content-evenly align-items-stretch">
 
+        {% if user.is_staff %}
+        {# CARD 0#}
+        <div class="col-8 col-sm-6 col-lg-3 h-auto mb-3">
+            <div class="container h-100">
+                <div class="card h-100">
+                    <img class="card-img-top" src="{% static 'images/inventario_bg.png' %}" alt="Card image cap" style="height: 20vh;">
+                    <div class="card-body h-auto">
+                      <h5 class="card-title"><strong>Registrar un activo </strong></h5>
+                      <p class="card-text">Tener un inventario actualizado.</p>
+                    </div>
+                    <div class="d-flex justify-content-center mb-3">
+                        <a href="{% url 'new_activo' %}" class="btn btn-primary">Registrar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}        
+
         {# CARD 1#}
         <div class="col-8 col-sm-6 col-lg-3 h-auto mb-3">
             <div class="container h-100 ">
