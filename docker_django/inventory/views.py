@@ -12,6 +12,12 @@ from django.contrib.auth.decorators import login_required #MAIN
 #MY FORMS
 from .forms import ProveedorForm
 
+#LISTVIEW REQUIREMENTS
+from django.views.generic import ListView
+from django.core.paginator import Paginator #PAGINATION
+
+#SEARCH REQUIEREMENTS
+from django.db.models import Q
 
 from django.template.loader import render_to_string
 from weasyprint import HTML, CSS
@@ -23,6 +29,13 @@ from django.template.loader import get_template
 @login_required
 def new_factura(request):
     return render(request, 'inventario/new_factura.html')
+
+
+def campo_en_blanco(post):
+    if (post == ""):
+        return "null"
+    else:
+        return post
 
 @login_required
 def new_activo(request):
@@ -54,19 +67,37 @@ def new_activo(request):
                     'modelos': modelos,
                     'tipos': tipos,
                     'type' : 'danger',
-                    'msg' : '¡Es obligario ingresar un codigo y seleccionar un tipo!'                    
+                    'msg' : '¡Es obligario ingresar un codigo, seleccionar un tipo y modelo!'                    
                 }
                 return render(request, 'inventario/new_activo.html', context)
             
             else:
+                codPost = request.POST.get('cod', None)
+                s_nPost = request.POST.get('sn', None)
+                
+                if 'modelo' in request.POST:
+                    modeloPost = Modelo.objects.get(id=request.POST['modelo'])
+                else:
+                    modeloPost = None
+
+                if 'responsable' in request.POST:
+                    responsablePost = User.objects.get(id=request.POST['responsable'])
+                else:
+                    responsablePost = None
+
+                if 'old_cod' is str:
+                    old_codPost = None
+                else:
+                    old_codPost = request.POST['old_cod']
+
                 add_activo = Activo(
-                    cod = request.POST['cod'],
-                    s_n = request.POST['sn'],
+                    cod = codPost,
+                    s_n = s_nPost,
                     tipo = Tipo.objects.get(id=request.POST['tipo']),
-                    modelo = Modelo.objects.get(id=request.POST['modelo']),
-                    codigo_antiguo = request.POST['old_cod'],
+                    modelo = modeloPost,
+                    codigo_antiguo = old_codPost,
                     area = Area.objects.get(cod_area=request.POST['area']),
-                    responsable = User.objects.get(id=request.POST['responsable']),
+                    responsable = responsablePost,
                     comentario = request.POST['comentario'],
                     created_by = request.user,
                 )
@@ -84,7 +115,44 @@ def new_activo(request):
                         'type' : 'danger',
                         'alert' : f'Error: {e}'
                     }
-                return render(request, 'main.html',context)      
+                return render(request, 'main.html',context)  
+
+
+class SearchActivos(ListView):
+    paginate_by = 10
+    model = Activo
+    template_name = 'inventario/search_activos.html'
+
+    def get_queryset(self):  # new
+        query = self.request.GET.get("q")
+        if query is None:
+            return Activo.objects.all()
+        else:
+            print(query)
+            object_list = Activo.objects.filter(
+                #Q(razon__startswith=query) | Q(razon__icontains=query)
+                #Q(id__icontains=query) | Q(asunto__icontains=query)
+                Q(cod__icontains=query)
+            )
+            print(object_list)
+            return object_list
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Activos registrados'
+        #context['lugar'] = Area.objects.all().prefetch_related('ticket')
+        context['lugar'] = Area.objects.all()
+        return context
+
+def view_activo(request, cod):
+    if request.method == 'GET':
+        activo = Activo.objects.filter(cod=cod)
+
+        context ={
+            'activo' : activo,
+        }
+        return render(request, 'inventario/new_activo.html', context)
+    
     
 
 @login_required

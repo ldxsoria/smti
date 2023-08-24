@@ -80,13 +80,12 @@ class Modelo(models.Model):
 
 class Activo(models.Model):
     cod = models.CharField(max_length=8, primary_key=True)
-
     s_n = models.CharField(max_length=70, blank=True, null=True)
     ##JOIN
     tipo = models.ForeignKey(Tipo, null=True, on_delete=models.SET_NULL)
-    modelo = models.ForeignKey(Modelo, null=True, on_delete=models.SET_NULL)
+    modelo = models.ForeignKey(Modelo,blank=True, null=True, on_delete=models.SET_NULL)
     item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL)
-    codigo_antiguo = models.SmallIntegerField(max_length=15, blank=True, null=True)
+    codigo_antiguo = models.CharField(max_length=15, blank=True, null=True)
     area = models.ForeignKey(Area, blank=True, null=True, on_delete=models.SET_NULL)
     responsable = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name="responsable_activos")
     estado = models.SmallIntegerField(max_length=1, blank=True, null=True, default=1)

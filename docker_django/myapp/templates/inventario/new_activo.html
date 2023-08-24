@@ -17,7 +17,7 @@
                 {% endif %}
 
                 <div class="mb-3">
-                    <label for="cod">*Codigo:</label>
+                    <label for="cod"><strong>Codigo*</strong></label>
                     <input rows="4" type="text" name="cod" class="form-control" placeholder="2300000"></input>
                 </div>
 
@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="tipo">Tipo:</label>
+                    <label for="tipo"><strong>Tipo*</strong></label>
                     <select id="dselect-tipo"  name='tipo' class="form-select" aria-label="Default select example">
                         <option selected disabled>----------</option>
                         {% for tipo in tipos %}
@@ -37,7 +37,7 @@
                 </div>
                 
                 <div class="mb-3">
-                    <label for="modelo">Modelo:</label>
+                    <label for="modelo"><strong>Modelo*</strong></label>
                     <select id="dselect-modelo"  name='modelo' class="form-select" aria-label="Default select example">
                         <option selected disabled>----------</option>
                         {% for modelo in modelos %}
@@ -115,7 +115,7 @@
         //maxHeight: '360px', // Max height for showing scrollbar. Default: 360px
         //size: '', // Can be "sm" or "lg". Default ''
     }
-        dselect(document.querySelector('#dselect-lugar'), area)
+        dselect(document.querySelector('#dselect-area'), area)
 </script>
 
 <script>
