@@ -47,15 +47,15 @@
                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Inventario</a>
                 <ul class="dropdown-menu">
                   {% if user.is_staff %}
-                  <li><a class="dropdown-item" href="{% url 'new_factura' %}">Registrar factura</a></li>
                   <li><a class="dropdown-item" href="{% url 'new_activo' %}">Registrar activos</a></li>                  
                   {% else %}
                   <li><a class="dropdown-item" href="{# url 'new_activo' #}">Ver activos asignados</a></li>
                   {% endif %}
-                  <li><a class="dropdown-item" href="{# url 'inventario' #}">Ver inventario</a></li>
+                  <li><a class="dropdown-item" href="{% url 'search_activos' %}">Ver inventario</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="{% url 'new_proveedor' %}">Registrar un proveedor</a></li>
                   <li><a class="dropdown-item" href="{# url 'proveedores' #}">Ver proveedores</a></li>
+                  <li><a class="dropdown-item" href="{% url 'new_factura' %}">Registrar factura</a></li>
                 </ul>
               </li>
               {% endif %}
