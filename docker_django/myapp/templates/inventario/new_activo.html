@@ -18,34 +18,55 @@
 
                 <div class="mb-3">
                     <label for="cod"><strong>Codigo*</strong></label>
-                    <input rows="4" type="text" name="cod" class="form-control" placeholder="2300000"></input>
+                    <input rows="4" type="text" name="cod" class="form-control" placeholder="2300000" value="{% if activo %}{{ activo.cod }}{% endif %}"></input>
                 </div>
 
                 <div class="mb-3">
                     <label for="sn">Numero de serie:</label>
-                    <input rows="4" type="text" name="sn" class="form-control" placeholder="Ejemplo: A1B2C3D4..."></input>
+                    <input rows="4" type="text" name="sn" class="form-control" placeholder="Ejemplo: A1B2C3D4..." value="{% if activo %}{{ activo.s_n }}{% endif %}"></input>
                 </div>
 
+                {# MEGORAR PARA QUE LISTE TODOS!!!!!!!!!!#}
                 <div class="mb-3">
                     <label for="tipo"><strong>Tipo*</strong></label>
-                    <select id="dselect-tipo"  name='tipo' class="form-select" aria-label="Default select example">
-                        <option selected disabled>----------</option>
-                        {% for tipo in tipos %}
-                        <option value={{tipo.id}} id={{tipo.id}}>{{tipo.desc}}</option>
-                        {% endfor %}
-                      </select>
+                    <select id="dselect-tipo" name="tipo" class="form-select" aria-label="Default select example">
+                        {% if activo %}
+                            <option value="{{ activo.tipo.id }}" id="tipo_{{ activo.tipo.id }}">{{ activo.tipo.desc }}</option>
+                            {% for tipo in tipos %}
+                                {% if tipo.id != activo.tipo.id %}
+                                    <option value="{{ tipo.id }}" id="tipo_{{ tipo.id }}">{{ tipo.desc }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <option selected disabled>----------</option>
+                            {% for tipo in tipos %}
+                                <option value="{{ tipo.id }}" id="tipo_{{ tipo.id }}">{{ tipo.desc }}</option>
+                            {% endfor %}
+                        {% endif %}
+                    </select>
                 </div>
+                {# MEGORAR PARA QUE LISTE TODOS!!!!!!!!!!#}
+
                 
                 <div class="mb-3">
                     <label for="modelo"><strong>Modelo*</strong></label>
                     <select id="dselect-modelo"  name='modelo' class="form-select" aria-label="Default select example">
-                        <option selected disabled>----------</option>
-                        {% for modelo in modelos %}
-                        <option value={{modelo.id}} id={{modelo.id}}>{{modelo.marca}} - {{modelo.desc}}</option>
-                        {% endfor %}
-                      </select>
+                        {% if activo %}
+                            <option value="{{ activo.modelo.id }}" id="tipo_{{ activo.modelo.id }}">{{activo.modelo.marca}} - {{ activo.modelo.desc }}</option>
+                            {% for modelo in modelos %}
+                                {% if modelo.id != activo.modelo.id %}
+                                <option value={{modelo.id}} id={{modelo.id}}>{{modelo.marca}} - {{modelo.desc}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <option selected disabled>----------</option>
+                            {% for modelo in modelos %}
+                            <option value={{modelo.id}} id={{modelo.id}}>{{modelo.marca}} - {{modelo.desc}}</option>
+                            {% endfor %}
+                        {% endif %}
+                    </select>
                 </div>
-
+                
                 <div class="mb-3">
                     <label for="old_cod">Codigo antiguo:</label>
                     <input rows="4" type="text" name="old_cod" class="form-control" placeholder="Ejemplo: A1B2C3D4..."></input>
@@ -73,11 +94,11 @@
                 
                 <div class="mb-3">
                     <label for="comentario">comentario:</label>
-                    <textarea rows="4" type="text" name="comentario" class="form-control" placeholder="M&aacute;s detalles?"></textarea>
+                    <textarea rows="4" type="text" name="comentario" class="form-control" placeholder="M&aacute;s detalles?">{% if activo %}{{ activo.comentario }}{% endif %}</textarea>
                 </div>                
                 
                 <button class="btn btn-primary mt-3">
-                    Registrar
+                    {% if activo %}Guardar cambios{% else %}Registrar{% endif %}
                 </button>
 
             </form>

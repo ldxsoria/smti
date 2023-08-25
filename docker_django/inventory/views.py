@@ -144,14 +144,91 @@ class SearchActivos(ListView):
         context['lugar'] = Area.objects.all()
         return context
 
-def view_activo(request, cod):
-    if request.method == 'GET':
-        activo = Activo.objects.filter(cod=cod)
+def add_view_activo(request, cod=None):
+    if cod:
+        activo = get_object_or_404(Activo, cod=cod)
+    else:
+        activo = None
 
-        context ={
-            'activo' : activo,
+    if request.method == 'POST':
+        try:
+            # VERIFICAR CAMPOS OBLIGATORIOS
+            if 'cod' not in request.POST or 'tipo' not in request.POST:
+                areas = Area.objects.all()
+                responsables = User.objects.all()
+                modelos = Modelo.objects.all()
+                tipos = Tipo.objects.all()
+
+                context = {
+                    'areas': areas,
+                    'responsables': responsables,
+                    'modelos': modelos,
+                    'tipos': tipos,
+                    'type': 'danger',
+                    'msg': '¡Es obligatorio ingresar un codigo, seleccionar un tipo y modelo!'
+                }
+                return render(request, 'inventario/new_activo.html', context)
+
+            else:
+                codPost = request.POST.get('cod', None)
+                s_nPost = request.POST.get('sn', None)
+
+                if 'modelo' in request.POST:
+                    modeloPost = Modelo.objects.get(id=request.POST['modelo'])
+                else:
+                    modeloPost = None
+
+                if 'responsable' in request.POST:
+                    responsablePost = User.objects.get(id=request.POST['responsable'])
+                else:
+                    responsablePost = None
+
+                if 'old_cod' in request.POST:
+                    old_codPost = request.POST['old_cod']
+                else:
+                    old_codPost = None
+
+                add_activo = Activo(
+                    cod=codPost,
+                    s_n=s_nPost,
+                    tipo=Tipo.objects.get(id=request.POST['tipo']),
+                    modelo=modeloPost,
+                    codigo_antiguo=old_codPost,
+                    area=Area.objects.get(cod_area=request.POST['area']),
+                    responsable=responsablePost,
+                    comentario=request.POST['comentario'],
+                    created_by=request.user,
+                )
+
+                add_activo.save()
+
+                context = {
+                    'type': 'success',
+                    'alert': '¡El activo fue registrado con exito!'
+                }
+                return render(request, 'main.html', context)
+
+        except ValueError as e:
+            context = {
+                'type': 'danger',
+                'alert': f'Error: {e}'
+            }
+            return render(request, 'main.html', context)
+    else:
+        areas = Area.objects.all()
+        responsables = User.objects.all()
+        modelos = Modelo.objects.all()
+        tipos = Tipo.objects.all()
+
+        context = {
+            'areas': areas,
+            'responsables': responsables,
+            'modelos': modelos,
+            'tipos': tipos,
+            'activo': activo,
         }
         return render(request, 'inventario/new_activo.html', context)
+
     
     
 
