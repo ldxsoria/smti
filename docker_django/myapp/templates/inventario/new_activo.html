@@ -26,7 +26,6 @@
                     <input rows="4" type="text" name="sn" class="form-control" placeholder="Ejemplo: A1B2C3D4..." value="{% if activo %}{{ activo.s_n }}{% endif %}"></input>
                 </div>
 
-                {# MEGORAR PARA QUE LISTE TODOS!!!!!!!!!!#}
                 <div class="mb-3">
                     <label for="tipo"><strong>Tipo*</strong></label>
                     <select id="dselect-tipo" name="tipo" class="form-select" aria-label="Default select example">
@@ -45,52 +44,67 @@
                         {% endif %}
                     </select>
                 </div>
-                {# MEGORAR PARA QUE LISTE TODOS!!!!!!!!!!#}
 
                 
                 <div class="mb-3">
                     <label for="modelo"><strong>Modelo*</strong></label>
-                    <select id="dselect-modelo"  name='modelo' class="form-select" aria-label="Default select example">
+                    <select id="dselect-modelo" name="modelo" class="form-select" aria-label="Default select example">
                         {% if activo %}
-                            <option value="{{ activo.modelo.id }}" id="tipo_{{ activo.modelo.id }}">{{activo.modelo.marca}} - {{ activo.modelo.desc }}</option>
+                            <option value="{{ activo.modelo.id }}" id="modelo_{{ activo.modelo.id }}">{{ activo.modelo.marca }} - {{ activo.modelo.desc }}</option>
                             {% for modelo in modelos %}
                                 {% if modelo.id != activo.modelo.id %}
-                                <option value={{modelo.id}} id={{modelo.id}}>{{modelo.marca}} - {{modelo.desc}}</option>
+                                    <option value="{{ modelo.id }}" id="modelo_{{ modelo.id }}">{{ modelo.marca }} - {{ modelo.desc }}</option>
                                 {% endif %}
                             {% endfor %}
                         {% else %}
                             <option selected disabled>----------</option>
                             {% for modelo in modelos %}
-                            <option value={{modelo.id}} id={{modelo.id}}>{{modelo.marca}} - {{modelo.desc}}</option>
+                                <option value="{{ modelo.id }}" id="modelo_{{ modelo.id }}">{{ modelo.marca }} - {{ modelo.desc }}</option>
                             {% endfor %}
                         {% endif %}
                     </select>
                 </div>
                 
+                
                 <div class="mb-3">
                     <label for="old_cod">Codigo antiguo:</label>
-                    <input rows="4" type="text" name="old_cod" class="form-control" placeholder="Ejemplo: A1B2C3D4..."></input>
+                    <input rows="4" type="text" name="old_cod" class="form-control" placeholder="Ejemplo: A1B2C3D4..." value="{% if activo %}{{ activo.old_cod }}{% endif %}"></input>
                 </div>
 
                 <div class="mb-3">
-                    <label for="area">*Lugar:</label>
-                    <select id="dselect-area"  name='area' class="form-select" aria-label="Default select example">
-                        <option selected disabled>----------</option>
-                        {% for area in areas %}
-                        <option value={{area.cod_area}} id={{area.cod_area}}>{{area.descripcion}}</option>
-                        {% endfor %}
-                      </select>
-                </div> 
+                    <label for="area">Lugar</label>
+                    <select id="dselect-area" name="area" class="form-select" aria-label="Default select example">
+                        {% if activo %}
+                            <option value="{{ activo.area.cod_area }}" id="{{ activo.area.cod_area }}">{{ activo.area.descripcion }}</option>
+                            {% for area in areas %}
+                                {% if area.cod_area != activo.area.cod_area %}
+                                    <option value="{{ area.cod_area }}" id="{{ area.cod_area }}">{{ area.descripcion }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <option selected disabled>----------</option>
+                            {% for area in areas %}
+                                <option value="{{ area.cod_area }}" id="{{ area.cod_area }}">{{ area.descripcion }}</option>
+                            {% endfor %}
+                        {% endif %}
+                    </select>
+                </div>
+                          
 
                 <div class="mb-3">
                     <label for="responsable">Responsable:</label>
-                    <select id="dselect-responsable"  name='responsable' class="form-select" aria-label="Default select example">
+                    <select id="dselect-responsable" name="responsable" class="form-select" aria-label="Default select example">
                         <option selected disabled>----------</option>
                         {% for responsable in responsables %}
-                        <option value={{responsable.id}} id={{responsable.id}}>{{responsable.username}}</option>
+                            {% if activo and activo.responsable == responsable %}
+                                <option value="{{ responsable.id }}" id="responsable_{{ responsable.id }}" selected>{{ responsable.username }}</option>
+                            {% else %}
+                                <option value="{{ responsable.id }}" id="responsable_{{ responsable.id }}">{{ responsable.username }}</option>
+                            {% endif %}
                         {% endfor %}
-                      </select>
+                    </select>
                 </div>
+                
                 
                 <div class="mb-3">
                     <label for="comentario">comentario:</label>
