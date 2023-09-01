@@ -5,6 +5,7 @@ from django.contrib.auth.forms import  AuthenticationForm #SIGNIN
 
 #MODELOS
 from .models import Ticket, EstadosTicket, Registro, Area, Asunto, Reporte
+from inventory.models import Activo
 
 #LISTVIEW REQUIREMENTS
 from django.views.generic import ListView
@@ -75,7 +76,11 @@ def create_mail(user, cc_mails, subject, template_path, context):
 def signin(request):
     #Si esta autenticado la pagina principal debe de ser main
     if request.user.is_authenticated:
-        return render(request, 'main.html')
+        activos = Activo.objects.filter(responsable=request.user).exists()
+        context = {
+            'activos' : activos
+        }
+        return render(request, 'main.html', context)
     else:
         if request.method == 'GET':
             return render(request, 'signin.html',{
@@ -100,7 +105,11 @@ def signout(request):
 
 @login_required
 def main(request):
-    return render(request, 'main.html')
+    activos = Activo.objects.filter(responsable=request.user).exists()
+    context = {
+        'activos' : activos
+    }
+    return render(request, 'main.html', context)
 
 #TICKET###############################################################################################
 

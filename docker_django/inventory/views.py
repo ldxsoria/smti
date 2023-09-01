@@ -118,6 +118,16 @@ def new_activo(request):
                 return render(request, 'main.html',context)  
 
 
+@login_required
+def my_activos(request):
+    activos_asignados = Activo.objects.filter(responsable=request.user)
+
+    context = {
+        'activos' : activos_asignados
+    }
+
+    return render(request, 'inventario/my_activos.html', context)
+
 class SearchActivos(ListView):
     paginate_by = 10
     model = Activo

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="container pt-3">
+
+<div class="col-md-12">
+    <div>
+        <h1 class="display-5">Hola, {{request.user.first_name}}</h1>
+        <br>
+        <p>Estos son los equipos a tu cargo.</p>
+        <br>
+    </div>
+    
+    <div>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col"># Codigo</th>
+                <th scope="col">Número de Serie</th>
+                <th scope="col">Ubicación</th>
+                <th scope="col">Categoria</th>
+                <th scope="col">Marca</th>
+                <th scope="col">Modelo</th>
+                <th scope="col">Comentario</th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider">
+            {% for activo in activos %}
+              <tr>
+                <th scope="row">{{ activo.cod }}</th>
+                <td>{{ activo.s_n }}</td>
+                <td>{{ activo.area }}</td>
+                <td>{{ activo.tipo }}</td>
+                <td>{{ activo.modelo.marca }}</td>
+                <td>{{ activo.modelo.desc }}</td>
+                <td>{{ activo.comentario }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+    </div>
+
+
+</div>
+
+</main>
+
+
+{% endblock %}

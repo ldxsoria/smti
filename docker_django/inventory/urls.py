@@ -9,5 +9,6 @@ urlpatterns = [
     path('inventario/scanner/qr', views.scanner_qr, name='scanner_qr'),
     path('inventario/export', views.pdf_generation, name="export-pdf" ),
     path('inventario/activos', SearchActivos.as_view(), name='search_activos'),
-    path('inventario/activo/<int:cod>', views.add_view_activo, name='view_activo')
+    path('inventario/activo/<int:cod>', views.add_view_activo, name='view_activo'),
+    path('inventario/activos/me', views.my_activos, name='my_activos')
 ]
