@@ -25,7 +25,7 @@
                 <div class="card h-100">
                     <img class="card-img-top" src="{% static 'images/inventario_bg.png' %}" alt="Card image cap" style="height: 20vh;">
                     <div class="card-body h-auto">
-                      <h5 class="card-title"><strong>{% if user.is_staff %}Registrar un activo{% else %}Ver activos asignados{% endif %}</strong></h5>
+                      <h5 class="card-title"><strong>{% if user.is_staff %}Registrar un activo{% else %}Activos asignados{% endif %}</strong></h5>
                       <p class="card-text">{% if user.is_staff %}Tener un inventario actualizado.{% else %}Detalle de todo los activos de Ti a mi cargo.{% endif %}</p>
                     </div>
                     <div class="d-flex justify-content-center mb-3">
@@ -33,7 +33,7 @@
                         <a href="{% url 'new_activo' %}" class="btn btn-primary">Registrar</a>
                         <a href="{% url 'my_activos' %}" class="btn btn-dark">Ver</a>
                         {% else %}
-                        <a href="{% url 'my_activos' %}" class="btn btn-success">Ver</a>
+                        <a href="{% url 'my_activos' %}" class="btn btn-primary">Ver</a>
                         {% endif%}
                     </div>
                 </div>
