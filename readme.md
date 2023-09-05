@@ -27,6 +27,25 @@ Además, si el entorno es de producción, debemos cambiar el estado de settings.
 git clone https://github.com/ldxsoria/sigma-mti.git
 ```
 
+##
+adduser ldx
+usermod -aG sudo ldx
+su - ldx
+sudo apt install python3-pip -y
+sudo apt install python3-venv -y
+sudo apt install python3-wheel -y
+sudo apt install python3-dev
+sudo apt update
+sudo apt install docker docker-compose -y
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo docker ps
+sudo groupadd docker
+sudo usermod -aG docker $USER
+sudo chmod 666 /var/run/docker.sock
+
+
+
 ## Creamos los contenedores y los inicializamos
 ```bash
 cd sigma-mti

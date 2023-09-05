@@ -85,10 +85,10 @@ def new_activo(request):
                 else:
                     responsablePost = None
 
-                if 'old_cod' is request.POST:
-                    old_codPost = None
-                else:
+                if 'old_cod' in request.POST:
                     old_codPost = request.POST['old_cod']
+                else:
+                    old_codPost = None
 
                 add_activo = Activo(
                     cod = codPost,

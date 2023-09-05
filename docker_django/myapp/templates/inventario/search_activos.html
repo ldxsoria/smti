@@ -19,6 +19,7 @@
                 <thead>
                 <tr>
                     <th scope="col"># Codigo</th>
+                    <th scope="col">Codigo antiguo</th>
                     <th scope="col">SN</th>
                     <th scope="col">tipo</th>
                     <th scope="col">Ubicacion</th>
@@ -33,6 +34,7 @@
                 {% for activo in page_obj %}
                 <tr>
                     <th scope="row">{{activo.cod}}</th>
+                    <td>{{activo.codigo_antiguo}}</td>
                     <td>{{activo.s_n}}</td>
                     <td>{{activo.tipo}}</td>
                     <td>{{activo.area}}</td>
