@@ -1,87 +1,14 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content %}
+
 <main class="container">
-    <h1 class="display-3 m-4 text-center">{{title}}</h1>
-    <div class="row">
-        <form action="{# url 'search_tickets' #}" method="get">      
-            <div class="col-md-12 mb-5">
-                <div class="input-group">
-                    <input type="search" name="q" class="form-control rounded" placeholder="Ingrese un codigo de inventario" aria-label="Search" aria-describedby="search-addon" />
-                    <button type="submit" class="btn btn-outline-primary">Buscar</button>
-                </div>
-            </div>
-        </form>
-    </div>
-    <div class="row">
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col"># Codigo</th>
-                    <th scope="col">Codigo antiguo</th>
-                    <th scope="col">SN</th>
-                    <th scope="col">tipo</th>
-                    <th scope="col">Ubicacion</th>
-                    <th scope="col">Responsable</th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
-                <tbody>
-                {# if object_list #}
-                <h1 class="display-5 mb-3 text-muted text-center">Los resultados de la busqueda de son:</h1>
-                {# endif #}
-                {% for activo in page_obj %}
-                <tr>
-                    <th scope="row">{{activo.cod}}</th>
-                    <td>{{activo.codigo_antiguo}}</td>
-                    <td>{{activo.s_n}}</td>
-                    <td>{{activo.tipo}}</td>
-                    <td>{{activo.area}}</td>
-                    <td>{{activo.responsable}}</td>
-                    <td></td>
-                    <td><a class="" href="{% url 'view_activo' activo.cod %}"><i class="material-icons">edit_square</i></a></td>                 
-                    <td><a class="btn btn-primary" href="{# url 'historial_ticket' ticket.id #}">Ver m&aacute;s</a></td>
-                </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 d-flex justify-content-center">
-          <nav aria-label="Page navigation example">
-            <ul class="pagination">
-            {% if page_obj.has_previous %}
-            <li class="page-item">
-                <a class='page-link' href="?page=1">
-                  <span aria-hidden="true">&laquo;&laquo;</span>
-                </a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-              {% endif %}
-                <span class="current">
-                    <a class='page-link disabled'>P&aacute;g. {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</a>
-                </span> 
-              {% if page_obj.has_next %}
-              <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-              <li class="page-item">
-                <a class='page-link' href="?page={{ page_obj.paginator.num_pages }}">
-                    <span aria-hidden="true">&raquo;&raquo;</span>
-                </a>
-              </li>
-              {% endif %}
-            </ul>
-          </nav>
-        </div>
-      </div>
+
+
+
 </main>
+
+
 {% endblock %}

@@ -131,7 +131,7 @@ def my_activos(request):
 class SearchActivos(ListView):
     paginate_by = 10
     model = Activo
-    template_name = 'inventario/search_activos.html'
+    template_name = 'inventario/search_activos_by_codigo.html'
 
     def get_queryset(self):  # new
         query = self.request.GET.get("q")
@@ -142,7 +142,7 @@ class SearchActivos(ListView):
             object_list = Activo.objects.filter(
                 #Q(razon__startswith=query) | Q(razon__icontains=query)
                 #Q(id__icontains=query) | Q(asunto__icontains=query)
-                Q(cod__icontains=query)
+                Q(cod__icontains=query) | Q(codigo_antiguo__icontains=query)
             )
             print(object_list)
             return object_list
@@ -151,7 +151,7 @@ class SearchActivos(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Activos registrados'
         #context['lugar'] = Area.objects.all().prefetch_related('ticket')
-        context['lugar'] = Area.objects.all()
+        #context['lugar'] = Area.objects.all()
         return context
 
 def add_view_activo(request, cod=None):
@@ -175,7 +175,7 @@ def add_view_activo(request, cod=None):
                     'modelos': modelos,
                     'tipos': tipos,
                     'type': 'danger',
-                    'msg': '¡Es obligatorio ingresar un codigo, seleccionar un tipo y modelo!'
+                    'msg': '¡Es obligatorio ingresar un código, seleccionar un tipo y modelo!'
                 }
                 return render(request, 'inventario/new_activo.html', context)
 
