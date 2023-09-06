@@ -126,7 +126,26 @@ def my_activos(request):
         'activos' : activos_asignados
     }
 
+    print(activos_asignados)
     return render(request, 'inventario/my_activos.html', context)
+
+
+@login_required
+def user_activos(request, usuario):
+    try:
+        u = get_object_or_404(User, username=usuario)
+        activos_asignados2 = Activo.objects.filter(responsable=u)
+        context = {
+            'activos': activos_asignados2
+        }
+        print(type(u))
+        print(u)
+        print(u.id)
+        print(activos_asignados2)
+        return render(request, 'inventario/my_activos.html', context)
+    except User.DoesNotExist:
+        # Manejar el caso en el que el usuario no existe
+        pass
 
 class SearchActivos(ListView):
     paginate_by = 10

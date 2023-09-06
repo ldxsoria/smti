@@ -10,5 +10,6 @@ urlpatterns = [
     path('inventario/export', views.pdf_generation, name="export-pdf" ),
     path('inventario/activos', SearchActivos.as_view(), name='search_activos'),
     path('inventario/activo/<int:cod>', views.add_view_activo, name='view_activo'),
-    path('inventario/activos/me', views.my_activos, name='my_activos')
+    path('inventario/activos/me', views.my_activos, name='my_activos'),
+    path('inventario/activos/user/<str:usuario>', views.user_activos, name='user_activos')
 ]
