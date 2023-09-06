@@ -107,7 +107,7 @@ def signout(request):
 def main(request):
     activos = Activo.objects.filter(responsable=request.user).exists()
     context = {
-        'activos' : activos
+        'activos' : activos,
     }
     return render(request, 'main.html', context)
 
