@@ -123,7 +123,9 @@ def my_activos(request):
     activos_asignados = Activo.objects.filter(responsable=request.user)
 
     context = {
-        'activos' : activos_asignados
+        'activos' : activos_asignados,
+        'user' : request.user
+
     }
 
     print(activos_asignados)
@@ -134,14 +136,15 @@ def my_activos(request):
 def user_activos(request, usuario):
     try:
         u = get_object_or_404(User, username=usuario)
-        activos_asignados2 = Activo.objects.filter(responsable=u)
+        activos_asignados = Activo.objects.filter(responsable=u)
         context = {
-            'activos': activos_asignados2
+            'activos': activos_asignados,
+            'user' : u
         }
         print(type(u))
         print(u)
         print(u.id)
-        print(activos_asignados2)
+        print(activos_asignados)
         return render(request, 'inventario/my_activos.html', context)
     except User.DoesNotExist:
         # Manejar el caso en el que el usuario no existe
