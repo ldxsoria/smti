@@ -15,6 +15,9 @@
         <table class="table table-striped">
             <thead>
               <tr class="table-dark">
+                {% if request.user.is_staff %}
+                <th><a class="btn btn-primary material-icons disabled">add_circle</a></th>
+                {% endif%}
                 <th scope="col"># C&oacute;digo</th>
                 <th scope="col">Número de Serie</th>
                 <th scope="col">Ubicación</th>
@@ -27,6 +30,18 @@
             <tbody class="table-group-divider">
             {% for activo in activos %}
               <tr>
+                {% if request.user.is_staff %}
+                <th scope="row">
+                    <div class="d-flex flex-row align-items-center">
+                      <div><a class="btn btn-outline-primary material-icons" href="{% url 'view_activo' activo.cod %}" >edit</a></div>
+                      <!-- <div><a class="btn btn-outline-danger material-icons disabled" href="" >delete</a></div> -->
+                        <!-- <a class="btn btn-primary" href="">
+                          <i class="material-icons">edit_square</i>
+                          {{ activo.cod }}
+                      </a> -->
+                    </div>
+                  </th>
+                {% endif%}
                 <th scope="row">{{ activo.cod }}</th>
                 <td>{{ activo.s_n }}</td>
                 <td>{{ activo.area }}</td>
