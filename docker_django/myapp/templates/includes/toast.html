@@ -1,0 +1,21 @@
+{% if toast %}
+<main class="container">
+
+    <div class="row"> {# Alerta #}
+        {% comment %}<h1>{{toast}}-{{message}}-{{title}}</h1>{% endcomment %}
+            <div class="alert alert-{{toast}} alert-dismissible fade show text-center" role="alert">
+                <strong>{{title}}</strong>{{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    </main>
+{% endif %}  
+
+{% comment %}
+<div class="row"> {# Alerta #}
+        <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+            <strong>Titulo</strong>Mensaje
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+</div>
+{% endcomment %}
