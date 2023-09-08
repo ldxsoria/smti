@@ -1,4 +1,6 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, resolve_url
+from django.urls import reverse #Para regresarlo a la vista anterior
+from django.views.decorators.cache import never_cache
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 
@@ -105,15 +107,19 @@ def new_activo(request):
                 add_activo.save()
 
                 context = {
-                        'type' : 'success',
-                        'alert' : '¡El activo fue registrado con exito!'
+                        # 'type' : 'success',
+                        # 'alert' : '¡El activo fue registrado con exito!',
+                        'toast': 'success',
+                        'title': 'Aviso: ',
+                        'message': '¡El activo fue registrado con exito!'
                     }
                 return render(request, 'main.html',context)
             
         except ValueError as e:
                 context = {
-                        'type' : 'danger',
-                        'alert' : f'Error: {e}'
+                        'toast' : 'danger',
+                        'title': 'Error: ',
+                        'message' : f'{e}'
                     }
                 return render(request, 'main.html',context)  
 
@@ -133,19 +139,26 @@ def my_activos(request):
 
 
 @login_required
-def user_activos(request, usuario):
+def user_activos(request, usuario, toast=None, title=None, message=None):
     try:
         u = get_object_or_404(User, username=usuario)
         activos_asignados = Activo.objects.filter(responsable=u)
-        context = {
-            'activos': activos_asignados,
-            'user' : u
-        }
-        print(type(u))
-        print(u)
-        print(u.id)
-        print(activos_asignados)
+        if toast == None:
+            context = {
+                'activos': activos_asignados,
+                'user' : u
+            }
+        else:
+            context = {
+                'activos': activos_asignados,
+                'user' : u,
+                'toast' : toast,
+                'title' : title,
+                'message': message
+            }
+
         return render(request, 'inventario/my_activos.html', context)
+    
     except User.DoesNotExist:
         # Manejar el caso en el que el usuario no existe
         pass
@@ -175,7 +188,9 @@ class SearchActivos(ListView):
         #context['lugar'] = Area.objects.all().prefetch_related('ticket')
         #context['lugar'] = Area.objects.all()
         return context
-
+    
+# @never_cache
+@login_required
 def add_view_activo(request, cod=None):
     if cod:
         activo = get_object_or_404(Activo, cod=cod)
@@ -197,7 +212,10 @@ def add_view_activo(request, cod=None):
                     'modelos': modelos,
                     'tipos': tipos,
                     'type': 'danger',
-                    'msg': '¡Es obligatorio ingresar un código, seleccionar un tipo y modelo!'
+                    'msg': '¡Es obligatorio ingresar un código, seleccionar un tipo y modelo!',
+                    'toast': 'success',
+                    'title': 'xd',
+                    'message': '123'
                 }
                 return render(request, 'inventario/new_activo.html', context)
 
@@ -235,15 +253,35 @@ def add_view_activo(request, cod=None):
                 add_activo.save()
 
                 context = {
-                    'type': 'success',
-                    'alert': '¡El activo fue registrado con exito!'
+                    'toast': 'success',
+                    'title': f'{add_activo.cod}: ',
+                    'message': 'Fue actualizado!'
                 }
-                return render(request, 'main.html', context)
+
+                ## ESTE ENVIA EL CONTEXT PERO NO ACTULIZA LA URL
+                usuario = f'{add_activo.responsable}'
+                return user_activos(request, usuario=usuario, **context )
+            
+                ## ESTE SI LO REGRESA A LA VISTA DE LOS ACTIVOS DEL USUARIO PERO NO ENVIA CONTEXT
+                # url_usuario = reverse('user_activos', args=[add_activo.responsable])
+                # return redirect(url_usuario, **context)   
+                
+                ## ESTO DEBERIA DE GUARDAR EL CONTEXT EN LA COOKIE
+                # usuario = str(add_activo.responsable)
+                # request.session['context'] = context
+                # url = reverse('user_activos', kwargs={'usuario': usuario})
+                # return redirect(url)
+
+                # return redirect('main')
+                # return render(request, 'main.html', context)
+
+                
 
         except ValueError as e:
             context = {
-                'type': 'danger',
-                'alert': f'Error: {e}'
+                'toast': 'danger',
+                'title' : 'Error: ',
+                'message': f'{e}'
             }
             return render(request, 'main.html', context)
     else:

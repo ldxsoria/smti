@@ -104,10 +104,12 @@ def signout(request):
     return redirect('/')
 
 @login_required
-def main(request):
+def main(request): #EIMINAR EXTRA_CONTEXT SI NO LLEGO A PODER ENVIARLE INFO DESDE OTRA VISTA
     activos = Activo.objects.filter(responsable=request.user).exists()
+
     context = {
         'activos' : activos,
+
     }
     return render(request, 'main.html', context)
 
