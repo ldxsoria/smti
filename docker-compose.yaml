@@ -37,7 +37,7 @@ services:
       - ./backup:/backup
     command: >
       bash -c "while true; do
-        PGPASSWORD=$$POSTGRES_PASSWORD pg_dump -h db_postgres -U $$POSTGRES_USER -Fc $$POSTGRES_DB > /backup/$$(date +%Y-%m-%d-%H-%M-%S).dump
+        PGPASSWORD=$$POSTGRES_PASSWORD pg_dump -h db_postgres -U $$POSTGRES_USER -Fc $$POSTGRES_DB > /backup/$$(date +%Y-%m-%d-%H-%M-%S).sql
         echo ""Backup done at $$(date +%Y-%m-%d_%H:%M:%S)""
         ls -1 /backup/*.dump | head -n -4 | xargs rm -f
         sleep 600

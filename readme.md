@@ -14,10 +14,20 @@ Cuya única finalidad es ayudar a los departamentos de TI a dejar de usar excel 
 # 0) CONFIGURAR ENTORNO
 Todo el proyecto se configuro sobre Ubuntu Server 22.04 y se recomienda instalar lo siguiente:
 * sudo apt install docker
-* sudo apt install docker-compose
 * sudo apt install python3-pip
 * sudo apt install libpq-dev
 
+## Instalamos docker compose actualizado en ubuntu 22.04
+```
+mkdir -p ~/.docker/cli-plugins/
+curl -SL https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
+```
+```
+chmod +x ~/.docker/cli-plugins/docker-compose
+```
+```
+docker compose version
+```
 Además, si el entorno es de producción, debemos cambiar el estado de settings.py > DEBUG = True a "False" para que se conecte a postgresql.
 
 # 1) CONFIGURACIONES INICIALES
