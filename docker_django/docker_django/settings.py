@@ -22,7 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
+# SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -84,33 +85,14 @@ WSGI_APPLICATION = 'docker_django.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# OPCION 1, SEGUN EL ESTADO DE DEBUG EJECUTA UNA DB
-# if DEBUG == True:
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': BASE_DIR / 'db.sqlite3',
-#         }
-#     }
-# else:
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.postgresql',
-#             'NAME': 'postgres',
-#             'USER': 'postgres',
-#             'HOST': 'db_postgres', #Nombre del contenedor
-#             'PORT': 5432
-#         }
-#     }
-
-# OPCION 2, POSTGRESQL ES LA UNICA DB
 DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'postgres',
-            'USER': 'postgres',
-            'HOST': 'db_postgres', #Nombre del contenedor
-            'PORT': 5432
+            'ENGINE': config('ENGINE'),
+            'NAME': config('DB_NAME'),
+            'USER': config('DB_USER'),
+            'PASSWORD': config('DB_PWD'),
+            'HOST': config('DB_HOST'), #Nombre del contenedor
+            'PORT': config('DB_PORT')
         }
 }
 
