@@ -91,7 +91,7 @@ class Activo(models.Model):
     estado = models.SmallIntegerField(max_length=1, blank=True, null=True, default=1)
     comentario = models.TextField(max_length=200, null=True, blank=True)
     created_at = models.TimeField(auto_now_add=True, null=True)
-    created_day = models.DateTimeField(auto_now_add=True, null=True)
+    created_day = models.DateField(auto_now_add=True, null=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="creador_activos")
     # def save(self, *args, **kwargs):
     #     if not self.pk:
