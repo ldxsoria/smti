@@ -21,3 +21,4 @@ venv.bak/
 manual-backup/
 backup/
 respaldo.sql
+*.sql

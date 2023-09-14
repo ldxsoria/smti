@@ -126,3 +126,10 @@ docker-compose exec django_app python docker_django/manage.py flush
 ```bash
 docker-compose exec django_app python docker_django/manage.py migrate myapp zero
 ```
+
+* Restaurar respaldo de la base de datos
+```bash
+docker cp FILENAME.dump ID-CONTAINER:/home
+docker compose exec db_postgres bash
+pg_restore -d DATABASE -U USER -v /home/FILENAME.dump
+```

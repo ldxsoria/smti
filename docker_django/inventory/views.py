@@ -259,12 +259,12 @@ def add_view_activo(request, cod=None):
                 }
 
                 ## ESTE ENVIA EL CONTEXT PERO NO ACTULIZA LA URL
-                usuario = f'{add_activo.responsable}'
-                return user_activos(f'/inventario/activos/user/', usuario=usuario, **context )
+                # usuario = f'{add_activo.responsable}'
+                # return user_activos(f'/inventario/activos/user/', usuario=usuario, **context )
             
                 ## ESTE SI LO REGRESA A LA VISTA DE LOS ACTIVOS DEL USUARIO PERO NO ENVIA CONTEXT
-                # url_usuario = reverse('user_activos', args=[add_activo.responsable])
-                # return redirect(url_usuario, **context)   
+                url_usuario = reverse('user_activos', args=[add_activo.responsable])
+                return redirect(url_usuario, **context)   
                 
                 ## ESTO DEBERIA DE GUARDAR EL CONTEXT EN LA COOKIE
                 # usuario = str(add_activo.responsable)
