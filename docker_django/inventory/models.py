@@ -70,7 +70,7 @@ class Marca(models.Model):
         return f'{self.desc}'    
 
 class Modelo(models.Model):
-    desc = models.CharField(max_length=60)
+    desc = models.CharField(max_length=60, unique=True)
     ##JOIN
     marca = models.ForeignKey(Marca, on_delete=models.CASCADE)    
 
